@@ -16,7 +16,7 @@ const passport_1 = require("@nestjs/passport");
 const passport_jwt_1 = require("passport-jwt");
 const prisma_client_service_1 = require("../../prisma-client/prisma-client.service");
 let JwtStrategyService = class JwtStrategyService extends (0, passport_1.PassportStrategy)(passport_jwt_1.Strategy) {
-    constructor(config, prismaClientService) {
+    constructor(configService, prismaClientService) {
         super({
             jwtFromRequest: passport_jwt_1.ExtractJwt.fromExtractors([
                 (req) => {
@@ -27,11 +27,11 @@ let JwtStrategyService = class JwtStrategyService extends (0, passport_1.Passpor
                 },
             ]),
             ignoreExpiration: false,
-            secretOrKey: config.get('auth.accessTokenSecretKey', {
+            secretOrKey: configService.get('auth.accessTokenSecretKey', {
                 infer: true,
             }),
         });
-        this.config = config;
+        this.configService = configService;
         this.prismaClientService = prismaClientService;
     }
     async validate(payload) {
@@ -39,6 +39,7 @@ let JwtStrategyService = class JwtStrategyService extends (0, passport_1.Passpor
             where: { id: payload.id },
             select: {
                 id: true,
+                email: true,
                 isLocked: true,
                 passwordChangedAt: true,
             },

@@ -4,19 +4,20 @@ import { PrismaClientService } from 'src/prisma-client/prisma-client.service';
 import { Jwt } from '../interface/jwt.interface';
 declare const JwtStrategyService_base: new (...args: any[]) => Strategy;
 export declare class JwtStrategyService extends JwtStrategyService_base {
-    readonly config: ConfigService<{
+    readonly configService: ConfigService<{
         auth: {
             accessTokenSecretKey: string;
         };
     }>;
     private prismaClientService;
-    constructor(config: ConfigService<{
+    constructor(configService: ConfigService<{
         auth: {
             accessTokenSecretKey: string;
         };
     }>, prismaClientService: PrismaClientService);
     validate(payload: Jwt): Promise<{
         id: string;
+        email: string;
         isLocked: boolean;
         passwordChangedAt: Date;
     }>;

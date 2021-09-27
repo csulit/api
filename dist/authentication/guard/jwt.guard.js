@@ -27,17 +27,17 @@ let JwtAuthGuard = class JwtAuthGuard extends (0, passport_1.AuthGuard)('jwt') {
         const userAccessToken = this.decodedUserAccessToken;
         if (err || info || !user) {
             if ((info === null || info === void 0 ? void 0 : info.name) === 'TokenExpiredError') {
-                throw new common_1.UnprocessableEntityException('The session has expired. Please re-login');
+                throw new common_1.UnprocessableEntityException('The session has expired. Please re-login.');
             }
-            throw new common_1.UnauthorizedException('Invalid access token!');
+            throw new common_1.UnauthorizedException('Invalid access token.');
         }
         if (currentUser.isLocked) {
-            throw new common_1.UnauthorizedException('Account is locked!');
+            throw new common_1.UnauthorizedException('Account is locked.');
         }
         if (currentUser.passwordChangedAt) {
             const changedTimeStamp = currentUser.passwordChangedAt.getTime() / 1000;
             if (userAccessToken.iat < changedTimeStamp) {
-                throw new common_1.UnauthorizedException('Password has been changed recently please login again!');
+                throw new common_1.UnauthorizedException('Password has been changed recently please login again.');
             }
         }
         return user;

@@ -1,6 +1,8 @@
 declare const _default: (() => {
     accessTokenSecretKey: string;
-    refreshTokenKey: string;
-    accessTokenExpires: string;
+    refreshTokenSecretKey: string;
+    accessTokenSecretKeyExpiresIn: string;
+    refreshTokenSecretKeyExpiresIn: string;
+    issuer: string;
 }) & import("@nestjs/config").ConfigFactoryKeyHost;
 export default _default;

@@ -1,14 +1,22 @@
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
+import { PrismaClientService } from 'src/prisma-client/prisma-client.service';
 export declare class AuthenticationService {
+    private prismaClientService;
     private jwtService;
     private config;
-    private refreshTokenKey;
-    constructor(jwtService: JwtService, config: ConfigService<{
+    private refreshTokenSecretKey;
+    private refreshTokenSecretKeyExpiresIn;
+    private issuer;
+    constructor(prismaClientService: PrismaClientService, jwtService: JwtService, config: ConfigService<{
         auth: {
-            refreshTokenKey: string;
+            refreshTokenSecretKey: string;
+            refreshTokenSecretKeyExpiresIn: string;
+            issuer: string;
         };
     }>);
-    createJwtToken(id: number): Promise<string>;
-    signJwt(id: number): Promise<string>;
+    createRefreshToken(id: number): Promise<string>;
+    validateRefreshToken(token: string): Promise<any>;
+    signAccessToken(id: number): Promise<string>;
+    register(): Promise<import(".prisma/client").User>;
 }

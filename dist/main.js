@@ -39,7 +39,7 @@ async function bootstrap() {
     app.use(compression());
     const prismaClientService = app.get(prisma_client_service_1.PrismaClientService);
     prismaClientService.enableShutdownHooks(app);
-    await app.listen(3000);
+    await app.listen(4001);
 }
 bootstrap();
 //# sourceMappingURL=main.js.map

@@ -1,4 +1,4 @@
-export declare function rateLimitExceeded(): {
+export declare function rateLimitExceededResponse(): {
     statusCode: number;
     message: string;
     error: string;

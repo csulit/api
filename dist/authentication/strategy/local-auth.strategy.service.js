@@ -12,19 +12,38 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.LocalStrategyService = void 0;
 const common_1 = require("@nestjs/common");
 const passport_1 = require("@nestjs/passport");
+const bcrypt_1 = require("bcrypt");
 const passport_local_1 = require("passport-local");
+const prisma_client_service_1 = require("../../prisma-client/prisma-client.service");
 let LocalStrategyService = class LocalStrategyService extends (0, passport_1.PassportStrategy)(passport_local_1.Strategy) {
-    constructor() {
+    constructor(prismaClientService) {
         super({ usernameField: 'email' });
+        this.prismaClientService = prismaClientService;
     }
     async validate(email, password) {
-        console.log(password);
-        return { email };
+        const user = await this.prismaClientService.user.findUnique({
+            where: { email },
+            select: {
+                id: true,
+                email: true,
+                password: true,
+                isLocked: true,
+            },
+        });
+        if (user) {
+            if (user.isLocked) {
+                throw new common_1.UnauthorizedException('Your account is locked.');
+            }
+            if (await (0, bcrypt_1.compare)(password, user.password)) {
+                return user;
+            }
+        }
+        throw new common_1.UnauthorizedException('Invalid credentials.');
     }
 };
 LocalStrategyService = __decorate([
     (0, common_1.Injectable)(),
-    __metadata("design:paramtypes", [])
+    __metadata("design:paramtypes", [prisma_client_service_1.PrismaClientService])
 ], LocalStrategyService);
 exports.LocalStrategyService = LocalStrategyService;
 //# sourceMappingURL=local-auth.strategy.service.js.map

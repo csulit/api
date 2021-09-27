@@ -34,15 +34,15 @@ export class JwtAuthGuard extends AuthGuard('jwt') {
     if (err || info || !user) {
       if (info?.name === 'TokenExpiredError') {
         throw new UnprocessableEntityException(
-          'The session has expired. Please re-login',
+          'The session has expired. Please re-login.',
         );
       }
 
-      throw new UnauthorizedException('Invalid access token!');
+      throw new UnauthorizedException('Invalid access token.');
     }
 
     if (currentUser.isLocked) {
-      throw new UnauthorizedException('Account is locked!');
+      throw new UnauthorizedException('Account is locked.');
     }
 
     if (currentUser.passwordChangedAt) {
@@ -50,7 +50,7 @@ export class JwtAuthGuard extends AuthGuard('jwt') {
 
       if (userAccessToken.iat < changedTimeStamp) {
         throw new UnauthorizedException(
-          'Password has been changed recently please login again!',
+          'Password has been changed recently please login again.',
         );
       }
     }

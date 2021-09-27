@@ -29,18 +29,22 @@ AuthenticationModule = __decorate([
                 keyPrefix: 'global-auth',
                 points: 100,
                 duration: 300,
-                customResponseSchema: () => (0, rate_limit_response_1.rateLimitExceeded)(),
+                customResponseSchema: () => (0, rate_limit_response_1.rateLimitExceededResponse)(),
             }),
             passport_1.PassportModule.register({ defaultStrategy: 'jwt' }),
             jwt_1.JwtModule.registerAsync({
                 imports: [config_1.ConfigModule],
                 inject: [config_1.ConfigService],
-                useFactory: async (configService) => ({
-                    secret: configService.get('auth.accessTokenSecretKey'),
-                    signOptions: {
-                        expiresIn: configService.get('auth.accessTokenExpires'),
-                    },
-                }),
+                useFactory: async (configService) => {
+                    const { accessTokenSecretKey, accessTokenSecretKeyExpiresIn, issuer } = configService.get('auth');
+                    return {
+                        secret: accessTokenSecretKey,
+                        signOptions: {
+                            expiresIn: accessTokenSecretKeyExpiresIn,
+                        },
+                        issuer,
+                    };
+                },
             }),
         ],
         controllers: [authentication_controller_1.AuthenticationController],
