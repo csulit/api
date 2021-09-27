@@ -1,0 +1,25 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["interactiveTransactions", "fullTextSearch"]
+}
+
+model User {
+  id                       String    @id @default(uuid())
+  email                    String    @db.VarChar(50)
+  password                 String
+  isLocked                 Boolean   @default(false)
+  passwordResetToken       String?   @unique @db.VarChar(255)
+  passwordResetTokenExpire DateTime?
+  passwordChangedAt        DateTime?
+  createdAt                DateTime  @default(now())
+
+  @@map("users")
+}

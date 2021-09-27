@@ -1,0 +1,1 @@
+{"version":3,"file":"rate-limit.response.js","sourceRoot":"","sources":["../../../../src/common/serializer/response/rate-limit.response.ts"],"names":[],"mappings":";;;AAAA,SAAgB,iBAAiB;IAC/B,OAAO;QACL,UAAU,EAAE,GAAG;QACf,OAAO,EAAE,0BAA0B;QACnC,KAAK,EAAE,qBAAqB;KAC7B,CAAC;AACJ,CAAC;AAND,8CAMC"}
