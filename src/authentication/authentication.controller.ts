@@ -39,14 +39,14 @@ export class AuthenticationController {
     };
   }
 
+  @Post('register')
+  register() {
+    return this.authenticationService.register();
+  }
+
   @Post('refresh-token')
   @HttpCode(200)
   async refreshToken() {
     return 'Token refreshed';
-  }
-
-  @Post('register')
-  register() {
-    return this.authenticationService.register();
   }
 }

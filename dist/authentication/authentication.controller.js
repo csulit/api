@@ -35,11 +35,11 @@ let AuthenticationController = class AuthenticationController {
             isLocked,
         };
     }
-    async refreshToken() {
-        return 'Token refreshed';
-    }
     register() {
         return this.authenticationService.register();
+    }
+    async refreshToken() {
+        return 'Token refreshed';
     }
 };
 __decorate([
@@ -53,18 +53,18 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], AuthenticationController.prototype, "login", null);
 __decorate([
+    (0, common_1.Post)('register'),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", void 0)
+], AuthenticationController.prototype, "register", null);
+__decorate([
     (0, common_1.Post)('refresh-token'),
     (0, common_1.HttpCode)(200),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", Promise)
 ], AuthenticationController.prototype, "refreshToken", null);
-__decorate([
-    (0, common_1.Post)('register'),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", []),
-    __metadata("design:returntype", void 0)
-], AuthenticationController.prototype, "register", null);
 AuthenticationController = __decorate([
     (0, common_1.Controller)('auth'),
     __metadata("design:paramtypes", [authentication_service_1.AuthenticationService])

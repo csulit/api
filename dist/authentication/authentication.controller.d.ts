@@ -8,6 +8,6 @@ export declare class AuthenticationController {
         email: string;
         isLocked: number;
     }>;
-    refreshToken(): Promise<string>;
     register(): Promise<import(".prisma/client").User>;
+    refreshToken(): Promise<string>;
 }

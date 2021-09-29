@@ -7,8 +7,8 @@ export declare class LocalStrategyService extends LocalStrategyService_base {
     validate(email: string, password: string): Promise<{
         id: string;
         email: string;
-        isLocked: boolean;
         password: string;
+        isLocked: boolean;
     }>;
 }
 export {};
