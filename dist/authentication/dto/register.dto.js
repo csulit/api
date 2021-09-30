@@ -11,11 +11,28 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.RegisterUserDTO = void 0;
 const class_validator_1 = require("class-validator");
+const match_decorator_1 = require("../../common/decorator/match.decorator");
 class RegisterUserDTO {
 }
 __decorate([
     (0, class_validator_1.IsEmail)(),
     __metadata("design:type", String)
 ], RegisterUserDTO.prototype, "email", void 0);
+__decorate([
+    (0, class_validator_1.IsNotEmpty)(),
+    (0, class_validator_1.IsString)(),
+    (0, class_validator_1.MinLength)(8),
+    (0, class_validator_1.Matches)(/((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/, {
+        message: 'Password is too weak!',
+    }),
+    __metadata("design:type", String)
+], RegisterUserDTO.prototype, "password", void 0);
+__decorate([
+    (0, class_validator_1.IsNotEmpty)(),
+    (0, class_validator_1.IsString)(),
+    (0, class_validator_1.MinLength)(8),
+    (0, match_decorator_1.Match)('password', { message: 'Password does not match!' }),
+    __metadata("design:type", String)
+], RegisterUserDTO.prototype, "confirmPassword", void 0);
 exports.RegisterUserDTO = RegisterUserDTO;
 //# sourceMappingURL=register.dto.js.map
