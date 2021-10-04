@@ -13,8 +13,10 @@ model User {
   email                    String    @unique @db.VarChar(50)
   password                 String    @db.VarChar(255)
   isLocked                 Boolean   @default(false)
-  profileId                String    @unique
-  profile                  Profile   @relation(fields: [profileId], references: [id])
+  profileId                String?   @unique
+  profile                  Profile?  @relation(fields: [profileId], references: [id])
+  OtpCodes                 OtpCode[]
+  crmAccess                Boolean   @default(false)
   passwordResetToken       String?   @db.VarChar(255)
   passwordResetTokenExpire DateTime?
   passwordChangedAt        DateTime?
@@ -33,4 +35,15 @@ model Profile {
   address      String @db.VarChar(255)
 
   @@map("profiles")
+}
+
+model OtpCode {
+  id        String   @id @default(uuid())
+  otp       Int
+  used      Boolean  @default(false)
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  createdAt DateTime @default(now())
+
+  @@map("otp_codes")
 }
