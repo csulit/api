@@ -44,6 +44,7 @@ export class AuthenticationController {
   @Post('register')
   register(@Body() data: RegisterUserDTO) {
     //PmAc2G6qp53hUz4q
+    //https://www.npmjs.com/package/nestjs-redoc
 
     return this.authenticationService.register(data);
   }
