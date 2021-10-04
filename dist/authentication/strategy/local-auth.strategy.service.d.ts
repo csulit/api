@@ -5,8 +5,8 @@ export declare class LocalStrategyService extends LocalStrategyService_base {
     private prismaClientService;
     constructor(prismaClientService: PrismaClientService);
     validate(email: string, password: string): Promise<{
-        email: string;
         id: string;
+        email: string;
         password: string;
         isLocked: boolean;
     }>;

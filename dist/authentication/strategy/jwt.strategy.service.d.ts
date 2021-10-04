@@ -16,8 +16,8 @@ export declare class JwtStrategyService extends JwtStrategyService_base {
         };
     }>, prismaClientService: PrismaClientService);
     validate(payload: Jwt): Promise<{
-        email: string;
         id: string;
+        email: string;
         isLocked: boolean;
         passwordChangedAt: Date;
     }>;

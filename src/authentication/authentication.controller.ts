@@ -1,4 +1,5 @@
 import {
+  Body,
   Controller,
   HttpCode,
   Post,
@@ -9,6 +10,7 @@ import {
 import { Request, Response } from 'express';
 import { AuthenticationService } from './authentication.service';
 import { cookieConfig } from './config/cookie.config';
+import { RegisterUserDTO } from './dto/register.dto';
 import { LocalAuthGuard } from './guard/local.auth.guard';
 
 @Controller('auth')
@@ -40,8 +42,10 @@ export class AuthenticationController {
   }
 
   @Post('register')
-  register() {
-    return this.authenticationService.register();
+  register(@Body() data: RegisterUserDTO) {
+    //PmAc2G6qp53hUz4q
+
+    return this.authenticationService.register(data);
   }
 
   @Post('refresh-token')

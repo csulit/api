@@ -1,6 +1,7 @@
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import { PrismaClientService } from 'src/prisma-client/prisma-client.service';
+import { RegisterUserDTO } from './dto/register.dto';
 export declare class AuthenticationService {
     private prismaClientService;
     private jwtService;
@@ -18,5 +19,5 @@ export declare class AuthenticationService {
     createRefreshToken(id: number): Promise<string>;
     validateRefreshToken(token: string): Promise<any>;
     signAccessToken(id: number): Promise<string>;
-    register(): Promise<import(".prisma/client").User>;
+    register(data: RegisterUserDTO): Promise<import(".prisma/client").User>;
 }

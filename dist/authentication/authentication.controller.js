@@ -16,6 +16,7 @@ exports.AuthenticationController = void 0;
 const common_1 = require("@nestjs/common");
 const authentication_service_1 = require("./authentication.service");
 const cookie_config_1 = require("./config/cookie.config");
+const register_dto_1 = require("./dto/register.dto");
 const local_auth_guard_1 = require("./guard/local.auth.guard");
 let AuthenticationController = class AuthenticationController {
     constructor(authenticationService) {
@@ -35,8 +36,8 @@ let AuthenticationController = class AuthenticationController {
             isLocked,
         };
     }
-    register() {
-        return this.authenticationService.register();
+    register(data) {
+        return this.authenticationService.register(data);
     }
     async refreshToken() {
         return 'Token refreshed';
@@ -54,8 +55,9 @@ __decorate([
 ], AuthenticationController.prototype, "login", null);
 __decorate([
     (0, common_1.Post)('register'),
+    __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", []),
+    __metadata("design:paramtypes", [register_dto_1.RegisterUserDTO]),
     __metadata("design:returntype", void 0)
 ], AuthenticationController.prototype, "register", null);
 __decorate([

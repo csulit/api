@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import { AuthenticationService } from './authentication.service';
+import { RegisterUserDTO } from './dto/register.dto';
 export declare class AuthenticationController {
     private readonly authenticationService;
     constructor(authenticationService: AuthenticationService);
@@ -8,6 +9,6 @@ export declare class AuthenticationController {
         email: string;
         isLocked: number;
     }>;
-    register(): Promise<import(".prisma/client").User>;
+    register(data: RegisterUserDTO): Promise<import(".prisma/client").User>;
     refreshToken(): Promise<string>;
 }

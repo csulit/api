@@ -13,7 +13,6 @@ exports.AuthenticationService = void 0;
 const common_1 = require("@nestjs/common");
 const config_1 = require("@nestjs/config");
 const jwt_1 = require("@nestjs/jwt");
-const bcrypt_1 = require("bcrypt");
 const prisma_client_service_1 = require("../prisma-client/prisma-client.service");
 let AuthenticationService = class AuthenticationService {
     constructor(prismaClientService, jwtService, config) {
@@ -51,12 +50,9 @@ let AuthenticationService = class AuthenticationService {
     async signAccessToken(id) {
         return await this.jwtService.signAsync({ id });
     }
-    async register() {
+    async register(data) {
         return await this.prismaClientService.user.create({
-            data: {
-                email: 'chrisgelosulit@gmail.com',
-                password: await (0, bcrypt_1.hash)('Love2eat', 10),
-            },
+            data,
         });
     }
 };
