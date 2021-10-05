@@ -17,6 +17,8 @@ model User {
   profile                  Profile?  @relation(fields: [profileId], references: [id])
   OtpCodes                 OtpCode[]
   crmAccess                Boolean   @default(false)
+  refreshToken             String?   @unique
+  refreshTokenRevoked      Boolean   @default(false)
   passwordResetToken       String?   @db.VarChar(255)
   passwordResetTokenExpire DateTime?
   passwordChangedAt        DateTime?

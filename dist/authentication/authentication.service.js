@@ -13,12 +13,15 @@ exports.AuthenticationService = void 0;
 const common_1 = require("@nestjs/common");
 const config_1 = require("@nestjs/config");
 const jwt_1 = require("@nestjs/jwt");
+const bcrypt_1 = require("bcrypt");
 const prisma_client_service_1 = require("../prisma-client/prisma-client.service");
+const cookie_config_1 = require("./config/cookie.config");
 let AuthenticationService = class AuthenticationService {
     constructor(prismaClientService, jwtService, config) {
         this.prismaClientService = prismaClientService;
         this.jwtService = jwtService;
         this.config = config;
+        this.fifteenMinutes = 900000;
         this.refreshTokenSecretKey = this.config.get('auth.refreshTokenSecretKey', {
             infer: true,
         });
@@ -36,24 +39,68 @@ let AuthenticationService = class AuthenticationService {
             issuer: this.issuer,
         });
     }
-    async validateRefreshToken(token) {
-        const [refreshToken, error] = await this.jwtService.verifyAsync(token, {
+    async validateRefreshToken(token, res) {
+        if (!token) {
+            throw new common_1.NotFoundException('Refresh token not found.');
+        }
+        const { exp } = await this.jwtService.verifyAsync(token, {
             secret: this.refreshTokenSecretKey,
-            ignoreExpiration: false,
+            ignoreExpiration: true,
             issuer: this.issuer,
         });
-        if (error) {
-            throw new common_1.UnauthorizedException('Session has expired please login again.');
+        const user = await this.prismaClientService.user.findUnique({
+            where: {
+                refreshToken: token,
+            },
+        });
+        if (!user) {
+            throw new common_1.NotFoundException('User not found.');
         }
-        return refreshToken;
+        const accessToken = await this.signAccessToken(user.id);
+        if (user.refreshTokenRevoked) {
+            throw new common_1.UnauthorizedException('Token is suspended.');
+        }
+        if (Date.now() <= exp * 1000) {
+            res.cookie('accessToken', accessToken, (0, cookie_config_1.cookieConfig)(this.fifteenMinutes));
+            return {
+                id: user.id,
+                message: 'Token refreshed.',
+            };
+        }
+        throw new common_1.UnauthorizedException('Session has expired please login again.');
     }
     async signAccessToken(id) {
         return await this.jwtService.signAsync({ id });
     }
     async register(data) {
+        const { email, password } = data;
+        const hashedPassword = await (0, bcrypt_1.hash)(password, 10);
         return await this.prismaClientService.user.create({
-            data,
+            data: {
+                email,
+                password: hashedPassword,
+            },
+            select: {
+                id: true,
+                email: true,
+            },
         });
+    }
+    async setClientCookies(id, res) {
+        const sevenDays = 6.048e8;
+        const accessToken = await this.signAccessToken(id);
+        const refreshToken = await this.createRefreshToken(id);
+        const user = await this.prismaClientService.user.findUnique({
+            where: { id },
+        });
+        if (user) {
+            await this.prismaClientService.user.update({
+                where: { id },
+                data: { refreshToken },
+            });
+        }
+        res.cookie('accessToken', accessToken, (0, cookie_config_1.cookieConfig)(this.fifteenMinutes));
+        res.cookie('refreshToken', refreshToken, (0, cookie_config_1.cookieConfig)(sevenDays));
     }
 };
 AuthenticationService = __decorate([

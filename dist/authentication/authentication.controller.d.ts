@@ -5,10 +5,18 @@ export declare class AuthenticationController {
     private readonly authenticationService;
     constructor(authenticationService: AuthenticationService);
     login(req: Request, res: Response): Promise<{
-        id: number;
+        id: string;
         email: string;
-        isLocked: number;
     }>;
-    register(data: RegisterUserDTO): Promise<import(".prisma/client").User>;
-    refreshToken(): Promise<string>;
+    register(data: RegisterUserDTO, res: Response): Promise<{
+        id: string;
+        email: string;
+    }>;
+    refreshToken(req: Request, res: Response): Promise<{
+        id: string;
+        message: string;
+    }>;
+    logout(res: Response): {
+        message: string;
+    };
 }

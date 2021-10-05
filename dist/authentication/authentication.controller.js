@@ -14,8 +14,10 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AuthenticationController = void 0;
 const common_1 = require("@nestjs/common");
+const swagger_1 = require("@nestjs/swagger");
 const authentication_service_1 = require("./authentication.service");
-const cookie_config_1 = require("./config/cookie.config");
+const login_classes_1 = require("./classes/login.classes");
+const login_dto_1 = require("./dto/login.dto");
 const register_dto_1 = require("./dto/register.dto");
 const local_auth_guard_1 = require("./guard/local.auth.guard");
 let AuthenticationController = class AuthenticationController {
@@ -23,27 +25,45 @@ let AuthenticationController = class AuthenticationController {
         this.authenticationService = authenticationService;
     }
     async login(req, res) {
-        const { id, email, isLocked } = req.user;
-        const fifteenMinutes = 900000;
-        const sevenDays = 6.048e8;
-        const accessToken = await this.authenticationService.signAccessToken(id);
-        const refreshToken = await this.authenticationService.createRefreshToken(id);
-        res.cookie('accessToken', accessToken, (0, cookie_config_1.cookieConfig)(fifteenMinutes));
-        res.cookie('refreshToken', refreshToken, (0, cookie_config_1.cookieConfig)(sevenDays));
+        const { id, email } = req.user;
+        await this.authenticationService.setClientCookies(id, res);
         return {
             id,
             email,
-            isLocked,
         };
     }
-    register(data) {
-        return this.authenticationService.register(data);
+    async register(data, res) {
+        const user = await this.authenticationService.register(data);
+        await this.authenticationService.setClientCookies(user.id, res);
+        return user;
     }
-    async refreshToken() {
-        return 'Token refreshed';
+    async refreshToken(req, res) {
+        const validatedRefreshToken = await this.authenticationService.validateRefreshToken(req.cookies['refreshToken'], res);
+        return validatedRefreshToken;
+    }
+    logout(res) {
+        res.clearCookie('refreshToken');
+        return {
+            message: 'Logout successfully,',
+        };
     }
 };
 __decorate([
+    (0, swagger_1.ApiOperation)({
+        summary: 'Login user',
+        description: 'Some description here...',
+    }),
+    (0, swagger_1.ApiBasicAuth)(),
+    (0, swagger_1.ApiBody)({ type: login_dto_1.LoginUserDTO }),
+    (0, swagger_1.ApiResponse)({
+        status: 200,
+        description: 'User successfully login.',
+        type: () => login_classes_1.LoginUserClass,
+    }),
+    (0, swagger_1.ApiResponse)({
+        status: 401,
+        description: 'Unauthorized.',
+    }),
     (0, common_1.Post)('login'),
     (0, common_1.HttpCode)(200),
     (0, common_1.UseGuards)(local_auth_guard_1.LocalAuthGuard),
@@ -54,20 +74,48 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], AuthenticationController.prototype, "login", null);
 __decorate([
+    (0, swagger_1.ApiOperation)({
+        summary: 'Register user',
+        description: 'If api successfully created the user the access token will be available in the cookie.',
+    }),
+    (0, swagger_1.ApiResponse)({
+        status: 201,
+        description: 'User successfully created.',
+        type: () => login_classes_1.LoginUserClass,
+    }),
+    (0, swagger_1.ApiResponse)({
+        status: 400,
+        description: 'Duplicate user.',
+    }),
     (0, common_1.Post)('register'),
     __param(0, (0, common_1.Body)()),
+    __param(1, (0, common_1.Res)({ passthrough: true })),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [register_dto_1.RegisterUserDTO]),
-    __metadata("design:returntype", void 0)
+    __metadata("design:paramtypes", [register_dto_1.RegisterUserDTO, Object]),
+    __metadata("design:returntype", Promise)
 ], AuthenticationController.prototype, "register", null);
 __decorate([
+    (0, swagger_1.ApiOperation)({
+        summary: 'Refresh token',
+        description: 'Nothing to include in the request body the api will automatically read request cookies and validate.',
+    }),
+    (0, swagger_1.ApiCookieAuth)(),
     (0, common_1.Post)('refresh-token'),
     (0, common_1.HttpCode)(200),
+    __param(0, (0, common_1.Req)()),
+    __param(1, (0, common_1.Res)({ passthrough: true })),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", []),
+    __metadata("design:paramtypes", [Object, Object]),
     __metadata("design:returntype", Promise)
 ], AuthenticationController.prototype, "refreshToken", null);
+__decorate([
+    __param(0, (0, common_1.Res)({ passthrough: true })),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", void 0)
+], AuthenticationController.prototype, "logout", null);
 AuthenticationController = __decorate([
+    (0, swagger_1.ApiTags)('Authentication'),
     (0, common_1.Controller)('auth'),
     __metadata("design:paramtypes", [authentication_service_1.AuthenticationService])
 ], AuthenticationController);
