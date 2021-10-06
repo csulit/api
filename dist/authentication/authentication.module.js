@@ -14,6 +14,7 @@ const jwt_1 = require("@nestjs/jwt");
 const passport_1 = require("@nestjs/passport");
 const nestjs_rate_limiter_1 = require("nestjs-rate-limiter");
 const rate_limit_response_1 = require("../common/serializer/response/rate-limit.response");
+const email_module_1 = require("../email/email.module");
 const prisma_client_module_1 = require("../prisma-client/prisma-client.module");
 const authentication_controller_1 = require("./authentication.controller");
 const authentication_service_1 = require("./authentication.service");
@@ -46,6 +47,7 @@ AuthenticationModule = __decorate([
                     };
                 },
             }),
+            email_module_1.EmailModule,
         ],
         controllers: [authentication_controller_1.AuthenticationController],
         providers: [

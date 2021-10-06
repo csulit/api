@@ -16,6 +16,15 @@ let EmailService = class EmailService {
     constructor(httpService) {
         this.httpService = httpService;
     }
+    async sendEmail() {
+        this.httpService.post('/api/Email/sendemailbackup', {
+            to: 'chrisgelosulit@gmail.com',
+            copy: 'christian.sulit@kmc.solutions',
+            subject: 'Test email',
+            body: 'Yow!',
+        });
+        return null;
+    }
 };
 EmailService = __decorate([
     (0, common_1.Injectable)(),

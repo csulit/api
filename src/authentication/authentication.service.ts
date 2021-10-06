@@ -7,6 +7,7 @@ import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import { hash } from 'bcrypt';
 import { Response } from 'express';
+import { EmailService } from 'src/email/email.service';
 import { PrismaClientService } from 'src/prisma-client/prisma-client.service';
 import { cookieConfig } from './config/cookie.config';
 import { RegisterUserDTO } from './dto/register.dto';
@@ -20,6 +21,7 @@ export class AuthenticationService {
   private FIFTEEN_MINUTES = 900000;
 
   constructor(
+    private emailService: EmailService,
     private prismaClientService: PrismaClientService,
     private jwtService: JwtService,
     private config: ConfigService<{
@@ -59,6 +61,8 @@ export class AuthenticationService {
   }
 
   async validateRefreshToken(token: string, res: Response) {
+    this.emailService.sendEmail();
+
     if (!token) {
       throw new NotFoundException('Refresh token not found.');
     }

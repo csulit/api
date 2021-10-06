@@ -14,10 +14,12 @@ const common_1 = require("@nestjs/common");
 const config_1 = require("@nestjs/config");
 const jwt_1 = require("@nestjs/jwt");
 const bcrypt_1 = require("bcrypt");
+const email_service_1 = require("../email/email.service");
 const prisma_client_service_1 = require("../prisma-client/prisma-client.service");
 const cookie_config_1 = require("./config/cookie.config");
 let AuthenticationService = class AuthenticationService {
-    constructor(prismaClientService, jwtService, config) {
+    constructor(emailService, prismaClientService, jwtService, config) {
+        this.emailService = emailService;
         this.prismaClientService = prismaClientService;
         this.jwtService = jwtService;
         this.config = config;
@@ -40,6 +42,7 @@ let AuthenticationService = class AuthenticationService {
         });
     }
     async validateRefreshToken(token, res) {
+        this.emailService.sendEmail();
         if (!token) {
             throw new common_1.NotFoundException('Refresh token not found.');
         }
@@ -109,7 +112,8 @@ let AuthenticationService = class AuthenticationService {
 };
 AuthenticationService = __decorate([
     (0, common_1.Injectable)(),
-    __metadata("design:paramtypes", [prisma_client_service_1.PrismaClientService,
+    __metadata("design:paramtypes", [email_service_1.EmailService,
+        prisma_client_service_1.PrismaClientService,
         jwt_1.JwtService,
         config_1.ConfigService])
 ], AuthenticationService);

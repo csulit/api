@@ -11,9 +11,10 @@ const common_1 = require("@nestjs/common");
 const config_1 = require("@nestjs/config");
 const authentication_module_1 = require("./authentication/authentication.module");
 const auth_config_1 = require("./common/config/auth.config");
+const email_config_1 = require("./common/config/email.config");
+const email_module_1 = require("./email/email.module");
 const prisma_client_module_1 = require("./prisma-client/prisma-client.module");
 const visitor_module_1 = require("./visitor/visitor.module");
-const email_module_1 = require("./email/email.module");
 let AppModule = class AppModule {
 };
 AppModule = __decorate([
@@ -21,7 +22,7 @@ AppModule = __decorate([
         imports: [
             config_1.ConfigModule.forRoot({
                 isGlobal: true,
-                load: [auth_config_1.default],
+                load: [auth_config_1.default, email_config_1.default],
             }),
             prisma_client_module_1.PrismaClientModule,
             authentication_module_1.AuthenticationModule,

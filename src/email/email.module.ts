@@ -8,12 +8,13 @@ import { EmailService } from './email.service';
     HttpModule.registerAsync({
       imports: [ConfigModule],
       useFactory: async (configService: ConfigService) => ({
-        baseURL: configService.get('ERP_BASE_URL'),
-        url: configService.get('ERP_EMAIL_URL'),
+        baseURL: configService.get('email.ERP_BASE_URL'),
+        url: configService.get('email.ERP_EMAIL_URL'),
       }),
       inject: [ConfigService],
     }),
   ],
   providers: [EmailService],
+  exports: [EmailService],
 })
 export class EmailModule {}

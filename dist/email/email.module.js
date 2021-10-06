@@ -19,13 +19,14 @@ EmailModule = __decorate([
             axios_1.HttpModule.registerAsync({
                 imports: [config_1.ConfigModule],
                 useFactory: async (configService) => ({
-                    baseURL: configService.get('ERP_BASE_URL'),
-                    url: configService.get('ERP_EMAIL_URL'),
+                    baseURL: configService.get('email.ERP_BASE_URL'),
+                    url: configService.get('email.ERP_EMAIL_URL'),
                 }),
                 inject: [config_1.ConfigService],
             }),
         ],
         providers: [email_service_1.EmailService],
+        exports: [email_service_1.EmailService],
     })
 ], EmailModule);
 exports.EmailModule = EmailModule;

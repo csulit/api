@@ -5,6 +5,7 @@ import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
 import { RateLimiterGuard, RateLimiterModule } from 'nestjs-rate-limiter';
 import { rateLimitExceededResponse } from 'src/common/serializer/response/rate-limit.response';
+import { EmailModule } from 'src/email/email.module';
 import { PrismaClientModule } from 'src/prisma-client/prisma-client.module';
 import { AuthenticationController } from './authentication.controller';
 import { AuthenticationService } from './authentication.service';
@@ -44,6 +45,7 @@ import { LocalStrategyService } from './strategy/local-auth.strategy.service';
         };
       },
     }),
+    EmailModule,
   ],
   controllers: [AuthenticationController],
   providers: [

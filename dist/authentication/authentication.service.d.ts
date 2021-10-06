@@ -1,9 +1,11 @@
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import { Response } from 'express';
+import { EmailService } from 'src/email/email.service';
 import { PrismaClientService } from 'src/prisma-client/prisma-client.service';
 import { RegisterUserDTO } from './dto/register.dto';
 export declare class AuthenticationService {
+    private emailService;
     private prismaClientService;
     private jwtService;
     private config;
@@ -11,7 +13,7 @@ export declare class AuthenticationService {
     private REFRESH_TOKEN_SECRET_KEY_EXPIRES_IN;
     private JWT_ISSUER;
     private FIFTEEN_MINUTES;
-    constructor(prismaClientService: PrismaClientService, jwtService: JwtService, config: ConfigService<{
+    constructor(emailService: EmailService, prismaClientService: PrismaClientService, jwtService: JwtService, config: ConfigService<{
         auth: {
             REFRESH_TOKEN_SECRET_KEY: string;
             REFRESH_TOKEN_SECRET_KEY_EXPIRES_IN: string;
