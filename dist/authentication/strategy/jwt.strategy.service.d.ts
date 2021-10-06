@@ -6,13 +6,13 @@ declare const JwtStrategyService_base: new (...args: any[]) => Strategy;
 export declare class JwtStrategyService extends JwtStrategyService_base {
     readonly configService: ConfigService<{
         auth: {
-            accessTokenSecretKey: string;
+            ACCESS_TOKEN_SECRET_KEY: string;
         };
     }>;
     private prismaClientService;
     constructor(configService: ConfigService<{
         auth: {
-            accessTokenSecretKey: string;
+            ACCESS_TOKEN_SECRET_KEY: string;
         };
     }>, prismaClientService: PrismaClientService);
     validate(payload: Jwt): Promise<{

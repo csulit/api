@@ -4,6 +4,7 @@ import { AuthenticationModule } from './authentication/authentication.module';
 import authEnv from './common/config/auth.config';
 import { PrismaClientModule } from './prisma-client/prisma-client.module';
 import { VisitorModule } from './visitor/visitor.module';
+import { EmailModule } from './email/email.module';
 
 @Module({
   imports: [
@@ -14,6 +15,7 @@ import { VisitorModule } from './visitor/visitor.module';
     PrismaClientModule,
     AuthenticationModule,
     VisitorModule,
+    EmailModule,
   ],
   controllers: [],
   providers: [],

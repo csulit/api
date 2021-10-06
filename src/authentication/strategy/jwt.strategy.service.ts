@@ -10,7 +10,7 @@ import { Jwt } from '../interface/jwt.interface';
 export class JwtStrategyService extends PassportStrategy(Strategy) {
   constructor(
     readonly configService: ConfigService<{
-      auth: { accessTokenSecretKey: string };
+      auth: { ACCESS_TOKEN_SECRET_KEY: string };
     }>,
     private prismaClientService: PrismaClientService,
   ) {
@@ -23,7 +23,7 @@ export class JwtStrategyService extends PassportStrategy(Strategy) {
         },
       ]),
       ignoreExpiration: false,
-      secretOrKey: configService.get<string>('auth.accessTokenSecretKey', {
+      secretOrKey: configService.get<string>('auth.ACCESS_TOKEN_SECRET_KEY', {
         infer: true,
       }),
     });

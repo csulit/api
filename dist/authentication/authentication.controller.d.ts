@@ -16,7 +16,7 @@ export declare class AuthenticationController {
         id: string;
         message: string;
     }>;
-    logout(res: Response): {
+    logout(res: Response): Promise<{
         message: string;
-    };
+    }>;
 }

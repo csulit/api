@@ -36,13 +36,13 @@ AuthenticationModule = __decorate([
                 imports: [config_1.ConfigModule],
                 inject: [config_1.ConfigService],
                 useFactory: async (configService) => {
-                    const { accessTokenSecretKey, accessTokenSecretKeyExpiresIn, issuer } = configService.get('auth');
+                    const { ACCESS_TOKEN_SECRET_KEY, ACCESS_TOKEN_SECRET_KEY_EXPIRES_IN, JWT_ISSUER, } = configService.get('auth');
                     return {
-                        secret: accessTokenSecretKey,
+                        secret: ACCESS_TOKEN_SECRET_KEY,
                         signOptions: {
-                            expiresIn: accessTokenSecretKeyExpiresIn,
+                            expiresIn: ACCESS_TOKEN_SECRET_KEY_EXPIRES_IN,
                         },
-                        issuer,
+                        JWT_ISSUER,
                     };
                 },
             }),

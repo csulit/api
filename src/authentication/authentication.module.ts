@@ -25,19 +25,22 @@ import { LocalStrategyService } from './strategy/local-auth.strategy.service';
       imports: [ConfigModule],
       inject: [ConfigService],
       useFactory: async (configService: ConfigService) => {
-        const { accessTokenSecretKey, accessTokenSecretKeyExpiresIn, issuer } =
-          configService.get<{
-            accessTokenSecretKey: string;
-            accessTokenSecretKeyExpiresIn: string;
-            issuer: string;
-          }>('auth');
+        const {
+          ACCESS_TOKEN_SECRET_KEY,
+          ACCESS_TOKEN_SECRET_KEY_EXPIRES_IN,
+          JWT_ISSUER,
+        } = configService.get<{
+          ACCESS_TOKEN_SECRET_KEY: string;
+          ACCESS_TOKEN_SECRET_KEY_EXPIRES_IN: string;
+          JWT_ISSUER: string;
+        }>('auth');
 
         return {
-          secret: accessTokenSecretKey,
+          secret: ACCESS_TOKEN_SECRET_KEY,
           signOptions: {
-            expiresIn: accessTokenSecretKeyExpiresIn,
+            expiresIn: ACCESS_TOKEN_SECRET_KEY_EXPIRES_IN,
           },
-          issuer,
+          JWT_ISSUER,
         };
       },
     }),

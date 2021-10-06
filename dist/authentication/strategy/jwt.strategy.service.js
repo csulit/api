@@ -27,7 +27,7 @@ let JwtStrategyService = class JwtStrategyService extends (0, passport_1.Passpor
                 },
             ]),
             ignoreExpiration: false,
-            secretOrKey: configService.get('auth.accessTokenSecretKey', {
+            secretOrKey: configService.get('auth.ACCESS_TOKEN_SECRET_KEY', {
                 infer: true,
             }),
         });

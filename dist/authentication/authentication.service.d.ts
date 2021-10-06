@@ -7,15 +7,15 @@ export declare class AuthenticationService {
     private prismaClientService;
     private jwtService;
     private config;
-    private refreshTokenSecretKey;
-    private refreshTokenSecretKeyExpiresIn;
-    private issuer;
-    private fifteenMinutes;
+    private REFRESH_TOKEN_SECRET_KEY;
+    private REFRESH_TOKEN_SECRET_KEY_EXPIRES_IN;
+    private JWT_ISSUER;
+    private FIFTEEN_MINUTES;
     constructor(prismaClientService: PrismaClientService, jwtService: JwtService, config: ConfigService<{
         auth: {
-            refreshTokenSecretKey: string;
-            refreshTokenSecretKeyExpiresIn: string;
-            issuer: string;
+            REFRESH_TOKEN_SECRET_KEY: string;
+            REFRESH_TOKEN_SECRET_KEY_EXPIRES_IN: string;
+            JWT_ISSUER: string;
         };
     }>);
     createRefreshToken(id: string): Promise<string>;
@@ -29,4 +29,5 @@ export declare class AuthenticationService {
         email: string;
     }>;
     setClientCookies(id: string, res: Response): Promise<void>;
+    clearTokens(res: Response): Promise<void>;
 }

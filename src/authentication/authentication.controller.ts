@@ -27,11 +27,11 @@ import { LocalAuthGuard } from './guard/local.auth.guard';
 export class AuthenticationController {
   constructor(private readonly authenticationService: AuthenticationService) {}
 
+  @ApiBasicAuth()
   @ApiOperation({
     summary: 'Login user',
     description: 'Some description here...',
   })
-  @ApiBasicAuth()
   @ApiBody({ type: LoginUserDTO })
   @ApiResponse({
     status: 200,
@@ -82,12 +82,24 @@ export class AuthenticationController {
     return user;
   }
 
+  @ApiCookieAuth()
   @ApiOperation({
     summary: 'Refresh token',
     description:
       'Nothing to include in the request body the api will automatically read request cookies and validate.',
   })
-  @ApiCookieAuth()
+  @ApiResponse({
+    status: 200,
+    description: 'Access token has been refreshed.',
+  })
+  @ApiResponse({
+    status: 404,
+    description: 'No user or refresh token found.',
+  })
+  @ApiResponse({
+    status: 401,
+    description: "Refresh token is expired or it's been revoked.",
+  })
   @Post('refresh-token')
   @HttpCode(200)
   async refreshToken(
@@ -103,8 +115,19 @@ export class AuthenticationController {
     return validatedRefreshToken;
   }
 
-  logout(@Res({ passthrough: true }) res: Response) {
-    res.clearCookie('refreshToken');
+  @ApiOperation({
+    summary: 'Logout',
+    description:
+      'Will clear access token and refresh token in the client browser.',
+  })
+  @ApiResponse({
+    status: 200,
+    description: 'User logout successfully.',
+  })
+  @Post('logout')
+  @HttpCode(200)
+  async logout(@Res({ passthrough: true }) res: Response) {
+    await this.authenticationService.clearTokens(res);
 
     return {
       message: 'Logout successfully,',

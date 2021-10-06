@@ -21,22 +21,22 @@ let AuthenticationService = class AuthenticationService {
         this.prismaClientService = prismaClientService;
         this.jwtService = jwtService;
         this.config = config;
-        this.fifteenMinutes = 900000;
-        this.refreshTokenSecretKey = this.config.get('auth.refreshTokenSecretKey', {
+        this.FIFTEEN_MINUTES = 900000;
+        this.REFRESH_TOKEN_SECRET_KEY = this.config.get('auth.REFRESH_TOKEN_SECRET_KEY', {
             infer: true,
         });
-        this.refreshTokenSecretKeyExpiresIn = this.config.get('auth.refreshTokenSecretKeyExpiresIn', {
+        this.REFRESH_TOKEN_SECRET_KEY_EXPIRES_IN = this.config.get('auth.REFRESH_TOKEN_SECRET_KEY_EXPIRES_IN', {
             infer: true,
         });
-        this.issuer = this.config.get('auth.issuer', {
+        this.JWT_ISSUER = this.config.get('auth.JWT_ISSUER', {
             infer: true,
         });
     }
     async createRefreshToken(id) {
         return await this.jwtService.signAsync({ id }, {
-            secret: this.refreshTokenSecretKey,
-            expiresIn: this.refreshTokenSecretKeyExpiresIn,
-            issuer: this.issuer,
+            secret: this.REFRESH_TOKEN_SECRET_KEY,
+            expiresIn: this.REFRESH_TOKEN_SECRET_KEY_EXPIRES_IN,
+            issuer: this.JWT_ISSUER,
         });
     }
     async validateRefreshToken(token, res) {
@@ -44,9 +44,9 @@ let AuthenticationService = class AuthenticationService {
             throw new common_1.NotFoundException('Refresh token not found.');
         }
         const { exp } = await this.jwtService.verifyAsync(token, {
-            secret: this.refreshTokenSecretKey,
+            secret: this.REFRESH_TOKEN_SECRET_KEY,
             ignoreExpiration: true,
-            issuer: this.issuer,
+            issuer: this.JWT_ISSUER,
         });
         const user = await this.prismaClientService.user.findUnique({
             where: {
@@ -61,7 +61,7 @@ let AuthenticationService = class AuthenticationService {
             throw new common_1.UnauthorizedException('Token is suspended.');
         }
         if (Date.now() <= exp * 1000) {
-            res.cookie('accessToken', accessToken, (0, cookie_config_1.cookieConfig)(this.fifteenMinutes));
+            res.cookie('accessToken', accessToken, (0, cookie_config_1.cookieConfig)(this.FIFTEEN_MINUTES));
             return {
                 id: user.id,
                 message: 'Token refreshed.',
@@ -87,7 +87,7 @@ let AuthenticationService = class AuthenticationService {
         });
     }
     async setClientCookies(id, res) {
-        const sevenDays = 6.048e8;
+        const SEVEN_DAYS = 6.048e8;
         const accessToken = await this.signAccessToken(id);
         const refreshToken = await this.createRefreshToken(id);
         const user = await this.prismaClientService.user.findUnique({
@@ -99,8 +99,12 @@ let AuthenticationService = class AuthenticationService {
                 data: { refreshToken },
             });
         }
-        res.cookie('accessToken', accessToken, (0, cookie_config_1.cookieConfig)(this.fifteenMinutes));
-        res.cookie('refreshToken', refreshToken, (0, cookie_config_1.cookieConfig)(sevenDays));
+        res.cookie('accessToken', accessToken, (0, cookie_config_1.cookieConfig)(this.FIFTEEN_MINUTES));
+        res.cookie('refreshToken', refreshToken, (0, cookie_config_1.cookieConfig)(SEVEN_DAYS));
+    }
+    async clearTokens(res) {
+        res.clearCookie('refreshToken');
+        res.clearCookie('accessToken');
     }
 };
 AuthenticationService = __decorate([

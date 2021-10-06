@@ -14,35 +14,35 @@ import { Jwt } from './interface/jwt.interface';
 
 @Injectable()
 export class AuthenticationService {
-  private refreshTokenSecretKey: string;
-  private refreshTokenSecretKeyExpiresIn: string;
-  private issuer: string;
-  private fifteenMinutes = 900000;
+  private REFRESH_TOKEN_SECRET_KEY: string;
+  private REFRESH_TOKEN_SECRET_KEY_EXPIRES_IN: string;
+  private JWT_ISSUER: string;
+  private FIFTEEN_MINUTES = 900000;
 
   constructor(
     private prismaClientService: PrismaClientService,
     private jwtService: JwtService,
     private config: ConfigService<{
       auth: {
-        refreshTokenSecretKey: string;
-        refreshTokenSecretKeyExpiresIn: string;
-        issuer: string;
+        REFRESH_TOKEN_SECRET_KEY: string;
+        REFRESH_TOKEN_SECRET_KEY_EXPIRES_IN: string;
+        JWT_ISSUER: string;
       };
     }>,
   ) {
-    this.refreshTokenSecretKey = this.config.get<string>(
-      'auth.refreshTokenSecretKey',
+    this.REFRESH_TOKEN_SECRET_KEY = this.config.get<string>(
+      'auth.REFRESH_TOKEN_SECRET_KEY',
       {
         infer: true,
       },
     );
-    this.refreshTokenSecretKeyExpiresIn = this.config.get<string>(
-      'auth.refreshTokenSecretKeyExpiresIn',
+    this.REFRESH_TOKEN_SECRET_KEY_EXPIRES_IN = this.config.get<string>(
+      'auth.REFRESH_TOKEN_SECRET_KEY_EXPIRES_IN',
       {
         infer: true,
       },
     );
-    this.issuer = this.config.get<string>('auth.issuer', {
+    this.JWT_ISSUER = this.config.get<string>('auth.JWT_ISSUER', {
       infer: true,
     });
   }
@@ -51,9 +51,9 @@ export class AuthenticationService {
     return await this.jwtService.signAsync(
       { id },
       {
-        secret: this.refreshTokenSecretKey,
-        expiresIn: this.refreshTokenSecretKeyExpiresIn,
-        issuer: this.issuer,
+        secret: this.REFRESH_TOKEN_SECRET_KEY,
+        expiresIn: this.REFRESH_TOKEN_SECRET_KEY_EXPIRES_IN,
+        issuer: this.JWT_ISSUER,
       },
     );
   }
@@ -64,9 +64,9 @@ export class AuthenticationService {
     }
 
     const { exp }: Jwt = await this.jwtService.verifyAsync(token, {
-      secret: this.refreshTokenSecretKey,
+      secret: this.REFRESH_TOKEN_SECRET_KEY,
       ignoreExpiration: true,
-      issuer: this.issuer,
+      issuer: this.JWT_ISSUER,
     });
 
     const user = await this.prismaClientService.user.findUnique({
@@ -86,7 +86,11 @@ export class AuthenticationService {
     }
 
     if (Date.now() <= exp * 1000) {
-      res.cookie('accessToken', accessToken, cookieConfig(this.fifteenMinutes));
+      res.cookie(
+        'accessToken',
+        accessToken,
+        cookieConfig(this.FIFTEEN_MINUTES),
+      );
 
       return {
         id: user.id,
@@ -119,7 +123,7 @@ export class AuthenticationService {
   }
 
   async setClientCookies(id: string, res: Response) {
-    const sevenDays = 6.048e8;
+    const SEVEN_DAYS = 6.048e8;
 
     const accessToken = await this.signAccessToken(id);
     const refreshToken = await this.createRefreshToken(id);
@@ -135,7 +139,12 @@ export class AuthenticationService {
       });
     }
 
-    res.cookie('accessToken', accessToken, cookieConfig(this.fifteenMinutes));
-    res.cookie('refreshToken', refreshToken, cookieConfig(sevenDays));
+    res.cookie('accessToken', accessToken, cookieConfig(this.FIFTEEN_MINUTES));
+    res.cookie('refreshToken', refreshToken, cookieConfig(SEVEN_DAYS));
+  }
+
+  async clearTokens(res: Response) {
+    res.clearCookie('refreshToken');
+    res.clearCookie('accessToken');
   }
 }

@@ -41,19 +41,19 @@ let AuthenticationController = class AuthenticationController {
         const validatedRefreshToken = await this.authenticationService.validateRefreshToken(req.cookies['refreshToken'], res);
         return validatedRefreshToken;
     }
-    logout(res) {
-        res.clearCookie('refreshToken');
+    async logout(res) {
+        await this.authenticationService.clearTokens(res);
         return {
             message: 'Logout successfully,',
         };
     }
 };
 __decorate([
+    (0, swagger_1.ApiBasicAuth)(),
     (0, swagger_1.ApiOperation)({
         summary: 'Login user',
         description: 'Some description here...',
     }),
-    (0, swagger_1.ApiBasicAuth)(),
     (0, swagger_1.ApiBody)({ type: login_dto_1.LoginUserDTO }),
     (0, swagger_1.ApiResponse)({
         status: 200,
@@ -95,11 +95,23 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], AuthenticationController.prototype, "register", null);
 __decorate([
+    (0, swagger_1.ApiCookieAuth)(),
     (0, swagger_1.ApiOperation)({
         summary: 'Refresh token',
         description: 'Nothing to include in the request body the api will automatically read request cookies and validate.',
     }),
-    (0, swagger_1.ApiCookieAuth)(),
+    (0, swagger_1.ApiResponse)({
+        status: 200,
+        description: 'Access token has been refreshed.',
+    }),
+    (0, swagger_1.ApiResponse)({
+        status: 404,
+        description: 'No user or refresh token found.',
+    }),
+    (0, swagger_1.ApiResponse)({
+        status: 401,
+        description: "Refresh token is expired or it's been revoked.",
+    }),
     (0, common_1.Post)('refresh-token'),
     (0, common_1.HttpCode)(200),
     __param(0, (0, common_1.Req)()),
@@ -109,10 +121,20 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], AuthenticationController.prototype, "refreshToken", null);
 __decorate([
+    (0, swagger_1.ApiOperation)({
+        summary: 'Logout',
+        description: 'Will clear access token and refresh token in the client browser.',
+    }),
+    (0, swagger_1.ApiResponse)({
+        status: 200,
+        description: 'User logout successfully.',
+    }),
+    (0, common_1.Post)('logout'),
+    (0, common_1.HttpCode)(200),
     __param(0, (0, common_1.Res)({ passthrough: true })),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),
-    __metadata("design:returntype", void 0)
+    __metadata("design:returntype", Promise)
 ], AuthenticationController.prototype, "logout", null);
 AuthenticationController = __decorate([
     (0, swagger_1.ApiTags)('Authentication'),
