@@ -9,23 +9,26 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.EmailService = void 0;
-const axios_1 = require("@nestjs/axios");
-const common_1 = require("@nestjs/common");
-const rxjs_1 = require("rxjs");
-let EmailService = class EmailService {
-    constructor(httpService) {
-        this.httpService = httpService;
-    }
-    async sendEmail(data) {
-        const email = this.httpService.post('/api/Email/sendemailbackup', data);
-        const result = await (0, rxjs_1.firstValueFrom)(email);
-        return result.statusText;
-    }
-};
-EmailService = __decorate([
-    (0, common_1.Injectable)(),
-    __metadata("design:paramtypes", [axios_1.HttpService])
-], EmailService);
-exports.EmailService = EmailService;
-//# sourceMappingURL=email.service.js.map
+exports.OtpAuthDTO = void 0;
+const swagger_1 = require("@nestjs/swagger");
+const class_transformer_1 = require("class-transformer");
+const class_validator_1 = require("class-validator");
+class OtpAuthDTO {
+}
+__decorate([
+    (0, swagger_1.ApiProperty)({
+        type: String,
+    }),
+    (0, class_validator_1.IsEmail)(),
+    __metadata("design:type", String)
+], OtpAuthDTO.prototype, "email", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)({
+        type: Number,
+    }),
+    (0, class_validator_1.IsNumber)(),
+    (0, class_transformer_1.Type)(() => Number),
+    __metadata("design:type", Number)
+], OtpAuthDTO.prototype, "otp", void 0);
+exports.OtpAuthDTO = OtpAuthDTO;
+//# sourceMappingURL=otp-auth.dto.js.map

@@ -1,18 +1,21 @@
 import { HttpService } from '@nestjs/axios';
 import { Injectable } from '@nestjs/common';
+import { firstValueFrom } from 'rxjs';
 
 @Injectable()
 export class EmailService {
   constructor(private httpService: HttpService) {}
 
-  async sendEmail() {
-    this.httpService.post('/api/Email/sendemailbackup', {
-      to: 'chrisgelosulit@gmail.com',
-      copy: 'christian.sulit@kmc.solutions',
-      subject: 'Test email',
-      body: 'Yow!',
-    });
+  async sendEmail(data: {
+    to: string;
+    copy?: string;
+    subject: string;
+    body: string;
+  }) {
+    const email = this.httpService.post('/api/Email/sendemailbackup', data);
 
-    return null;
+    const result = await firstValueFrom(email);
+
+    return result.statusText;
   }
 }

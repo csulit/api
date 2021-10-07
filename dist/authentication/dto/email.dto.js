@@ -9,23 +9,17 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.EmailService = void 0;
-const axios_1 = require("@nestjs/axios");
-const common_1 = require("@nestjs/common");
-const rxjs_1 = require("rxjs");
-let EmailService = class EmailService {
-    constructor(httpService) {
-        this.httpService = httpService;
-    }
-    async sendEmail(data) {
-        const email = this.httpService.post('/api/Email/sendemailbackup', data);
-        const result = await (0, rxjs_1.firstValueFrom)(email);
-        return result.statusText;
-    }
-};
-EmailService = __decorate([
-    (0, common_1.Injectable)(),
-    __metadata("design:paramtypes", [axios_1.HttpService])
-], EmailService);
-exports.EmailService = EmailService;
-//# sourceMappingURL=email.service.js.map
+exports.EmailDTO = void 0;
+const swagger_1 = require("@nestjs/swagger");
+const class_validator_1 = require("class-validator");
+class EmailDTO {
+}
+__decorate([
+    (0, swagger_1.ApiProperty)({
+        type: String,
+    }),
+    (0, class_validator_1.IsEmail)(),
+    __metadata("design:type", String)
+], EmailDTO.prototype, "email", void 0);
+exports.EmailDTO = EmailDTO;
+//# sourceMappingURL=email.dto.js.map

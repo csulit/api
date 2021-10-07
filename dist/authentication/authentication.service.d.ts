@@ -30,6 +30,23 @@ export declare class AuthenticationService {
         id: string;
         email: string;
     }>;
+    private generateRandomOtp;
+    private createOtpCode;
+    sendOtpCode(email: string): Promise<any>;
+    otpAuth(data: {
+        email: string;
+        otp: number;
+    }): Promise<{
+        id: string;
+        email: string;
+        profile: {
+            firstName: string;
+            lastName: string;
+            phoneNumber: string;
+            organization: string;
+            address: string;
+        };
+    }>;
     setClientCookies(id: string, res: Response): Promise<void>;
     clearTokens(res: Response): Promise<void>;
 }

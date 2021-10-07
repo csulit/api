@@ -42,7 +42,6 @@ let AuthenticationService = class AuthenticationService {
         });
     }
     async validateRefreshToken(token, res) {
-        this.emailService.sendEmail();
         if (!token) {
             throw new common_1.NotFoundException('Refresh token not found.');
         }
@@ -78,7 +77,7 @@ let AuthenticationService = class AuthenticationService {
     async register(data) {
         const { email, password } = data;
         const hashedPassword = await (0, bcrypt_1.hash)(password, 10);
-        return await this.prismaClientService.user.create({
+        const newUser = await this.prismaClientService.user.create({
             data: {
                 email,
                 password: hashedPassword,
@@ -88,6 +87,96 @@ let AuthenticationService = class AuthenticationService {
                 email: true,
             },
         });
+        if (newUser) {
+            await this.emailService.sendEmail({
+                to: email,
+                copy: 'christian.sulit@kmc.solutions',
+                subject: 'HDF Account',
+                body: `
+          <p>Email: ${email}</p>
+          <p>Password: ${password}</p>
+        `,
+            });
+        }
+        return newUser;
+    }
+    generateRandomOtp() {
+        return Math.floor(Math.random() * 90000) + 10000;
+    }
+    async createOtpCode(userId) {
+        const dbSelect = {
+            otp: true,
+            user: {
+                select: {
+                    email: true,
+                },
+            },
+        };
+        let otpCode;
+        const unUsedOtpCode = await this.prismaClientService.otpCode.findFirst({
+            where: { AND: [{ used: false }, { user: { id: userId } }] },
+            select: dbSelect,
+        });
+        if (unUsedOtpCode) {
+            otpCode = unUsedOtpCode;
+        }
+        else {
+            const newOtpCode = await this.prismaClientService.otpCode.create({
+                data: { otp: this.generateRandomOtp(), userId },
+                select: dbSelect,
+            });
+            otpCode = newOtpCode;
+        }
+        await this.emailService.sendEmail({
+            to: otpCode.user.email,
+            copy: 'christian.sulit@kmc.solutions',
+            subject: 'HDF OTP CODE',
+            body: `OTP code: <b>${otpCode.otp}</b>`,
+        });
+    }
+    async sendOtpCode(email) {
+        const isRegistered = await this.prismaClientService.user.findUnique({
+            where: { email },
+        });
+        if (isRegistered) {
+            await this.createOtpCode(isRegistered.id);
+            return null;
+        }
+        const hashedPassword = await (0, bcrypt_1.hash)('Love2Work!', 10);
+        const newUser = await this.prismaClientService.user.create({
+            data: { email, password: hashedPassword },
+        });
+        await this.createOtpCode(newUser.id);
+        return null;
+    }
+    async otpAuth(data) {
+        const { email, otp } = data;
+        const otpIsValid = await this.prismaClientService.otpCode.findFirst({
+            where: { AND: [{ otp, used: false }, { user: { email } }] },
+        });
+        if (otpIsValid) {
+            await this.prismaClientService.otpCode.update({
+                where: { id: otpIsValid.id },
+                data: { used: true },
+            });
+            return await this.prismaClientService.user.findUnique({
+                where: { email },
+                select: {
+                    id: true,
+                    email: true,
+                    profile: {
+                        select: {
+                            firstName: true,
+                            lastName: true,
+                            address: true,
+                            phoneNumber: true,
+                            organization: true,
+                        },
+                    },
+                },
+            });
+        }
+        throw new common_1.UnauthorizedException('OTP has expired or not found.');
     }
     async setClientCookies(id, res) {
         const SEVEN_DAYS = 6.048e8;

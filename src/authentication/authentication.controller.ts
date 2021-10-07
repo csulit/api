@@ -18,7 +18,9 @@ import {
 import { Request, Response } from 'express';
 import { AuthenticationService } from './authentication.service';
 import { LoginUserClass } from './classes/login.classes';
+import { EmailDTO } from './dto/email.dto';
 import { LoginUserDTO } from './dto/login.dto';
+import { OtpAuthDTO } from './dto/otp-auth.dto';
 import { RegisterUserDTO } from './dto/register.dto';
 import { LocalAuthGuard } from './guard/local.auth.guard';
 
@@ -76,6 +78,45 @@ export class AuthenticationController {
     @Res({ passthrough: true }) res: Response,
   ) {
     const user = await this.authenticationService.register(data);
+
+    await this.authenticationService.setClientCookies(user.id, res);
+
+    return user;
+  }
+
+  @ApiOperation({
+    summary: 'Send OTP via email',
+    description: 'This will send an OTP code to the user.',
+  })
+  @ApiResponse({
+    status: 200,
+    description: 'OTP code successfully sent.',
+  })
+  @Post('otp-code')
+  @HttpCode(200)
+  sendOtpCode(@Body() data: EmailDTO) {
+    return this.authenticationService.sendOtpCode(data.email);
+  }
+
+  @ApiOperation({
+    summary: 'Authenticate via OTP',
+    description: 'This will authenticate user using OTP.',
+  })
+  @ApiResponse({
+    status: 200,
+    description: 'OTP code successfully validated.',
+  })
+  @ApiResponse({
+    status: 401,
+    description: 'OTP has expired or not found.',
+  })
+  @Post('otp-auth')
+  @HttpCode(200)
+  async otpAuth(
+    @Body() data: OtpAuthDTO,
+    @Res({ passthrough: true }) res: Response,
+  ) {
+    const user = await this.authenticationService.otpAuth(data);
 
     await this.authenticationService.setClientCookies(user.id, res);
 

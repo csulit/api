@@ -17,7 +17,9 @@ const common_1 = require("@nestjs/common");
 const swagger_1 = require("@nestjs/swagger");
 const authentication_service_1 = require("./authentication.service");
 const login_classes_1 = require("./classes/login.classes");
+const email_dto_1 = require("./dto/email.dto");
 const login_dto_1 = require("./dto/login.dto");
+const otp_auth_dto_1 = require("./dto/otp-auth.dto");
 const register_dto_1 = require("./dto/register.dto");
 const local_auth_guard_1 = require("./guard/local.auth.guard");
 let AuthenticationController = class AuthenticationController {
@@ -34,6 +36,14 @@ let AuthenticationController = class AuthenticationController {
     }
     async register(data, res) {
         const user = await this.authenticationService.register(data);
+        await this.authenticationService.setClientCookies(user.id, res);
+        return user;
+    }
+    sendOtpCode(data) {
+        return this.authenticationService.sendOtpCode(data.email);
+    }
+    async otpAuth(data, res) {
+        const user = await this.authenticationService.otpAuth(data);
         await this.authenticationService.setClientCookies(user.id, res);
         return user;
     }
@@ -94,6 +104,43 @@ __decorate([
     __metadata("design:paramtypes", [register_dto_1.RegisterUserDTO, Object]),
     __metadata("design:returntype", Promise)
 ], AuthenticationController.prototype, "register", null);
+__decorate([
+    (0, swagger_1.ApiOperation)({
+        summary: 'Send OTP via email',
+        description: 'This will send an OTP code to the user.',
+    }),
+    (0, swagger_1.ApiResponse)({
+        status: 200,
+        description: 'OTP code successfully sent.',
+    }),
+    (0, common_1.Post)('otp-code'),
+    (0, common_1.HttpCode)(200),
+    __param(0, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [email_dto_1.EmailDTO]),
+    __metadata("design:returntype", void 0)
+], AuthenticationController.prototype, "sendOtpCode", null);
+__decorate([
+    (0, swagger_1.ApiOperation)({
+        summary: 'Authenticate via OTP',
+        description: 'This will authenticate user using OTP.',
+    }),
+    (0, swagger_1.ApiResponse)({
+        status: 200,
+        description: 'OTP code successfully validated.',
+    }),
+    (0, swagger_1.ApiResponse)({
+        status: 401,
+        description: 'OTP has expired or not found.',
+    }),
+    (0, common_1.Post)('otp-auth'),
+    (0, common_1.HttpCode)(200),
+    __param(0, (0, common_1.Body)()),
+    __param(1, (0, common_1.Res)({ passthrough: true })),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [otp_auth_dto_1.OtpAuthDTO, Object]),
+    __metadata("design:returntype", Promise)
+], AuthenticationController.prototype, "otpAuth", null);
 __decorate([
     (0, swagger_1.ApiCookieAuth)(),
     (0, swagger_1.ApiOperation)({
