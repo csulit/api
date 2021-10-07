@@ -65,8 +65,9 @@ async function bootstrap() {
 
   const redocOptions: RedocOptions = {
     title: 'HDF API DOCS',
+    favicon: 'https://cdn.kmc.solutions/project-statics/favicon.ico',
     logo: {
-      url: 'https://kmcstorage1.blob.core.windows.net/project-statics/kmc-logo-black-with-text.png',
+      url: 'https://cdn.kmc.solutions/project-statics/kmc-logo-black-with-text.png',
       backgroundColor: '#F0F0F0',
       altText: 'KMC Solutions logo',
     },
