@@ -76,19 +76,10 @@ model Guest {
 }
 
 model Survey {
-  id          String         @id @default(uuid())
+  id          String @id @default(uuid())
   surveyOrder Int
   question    String
-  response    SurveyAnswer[]
+  response    Json
 
   @@map("surveys")
-}
-
-model SurveyAnswer {
-  id       String  @id @default(uuid())
-  survey   Survey? @relation(fields: [surveyId], references: [id])
-  surveyId String?
-  answer   String  @db.VarChar(100)
-
-  @@map("survey_answers")
 }

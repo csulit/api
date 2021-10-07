@@ -1,1 +1,1 @@
-export declare function seed(): Promise<[]>;
+export declare function seed(): Promise<string>;

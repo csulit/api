@@ -16,8 +16,6 @@ export declare class AuthenticationController {
     }>;
     sendOtpCode(data: EmailDTO): Promise<any>;
     otpAuth(data: OtpAuthDTO, res: Response): Promise<{
-        id: string;
-        email: string;
         profile: {
             firstName: string;
             lastName: string;
@@ -25,6 +23,8 @@ export declare class AuthenticationController {
             organization: string;
             address: string;
         };
+        id: string;
+        email: string;
     }>;
     refreshToken(req: Request, res: Response): Promise<{
         id: string;

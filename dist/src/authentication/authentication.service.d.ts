@@ -37,8 +37,6 @@ export declare class AuthenticationService {
         email: string;
         otp: number;
     }): Promise<{
-        id: string;
-        email: string;
         profile: {
             firstName: string;
             lastName: string;
@@ -46,6 +44,8 @@ export declare class AuthenticationService {
             organization: string;
             address: string;
         };
+        id: string;
+        email: string;
     }>;
     setClientCookies(id: string, res: Response): Promise<void>;
     clearTokens(res: Response): Promise<void>;

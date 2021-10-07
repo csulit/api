@@ -1,11 +1,20 @@
 import { PrismaClient } from '@prisma/client';
+import survey from './data/survey';
 
 const prismaClient = new PrismaClient();
 
 export async function seed() {
-  const transaction = await prismaClient.$transaction([]);
+  await prismaClient.$transaction(async (prisma) => {
+    const surveys = await prisma.survey.count();
 
-  return transaction;
+    if (!surveys) {
+      await prisma.survey.createMany({ data: survey });
+
+      console.log('Surveys inserted!');
+    }
+  });
+
+  return 'Done! ';
 }
 
 seed()
