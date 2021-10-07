@@ -23,7 +23,34 @@ exports.default = [
         id: 'e61000d7-9313-49d7-8023-82c982ab78e4',
         question: 'May we know your vaccination status?',
         surveyOrder: 4,
-        response: {},
+        response: {
+            fullyVaccinated: {
+                options: [
+                    'Sinovac',
+                    'Astrazeneca',
+                    'Moderna',
+                    'Pfizer',
+                    'BioNTech',
+                    'Janssen',
+                    'Sputnik',
+                    'Novavax',
+                    'Others',
+                ],
+            },
+            firstDoseDone: {
+                options: [
+                    'Sinovac',
+                    'Astrazeneca',
+                    'Moderna',
+                    'Pfizer',
+                    'BioNTech',
+                    'Janssen',
+                    'Sputnik',
+                    'Novavax',
+                    'Others',
+                ],
+            },
+        },
     },
 ];
 //# sourceMappingURL=survey.js.map

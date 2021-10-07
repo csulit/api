@@ -7,6 +7,13 @@ declare const _default: ({
     id: string;
     question: string;
     surveyOrder: number;
-    response: {};
+    response: {
+        fullyVaccinated: {
+            options: string[];
+        };
+        firstDoseDone: {
+            options: string[];
+        };
+    };
 })[];
 export default _default;
