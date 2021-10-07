@@ -8,12 +8,11 @@ declare const _default: ({
     question: string;
     surveyOrder: number;
     response: {
-        fullyVaccinated: {
-            options: string[];
-        };
-        firstDoseDone: {
-            options: string[];
-        };
+        status: string[];
+        vaccine: string[];
+        secondDoseSchedule: string;
+        awaitingSchedule: string;
+        iOptNotToGetVaccinated: boolean;
     };
 })[];
 export default _default;
