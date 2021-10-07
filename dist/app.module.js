@@ -15,6 +15,7 @@ const email_config_1 = require("./common/config/email.config");
 const email_module_1 = require("./email/email.module");
 const prisma_client_module_1 = require("./prisma-client/prisma-client.module");
 const visitor_module_1 = require("./visitor/visitor.module");
+const survey_module_1 = require("./survey/survey.module");
 let AppModule = class AppModule {
 };
 AppModule = __decorate([
@@ -28,6 +29,7 @@ AppModule = __decorate([
             authentication_module_1.AuthenticationModule,
             visitor_module_1.VisitorModule,
             email_module_1.EmailModule,
+            survey_module_1.SurveyModule,
         ],
         controllers: [],
         providers: [],

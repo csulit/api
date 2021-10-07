@@ -28,13 +28,14 @@ model User {
 }
 
 model Profile {
-  id           String @id @default(uuid())
+  id           String    @id @default(uuid())
   user         User?
-  firstName    String @db.VarChar(100)
-  lastName     String @db.VarChar(100)
-  phoneNumber  String @db.VarChar(100)
-  organization String @db.VarChar(100)
-  address      String @db.VarChar(255)
+  firstName    String    @db.VarChar(100)
+  lastName     String    @db.VarChar(100)
+  phoneNumber  String    @db.VarChar(100)
+  organization String    @db.VarChar(100)
+  address      String    @db.VarChar(255)
+  visits       Visitor[]
 
   @@map("profiles")
 }
@@ -48,4 +49,46 @@ model OtpCode {
   createdAt DateTime @default(now())
 
   @@map("otp_codes")
+}
+
+model Visitor {
+  id                          String   @id @default(uuid())
+  profileId                   String
+  user                        Profile  @relation(fields: [profileId], references: [id])
+  guest                       Guest?
+  travelHistory               String
+  dataPrivacyPolicyIsAccepted Boolean
+  survey                      Json
+  symptoms                    String[]
+
+  @@map("visitors")
+}
+
+model Guest {
+  id                 String  @id @default(uuid())
+  visitorId          String
+  visitor            Visitor @relation(fields: [visitorId], references: [id])
+  personToVisit      String  @db.VarChar(100)
+  personToVisitEmail String  @db.VarChar(100)
+  purposeOfVisit     String  @db.VarChar(100)
+
+  @@map("guests")
+}
+
+model Survey {
+  id          String         @id @default(uuid())
+  surveyOrder Int
+  question    String
+  response    SurveyAnswer[]
+
+  @@map("surveys")
+}
+
+model SurveyAnswer {
+  id       String  @id @default(uuid())
+  survey   Survey? @relation(fields: [surveyId], references: [id])
+  surveyId String?
+  answer   String  @db.VarChar(100)
+
+  @@map("survey_answers")
 }

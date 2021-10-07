@@ -31,6 +31,7 @@ async function bootstrap() {
     }),
   );
 
+  // No need? if enabled CORS policy in DigitalOcean?
   app.enableCors({
     origin: ['*'],
     methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS', 'HEAD'],

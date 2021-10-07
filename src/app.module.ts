@@ -6,6 +6,7 @@ import emailEnv from './common/config/email.config';
 import { EmailModule } from './email/email.module';
 import { PrismaClientModule } from './prisma-client/prisma-client.module';
 import { VisitorModule } from './visitor/visitor.module';
+import { SurveyModule } from './survey/survey.module';
 
 @Module({
   imports: [
@@ -17,6 +18,7 @@ import { VisitorModule } from './visitor/visitor.module';
     AuthenticationModule,
     VisitorModule,
     EmailModule,
+    SurveyModule,
   ],
   controllers: [],
   providers: [],
