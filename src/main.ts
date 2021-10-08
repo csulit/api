@@ -33,7 +33,7 @@ async function bootstrap() {
 
   // No need? if enabled CORS policy in DigitalOcean?
   app.enableCors({
-    origin: ['*'],
+    origin: ['http://localhost:3000'],
     methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS', 'HEAD'],
     credentials: true,
   });
