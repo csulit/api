@@ -13,7 +13,7 @@ export class SurveyController {
   })
   @ApiResponse({
     status: 200,
-    description: '?.',
+    description: 'Successfully returned all survey questions.',
   })
   @Get()
   getAllSurveys() {
