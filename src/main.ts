@@ -77,12 +77,11 @@ async function bootstrap() {
     tagGroups: [
       {
         name: 'Core resources',
-        tags: ['Authentication'],
+        tags: ['Authentication', 'User', 'Survey'],
       },
     ],
   };
 
-  // Instead of using SwaggerModule.setup() you call this module
   await RedocModule.setup('/docs', app, document, redocOptions);
 
   await app.listen(4001);
