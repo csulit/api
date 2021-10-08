@@ -239,7 +239,7 @@ export class AuthenticationService {
   }
 
   async setClientCookies(id: string, res: Response) {
-    const SEVEN_DAYS = 6.048e8;
+    const ONE_YEAR = 3.154e10;
 
     const accessToken = await this.signAccessToken(id);
     const refreshToken = await this.createRefreshToken(id);
@@ -256,7 +256,7 @@ export class AuthenticationService {
     }
 
     res.cookie('accessToken', accessToken, cookieConfig(this.FIFTEEN_MINUTES));
-    res.cookie('refreshToken', refreshToken, cookieConfig(SEVEN_DAYS));
+    res.cookie('refreshToken', refreshToken, cookieConfig(ONE_YEAR));
   }
 
   async clearTokens(res: Response) {
