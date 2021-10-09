@@ -56,10 +56,9 @@ model Visitor {
   profileId                   String
   user                        Profile  @relation(fields: [profileId], references: [id])
   guest                       Guest?
-  site                        String   @db.VarChar(100)
-  floor                       String   @db.VarChar(100)
   travelHistory               String
   dataPrivacyPolicyIsAccepted Boolean
+  locations                   Json[]
   survey                      Json
   symptoms                    String[]
 
