@@ -9,7 +9,7 @@ import { BuildingService } from './building.service';
     HttpModule.registerAsync({
       imports: [ConfigModule],
       useFactory: async (configService: ConfigService) => ({
-        baseURL: configService.get('default.ERP_BASE_URL'),
+        baseURL: configService.get('erp-api.ERP_API_BASE_URL'),
       }),
       inject: [ConfigService],
     }),

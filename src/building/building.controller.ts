@@ -1,4 +1,4 @@
-import { Controller, Get, Query } from '@nestjs/common';
+import { Controller, Get, Param } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { BuildingService } from './building.service';
 import { BuildingIdDTO } from './dto/building-id.dto';
@@ -38,7 +38,7 @@ export class BuildingController {
     description: 'Error in ERP get building floors.',
   })
   @Get(':buildingId/floors')
-  getBuildingFloors(@Query() { buildingId }: BuildingIdDTO) {
+  getBuildingFloors(@Param() { buildingId }: BuildingIdDTO) {
     return this.buildingService.getBuildingFloors(buildingId);
   }
 }
