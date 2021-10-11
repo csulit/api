@@ -61,30 +61,6 @@ export class AuthenticationService {
   }
 
   async validateRefreshToken(token: string, res: Response) {
-    await this.prismaClientService.survey.update({
-      where: { id: 'e61000d7-9313-49d7-8023-82c982ab78e4' },
-      data: {
-        question: 'May we know your vaccination status?',
-        surveyOrder: 4,
-        response: {
-          status: ['Fully vaccinated', 'First dose', 'iOptNotToGetVaccinated'],
-          vaccine: [
-            'Sinovac',
-            'Astrazeneca',
-            'Moderna',
-            'Pfizer',
-            'BioNTech',
-            'Janssen',
-            'Sputnik',
-            'Novavax',
-            'Others',
-          ],
-          secondDoseSchedule: 'Date here.',
-          awaitingSchedule: 'Date here or no definite date yet',
-        },
-      },
-    });
-
     if (!token) {
       throw new NotFoundException('Refresh token not found.');
     }
