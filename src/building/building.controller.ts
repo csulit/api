@@ -37,7 +37,7 @@ export class BuildingController {
     status: 400,
     description: 'Error in ERP get building floors.',
   })
-  @Get('floors/:buildingId')
+  @Get(':buildingId/floors')
   getBuildingFloors(@Query() { buildingId }: BuildingIdDTO) {
     return this.buildingService.getBuildingFloors(buildingId);
   }
