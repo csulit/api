@@ -25,7 +25,7 @@ export default [
     question: 'May we know your vaccination status?',
     surveyOrder: 4,
     response: {
-      status: ['Fully vaccinated', 'First dose'],
+      status: ['Fully vaccinated', 'First dose', 'iOptNotToGetVaccinated'],
       vaccine: [
         'Sinovac',
         'Astrazeneca',
@@ -39,7 +39,6 @@ export default [
       ],
       secondDoseSchedule: 'Date here.',
       awaitingSchedule: 'Date here or no definite date yet',
-      iOptNotToGetVaccinated: false,
     },
   },
 ];
