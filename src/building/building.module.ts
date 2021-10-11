@@ -1,7 +1,8 @@
 import { HttpModule } from '@nestjs/axios';
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { EmailService } from './email.service';
+import { BuildingController } from './building.controller';
+import { BuildingService } from './building.service';
 
 @Module({
   imports: [
@@ -13,7 +14,7 @@ import { EmailService } from './email.service';
       inject: [ConfigService],
     }),
   ],
-  providers: [EmailService],
-  exports: [EmailService],
+  controllers: [BuildingController],
+  providers: [BuildingService],
 })
-export class EmailModule {}
+export class BuildingModule {}

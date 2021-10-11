@@ -77,7 +77,7 @@ async function bootstrap() {
     tagGroups: [
       {
         name: 'Core resources',
-        tags: ['Authentication', 'User', 'Survey'],
+        tags: ['Authentication', 'User', 'Survey', 'Building'],
       },
     ],
   };
