@@ -59,7 +59,7 @@ model Visitor {
   travelHistory               String
   dataPrivacyPolicyIsAccepted Boolean
   locations                   Json[]
-  survey                      Json
+  survey                      Json[]
   symptoms                    String[]
   createdAt                   DateTime @default(now())
 

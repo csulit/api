@@ -28,7 +28,6 @@ export default [
       status: [
         'Fully vaccinated',
         'First dose',
-        'Second dose',
         'Is opt not to get vaccinated',
         'Awaiting schedule',
       ],
