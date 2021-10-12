@@ -33,7 +33,7 @@ async function bootstrap() {
 
   // No need? if enabled CORS policy in DigitalOcean?
   app.enableCors({
-    origin: ['http://localhost:3000'],
+    origin: ['http://localhost:3000', 'https://app-jayzur.herokuapp.com'],
     methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS', 'HEAD'],
     credentials: true,
   });
