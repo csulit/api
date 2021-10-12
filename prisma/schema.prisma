@@ -54,6 +54,7 @@ model OtpCode {
 model Visitor {
   id                          String   @id @default(uuid())
   profileId                   String
+  clear                       Boolean  @default(true)
   user                        Profile  @relation(fields: [profileId], references: [id])
   guest                       Guest?
   travelHistory               String
