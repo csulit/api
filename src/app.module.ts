@@ -10,6 +10,7 @@ import { PrismaClientModule } from './prisma-client/prisma-client.module';
 import { SurveyModule } from './survey/survey.module';
 import { UserModule } from './user/user.module';
 import { VisitorModule } from './visitor/visitor.module';
+import { EventModule } from './event/event.module';
 
 @Module({
   imports: [
@@ -24,6 +25,7 @@ import { VisitorModule } from './visitor/visitor.module';
     SurveyModule,
     VisitorModule,
     BuildingModule,
+    EventModule,
   ],
   controllers: [],
   providers: [],

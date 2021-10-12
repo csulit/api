@@ -9,20 +9,21 @@ generator client {
 }
 
 model User {
-  id                       String    @id @default(uuid())
-  email                    String    @unique @db.VarChar(50)
-  password                 String    @db.VarChar(255)
-  isLocked                 Boolean   @default(false)
-  profileId                String?   @unique
-  profile                  Profile?  @relation(fields: [profileId], references: [id])
+  id                       String       @id @default(uuid())
+  email                    String       @unique @db.VarChar(50)
+  password                 String       @db.VarChar(255)
+  isLocked                 Boolean      @default(false)
+  profileId                String?      @unique
+  profile                  Profile?     @relation(fields: [profileId], references: [id])
   OtpCodes                 OtpCode[]
-  crmAccess                Boolean   @default(false)
-  refreshToken             String?   @unique
-  refreshTokenRevoked      Boolean   @default(false)
-  passwordResetToken       String?   @db.VarChar(255)
+  qrCodes                  UserQrCode[]
+  crmAccess                Boolean      @default(false)
+  refreshToken             String?      @unique
+  refreshTokenRevoked      Boolean      @default(false)
+  passwordResetToken       String?      @db.VarChar(255)
   passwordResetTokenExpire DateTime?
   passwordChangedAt        DateTime?
-  createdAt                DateTime  @default(now())
+  createdAt                DateTime     @default(now())
 
   @@map("users")
 }
@@ -51,12 +52,25 @@ model OtpCode {
   @@map("otp_codes")
 }
 
+model UserQrCode {
+  id        String   @id @default(uuid())
+  userId    String?
+  user      User?    @relation(fields: [userId], references: [id])
+  qrName    String   @db.VarChar(100)
+  qrUrl     String
+  createdAt DateTime @default(now())
+
+  @@map("user_qr_codes")
+}
+
 model Visitor {
   id                          String   @id @default(uuid())
   profileId                   String
   clear                       Boolean  @default(true)
   user                        Profile  @relation(fields: [profileId], references: [id])
   guest                       Guest?
+  eventId                     String?
+  event                       Event?   @relation(fields: [eventId], references: [id])
   travelHistory               String
   dataPrivacyPolicyIsAccepted Boolean
   locations                   Json[]
@@ -76,6 +90,19 @@ model Guest {
   purposeOfVisit     String  @db.VarChar(100)
 
   @@map("guests")
+}
+
+model Event {
+  id               String    @id @default(uuid())
+  eventName        String    @db.VarChar(250)
+  eventPhoto       String
+  eventDescription String?
+  eventActive      Boolean   @default(true)
+  eventDate        DateTime
+  eventLocation    Json
+  visitors         Visitor[]
+
+  @@map("events")
 }
 
 model Survey {

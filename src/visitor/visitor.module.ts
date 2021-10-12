@@ -1,9 +1,11 @@
 import { Module } from '@nestjs/common';
-import { VisitorService } from './visitor.service';
+import { PrismaClientModule } from 'src/prisma-client/prisma-client.module';
 import { VisitorController } from './visitor.controller';
+import { VisitorService } from './visitor.service';
 
 @Module({
+  imports: [PrismaClientModule],
   controllers: [VisitorController],
-  providers: [VisitorService]
+  providers: [VisitorService],
 })
 export class VisitorModule {}
