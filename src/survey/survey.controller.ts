@@ -8,12 +8,12 @@ export class SurveyController {
   constructor(private readonly surveyService: SurveyService) {}
 
   @ApiOperation({
-    summary: 'All survey questions',
+    summary: 'Survey questions',
     description: 'Some description here...',
   })
   @ApiResponse({
     status: 200,
-    description: 'Successfully returned all survey questions.',
+    description: 'List of all survey questions.',
   })
   @Get()
   getAllSurveys() {
