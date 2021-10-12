@@ -46,7 +46,7 @@ model OtpCode {
   otp       Int
   used      Boolean  @default(false)
   userId    String
-  user      User     @relation(fields: [userId], references: [id])
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   createdAt DateTime @default(now())
 
   @@map("otp_codes")
@@ -55,7 +55,7 @@ model OtpCode {
 model UserQrCode {
   id        String   @id @default(uuid())
   userId    String?
-  user      User?    @relation(fields: [userId], references: [id])
+  user      User?    @relation(fields: [userId], references: [id], onDelete: Cascade)
   qrName    String   @db.VarChar(100)
   qrUrl     String
   createdAt DateTime @default(now())
@@ -67,7 +67,7 @@ model Visitor {
   id                          String   @id @default(uuid())
   profileId                   String
   clear                       Boolean  @default(true)
-  user                        Profile  @relation(fields: [profileId], references: [id])
+  user                        Profile  @relation(fields: [profileId], references: [id], onDelete: Cascade)
   guest                       Guest?
   eventId                     String?
   event                       Event?   @relation(fields: [eventId], references: [id])
@@ -84,7 +84,7 @@ model Visitor {
 model Guest {
   id                 String  @id @default(uuid())
   visitorId          String  @unique
-  visitor            Visitor @relation(fields: [visitorId], references: [id])
+  visitor            Visitor @relation(fields: [visitorId], references: [id], onDelete: Cascade)
   personToVisit      String  @db.VarChar(100)
   personToVisitEmail String  @db.VarChar(100)
   purposeOfVisit     String  @db.VarChar(100)

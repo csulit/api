@@ -9,7 +9,7 @@ export class VisitorService {
   constructor(private prismaClientService: PrismaClientService) {}
 
   async createVisitor(data: CreateVisitorDTO) {
-    const { email } = data;
+    const { email, answers, symptoms } = data;
 
     await this.prismaClientService.$transaction(async (prisma) => {
       let newUser: User;
@@ -21,6 +21,36 @@ export class VisitorService {
 
         newUser = await prisma.user.create({
           data: { email, password: hashedPassword },
+        });
+      }
+
+      const hasSymptoms =
+        symptoms.length > 1 || symptoms[0] !== 'None of the above';
+      const answeredYes =
+        answers.filter((ans) => ans?.value === 'Yes').length < 1;
+
+      const visitorIsClear = hasSymptoms || answeredYes;
+
+      const visitor = await this.prismaClientService.visitor.create({
+        data: {
+          clear: visitorIsClear,
+          user: { connect: { id: user?.id || newUser?.id } },
+          travelHistory: '',
+          dataPrivacyPolicyIsAccepted: true,
+          locations: [],
+          survey: [],
+          symptoms: [],
+        },
+      });
+
+      if (data?.personToVisit) {
+        await prisma.guest.create({
+          data: {
+            visitorId: visitor.id,
+            personToVisit: data.personToVisit,
+            personToVisitEmail: data.personVisitEmail,
+            purposeOfVisit: data.purposeOfVisit,
+          },
         });
       }
 

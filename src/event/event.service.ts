@@ -11,6 +11,8 @@ export class EventService {
   }
 
   async createEvent(data: CreateEventDTO) {
-    return await this.prismaClientService.event.create({ data });
+    return await this.prismaClientService.event.create({
+      data: { ...data, eventDate: new Date(data.eventDate) },
+    });
   }
 }
