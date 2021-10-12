@@ -36,13 +36,16 @@ export class EventClass {
   @ApiProperty({
     type: 'object',
     properties: {
-      id: {
+      floorId: {
         type: 'number',
       },
-      site: {
+      branchId: {
+        type: 'number',
+      },
+      floorName: {
         type: 'string',
       },
-      floor: {
+      branchName: {
         type: 'string',
       },
     },

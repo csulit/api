@@ -46,7 +46,23 @@ export class CreateEventDTO {
   @IsDateString()
   readonly eventDate: string;
 
-  @ApiProperty()
+  @ApiProperty({
+    type: 'object',
+    properties: {
+      floorId: {
+        type: 'number',
+      },
+      branchId: {
+        type: 'number',
+      },
+      floorName: {
+        type: 'string',
+      },
+      branchName: {
+        type: 'string',
+      },
+    },
+  })
   @IsObject()
   readonly eventLocation: Record<string, any>;
 }
