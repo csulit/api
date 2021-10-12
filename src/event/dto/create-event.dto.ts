@@ -33,7 +33,8 @@ export class CreateEventDTO {
   readonly eventDescription?: string;
 
   @ApiProperty({
-    type: String,
+    type: Boolean,
+    required: false,
   })
   @IsBoolean()
   @Type(() => Boolean)
