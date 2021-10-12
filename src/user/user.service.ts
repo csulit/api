@@ -18,7 +18,7 @@ export class UserService {
             lastName: true,
             address: true,
             phoneNumber: true,
-            organization: true,
+            company: true,
           },
         },
         isLocked: true,

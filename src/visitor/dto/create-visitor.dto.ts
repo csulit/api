@@ -3,11 +3,15 @@ import { Type } from 'class-transformer';
 import {
   ArrayMinSize,
   IsArray,
+  IsBoolean,
   IsEmail,
   IsNotEmpty,
   IsOptional,
   IsString,
+  IsUUID,
+  ValidateNested,
 } from 'class-validator';
+import { BuildingDTO } from './building.dto';
 
 export class CreateVisitorDTO {
   @ApiProperty({
@@ -53,6 +57,7 @@ export class CreateVisitorDTO {
 
   @ApiProperty({
     type: String,
+    required: false,
   })
   @IsString()
   @IsNotEmpty()
@@ -61,6 +66,7 @@ export class CreateVisitorDTO {
 
   @ApiProperty({
     type: String,
+    required: false,
   })
   @IsString()
   @IsNotEmpty()
@@ -72,11 +78,11 @@ export class CreateVisitorDTO {
   })
   @IsString()
   @IsNotEmpty()
-  @IsOptional()
   readonly workType: string;
 
   @ApiProperty({
     type: String,
+    required: false,
   })
   @IsString()
   @IsNotEmpty()
@@ -85,6 +91,7 @@ export class CreateVisitorDTO {
 
   @ApiProperty({
     type: String,
+    required: false,
   })
   @IsString()
   @IsNotEmpty()
@@ -93,6 +100,7 @@ export class CreateVisitorDTO {
 
   @ApiProperty({
     type: String,
+    required: false,
   })
   @IsString()
   @IsNotEmpty()
@@ -102,24 +110,61 @@ export class CreateVisitorDTO {
   @ApiProperty({
     type: String,
   })
-  @IsString()
-  @IsNotEmpty()
-  @IsOptional()
+  @IsUUID()
   readonly eventId?: string;
 
-  @ApiProperty({ type: 'object', properties: {} })
+  @ApiProperty({
+    type: 'array',
+    items: {
+      type: 'object',
+      properties: {
+        floorId: {
+          type: 'number',
+        },
+        branchId: {
+          type: 'number',
+        },
+        floorName: {
+          type: 'string',
+        },
+        branchName: {
+          type: 'string',
+        },
+      },
+    },
+  })
   @IsArray()
   @ArrayMinSize(4)
-  readonly locations: Record<string, any>[];
+  @Type(() => BuildingDTO)
+  @ValidateNested({ each: true })
+  readonly locations: BuildingDTO[];
 
-  @ApiProperty({ type: 'object', properties: {} })
+  @ApiProperty({
+    type: 'array',
+    items: {
+      type: 'object',
+      properties: {},
+    },
+  })
   @IsArray()
   @ArrayMinSize(4)
   readonly answers: Record<string, any>[];
 
-  @ApiProperty({ type: 'object', properties: {} })
+  @ApiProperty({
+    type: 'array',
+    items: {
+      type: 'string',
+    },
+  })
   @IsArray()
   @ArrayMinSize(1)
   @Type(() => String)
   readonly symptoms: string[];
+
+  @ApiProperty({
+    type: String,
+  })
+  @IsBoolean()
+  @Type(() => Boolean)
+  readonly dataPrivacyPolicyIsAccepted: boolean;
 }

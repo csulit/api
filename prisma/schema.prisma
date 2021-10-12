@@ -29,14 +29,14 @@ model User {
 }
 
 model Profile {
-  id           String    @id @default(uuid())
-  user         User?
-  firstName    String    @db.VarChar(100)
-  lastName     String    @db.VarChar(100)
-  phoneNumber  String    @db.VarChar(100)
-  organization String    @db.VarChar(100)
-  address      String    @db.VarChar(255)
-  visits       Visitor[]
+  id          String    @id @default(uuid())
+  user        User?
+  firstName   String    @db.VarChar(100)
+  lastName    String    @db.VarChar(100)
+  phoneNumber String    @db.VarChar(100)
+  company     String    @db.VarChar(100)
+  address     String    @db.VarChar(255)
+  visits      Visitor[]
 
   @@map("profiles")
 }
@@ -71,6 +71,8 @@ model Visitor {
   guest                       Guest?
   eventId                     String?
   event                       Event?   @relation(fields: [eventId], references: [id])
+  workType                    String   @db.VarChar(100)
+  leaveType                   String?  @db.VarChar(100)
   travelHistory               String?
   dataPrivacyPolicyIsAccepted Boolean
   locations                   Json[]
@@ -82,14 +84,14 @@ model Visitor {
 }
 
 model Guest {
-  id                 String   @id @default(uuid())
-  visitorId          String   @unique
-  visitor            Visitor  @relation(fields: [visitorId], references: [id], onDelete: Cascade)
-  personToVisit      String   @db.VarChar(100)
-  personToVisitEmail String   @db.VarChar(100)
-  purposeOfVisit     String   @db.VarChar(100)
-  isApproved         Boolean  @default(false)
-  updatedAt          DateTime
+  id                 String    @id @default(uuid())
+  visitorId          String    @unique
+  visitor            Visitor   @relation(fields: [visitorId], references: [id], onDelete: Cascade)
+  personToVisit      String    @db.VarChar(100)
+  personToVisitEmail String    @db.VarChar(100)
+  purposeOfVisit     String    @db.VarChar(100)
+  isApproved         Boolean   @default(false)
+  updatedAt          DateTime?
 
   @@map("guests")
 }

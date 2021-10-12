@@ -228,7 +228,7 @@ export class AuthenticationService {
               lastName: true,
               address: true,
               phoneNumber: true,
-              organization: true,
+              company: true,
             },
           },
         },
