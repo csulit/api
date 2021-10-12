@@ -9,7 +9,7 @@ export class VisitorService {
   constructor(private prismaClientService: PrismaClientService) {}
 
   async createVisitor(data: CreateVisitorDTO) {
-    const { email, answers, symptoms } = data;
+    const { email, travelHistory, locations, answers, symptoms } = data;
 
     await this.prismaClientService.$transaction(async (prisma) => {
       let newUser: User;
@@ -35,11 +35,11 @@ export class VisitorService {
         data: {
           clear: visitorIsClear,
           user: { connect: { id: user?.id || newUser?.id } },
-          travelHistory: '',
+          travelHistory,
           dataPrivacyPolicyIsAccepted: true,
-          locations: [],
-          survey: [],
-          symptoms: [],
+          locations,
+          survey: answers,
+          symptoms,
         },
       });
 

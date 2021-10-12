@@ -57,6 +57,14 @@ export class CreateVisitorDTO {
   @IsString()
   @IsNotEmpty()
   @IsOptional()
+  readonly personToVisit?: string;
+
+  @ApiProperty({
+    type: String,
+  })
+  @IsString()
+  @IsNotEmpty()
+  @IsOptional()
   readonly leaveType?: string;
 
   @ApiProperty({
@@ -73,7 +81,7 @@ export class CreateVisitorDTO {
   @IsString()
   @IsNotEmpty()
   @IsOptional()
-  readonly personToVisit?: string;
+  readonly travelHistory?: string;
 
   @ApiProperty({
     type: String,
@@ -98,6 +106,11 @@ export class CreateVisitorDTO {
   @IsNotEmpty()
   @IsOptional()
   readonly eventId?: string;
+
+  @ApiProperty({ type: 'object', properties: {} })
+  @IsArray()
+  @ArrayMinSize(4)
+  readonly locations: Record<string, any>[];
 
   @ApiProperty({ type: 'object', properties: {} })
   @IsArray()

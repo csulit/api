@@ -71,7 +71,7 @@ model Visitor {
   guest                       Guest?
   eventId                     String?
   event                       Event?   @relation(fields: [eventId], references: [id])
-  travelHistory               String
+  travelHistory               String?
   dataPrivacyPolicyIsAccepted Boolean
   locations                   Json[]
   survey                      Json[]
