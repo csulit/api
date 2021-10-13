@@ -175,8 +175,32 @@ export class VisitorService {
     throw new BadRequestException('Luh... my error contact mo si gelo.');
   }
 
-  async lastVisit() {
-    return null;
+  async lastVisit(userId: string) {
+    return await this.prismaClientService.visitor.findFirst({
+      where: { user: { id: userId } },
+      select: {
+        id: true,
+        clear: true,
+        user: {
+          select: {
+            firstName: true,
+            lastName: true,
+            phoneNumber: true,
+            address: true,
+            company: true,
+          },
+        },
+        guest: true,
+        event: true,
+        travelHistory: true,
+        locations: true,
+        survey: true,
+        symptoms: true,
+      },
+      orderBy: {
+        createdAt: 'desc',
+      },
+    });
   }
 
   async clearVisitor(visitId: string) {
