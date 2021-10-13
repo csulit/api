@@ -1,13 +1,25 @@
-import { Controller, Get, Req, UseGuards } from '@nestjs/common';
 import {
+  Body,
+  Controller,
+  Get,
+  ParseUUIDPipe,
+  Post,
+  Query,
+  Req,
+  UseGuards,
+} from '@nestjs/common';
+import {
+  ApiBody,
   ApiCookieAuth,
   ApiOperation,
+  ApiQuery,
   ApiResponse,
   ApiTags,
 } from '@nestjs/swagger';
 import { Request } from 'express';
 import { JwtAuthGuard } from 'src/authentication/guard/jwt.guard';
 import { User } from './classes/user.classes';
+import { CreateQrCodeDTO } from './dto/create-qrcode.dto';
 import { UserService } from './user.service';
 
 @ApiTags('User')
@@ -33,5 +45,36 @@ export class UserController {
   @Get('me')
   me(@Req() req: Request) {
     return this.userService.getOneUser(req.user.id);
+  }
+
+  @ApiOperation({
+    summary: 'Qr codes',
+    description: 'Some description here...',
+  })
+  @ApiQuery({
+    type: 'uuid',
+    name: 'userId',
+  })
+  @ApiResponse({
+    status: 200,
+    description: 'User qr codes.',
+  })
+  @Get('qr-codes')
+  getQrCodes(@Query('userId', new ParseUUIDPipe()) userId: string) {
+    return this.userService.getQrCodes(userId);
+  }
+
+  @ApiOperation({
+    summary: 'Create qr code',
+    description: 'Some description here...',
+  })
+  @ApiBody({ type: CreateQrCodeDTO })
+  @ApiResponse({
+    status: 201,
+    description: 'Successfully created qr codes.',
+  })
+  @Post('qr-codes')
+  createQrCodes(@Req() req: Request, @Body() data: CreateQrCodeDTO) {
+    return this.userService.createQrCodes(req.user.id, data);
   }
 }

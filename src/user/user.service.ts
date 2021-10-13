@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaClientService } from 'src/prisma-client/prisma-client.service';
+import { CreateQrCodeDTO } from './dto/create-qrcode.dto';
 
 @Injectable()
 export class UserService {
@@ -23,6 +24,18 @@ export class UserService {
         },
         isLocked: true,
       },
+    });
+  }
+
+  async getQrCodes(userId: string) {
+    return await this.prismaClientService.userQrCode.findMany({
+      where: { userId },
+    });
+  }
+
+  async createQrCodes(userId: string, data: CreateQrCodeDTO) {
+    return await this.prismaClientService.userQrCode.create({
+      data: { user: { connect: { id: userId } }, ...data },
     });
   }
 }
