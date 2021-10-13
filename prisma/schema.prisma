@@ -78,6 +78,7 @@ model Visitor {
   locations                   Json[]
   survey                      Json[]
   symptoms                    String[]
+  date                        DateTime @default(now()) @db.Date
   createdAt                   DateTime @default(now())
 
   @@map("visitors")
