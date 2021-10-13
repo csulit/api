@@ -162,7 +162,7 @@ export class CreateVisitorDTO {
   readonly symptoms: string[];
 
   @ApiProperty({
-    type: String,
+    type: Boolean,
   })
   @IsBoolean()
   @Type(() => Boolean)
