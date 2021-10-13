@@ -136,7 +136,7 @@ export class CreateVisitorDTO {
     },
   })
   @IsArray()
-  @ArrayMinSize(4)
+  @ArrayMinSize(1)
   @Type(() => BuildingDTO)
   @ValidateNested({ each: true })
   readonly locations: BuildingDTO[];
@@ -149,7 +149,7 @@ export class CreateVisitorDTO {
     },
   })
   @IsArray()
-  @ArrayMinSize(1)
+  @ArrayMinSize(4)
   readonly answers: Record<string, any>[];
 
   @ApiProperty({
