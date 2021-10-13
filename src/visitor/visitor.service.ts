@@ -71,15 +71,17 @@ export class VisitorService {
           data: {
             email,
             password: hashedPassword,
-            profile: {
-              create: {
-                firstName,
-                lastName,
-                phoneNumber,
-                address,
-                company,
-              },
-            },
+          },
+        });
+
+        await prisma.profile.create({
+          data: {
+            user: { connect: user || newUser },
+            firstName,
+            lastName,
+            phoneNumber,
+            address,
+            company,
           },
         });
       }
