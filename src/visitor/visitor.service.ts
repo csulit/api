@@ -130,7 +130,10 @@ export class VisitorService {
           `,
         });
 
-        return null;
+        return {
+          message:
+            'You will received an email after he/she approved your visit.',
+        };
       }
 
       if (isEvent && visitorIsClear) {
@@ -155,7 +158,9 @@ export class VisitorService {
           body: `Test`,
         });
 
-        return null;
+        return {
+          message: "it's better to stay at home for now.",
+        };
       }
 
       await this.emailService.sendEmail({
@@ -167,7 +172,7 @@ export class VisitorService {
       return await this.visitDetails({ visitorId: visitor.id });
     });
 
-    throw new BadRequestException('Luh... my error');
+    throw new BadRequestException('Luh... my error contact mo si gelo.');
   }
 
   async lastVisit() {
