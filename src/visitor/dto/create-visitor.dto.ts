@@ -109,8 +109,10 @@ export class CreateVisitorDTO {
 
   @ApiProperty({
     type: String,
+    required: false,
   })
   @IsUUID()
+  @IsOptional()
   readonly eventId?: string;
 
   @ApiProperty({
