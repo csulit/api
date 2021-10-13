@@ -67,9 +67,12 @@ export class VisitorService {
     await this.prismaClientService.$transaction(async (prisma) => {
       let newUser: User;
       const user = await prisma.user.findUnique({ where: { email } });
+      const profile = await prisma.profile.findFirst({
+        where: { user: { id: user.id } },
+      });
 
-      // Check if user does not exists.
-      if (!user) {
+      // Check if user and profile does not exists.
+      if (!user && !profile) {
         const hashedPassword = await hash('Love2eat', 10);
 
         newUser = await prisma.user.create({
@@ -85,6 +88,20 @@ export class VisitorService {
                 company,
               },
             },
+          },
+        });
+      }
+
+      // User exists but no profile.
+      if (user && !profile) {
+        await prisma.profile.create({
+          data: {
+            user: { connect: { id: user.id || newUser.id } },
+            firstName,
+            lastName,
+            phoneNumber,
+            address,
+            company,
           },
         });
       }
