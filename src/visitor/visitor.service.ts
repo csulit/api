@@ -207,6 +207,10 @@ export class VisitorService {
     return await this.prismaClientService.visitor.update({
       where: { id: visitId },
       data: { clear: true },
+      select: {
+        id: true,
+        clear: true,
+      },
     });
   }
 }

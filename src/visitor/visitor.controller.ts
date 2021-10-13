@@ -3,16 +3,20 @@ import {
   Controller,
   Get,
   ParseUUIDPipe,
+  Patch,
   Post,
   Query,
+  UseGuards,
 } from '@nestjs/common';
 import {
   ApiBody,
+  ApiCookieAuth,
   ApiOperation,
   ApiQuery,
   ApiResponse,
   ApiTags,
 } from '@nestjs/swagger';
+import { JwtAuthGuard } from 'src/authentication/guard/jwt.guard';
 import { CreateVisitorDTO } from './dto/create-visitor.dto';
 import { VisitorService } from './visitor.service';
 
@@ -54,5 +58,24 @@ export class VisitorController {
   @Post()
   createVisitor(@Body() data: CreateVisitorDTO) {
     return this.visitorService.createVisitor(data);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @ApiCookieAuth()
+  @ApiOperation({
+    summary: 'Clear last visit',
+    description: 'Some description here...',
+  })
+  @ApiQuery({
+    type: 'uuid',
+    name: 'visitId',
+  })
+  @ApiResponse({
+    status: 200,
+    description: 'Cleared visitor last visit.',
+  })
+  @Patch('clear')
+  clearVisitor(@Query('visitId', new ParseUUIDPipe()) visitId: string) {
+    return this.visitorService.clearVisitor(visitId);
   }
 }
