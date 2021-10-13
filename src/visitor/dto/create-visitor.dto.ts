@@ -149,7 +149,7 @@ export class CreateVisitorDTO {
     },
   })
   @IsArray()
-  @ArrayMinSize(4)
+  @ArrayMinSize(1)
   readonly answers: Record<string, any>[];
 
   @ApiProperty({
