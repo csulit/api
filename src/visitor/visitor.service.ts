@@ -26,11 +26,16 @@ export class VisitorService {
         clear: true,
         user: {
           select: {
-            firstName: true,
-            lastName: true,
-            phoneNumber: true,
-            address: true,
-            company: true,
+            email: true,
+            profile: {
+              select: {
+                firstName: true,
+                lastName: true,
+                phoneNumber: true,
+                address: true,
+                company: true,
+              },
+            },
           },
         },
         guest: guest,
@@ -71,17 +76,15 @@ export class VisitorService {
           data: {
             email,
             password: hashedPassword,
-          },
-        });
-
-        await prisma.profile.create({
-          data: {
-            user: { connect: user || newUser },
-            firstName,
-            lastName,
-            phoneNumber,
-            address,
-            company,
+            profile: {
+              create: {
+                firstName,
+                lastName,
+                phoneNumber,
+                address,
+                company,
+              },
+            },
           },
         });
       }
@@ -185,11 +188,16 @@ export class VisitorService {
         clear: true,
         user: {
           select: {
-            firstName: true,
-            lastName: true,
-            phoneNumber: true,
-            address: true,
-            company: true,
+            email: true,
+            profile: {
+              select: {
+                firstName: true,
+                lastName: true,
+                phoneNumber: true,
+                address: true,
+                company: true,
+              },
+            },
           },
         },
         guest: true,

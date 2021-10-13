@@ -17,6 +17,7 @@ model User {
   profile                  Profile?     @relation(fields: [profileId], references: [id])
   OtpCodes                 OtpCode[]
   qrCodes                  UserQrCode[]
+  visits                   Visitor[]
   crmAccess                Boolean      @default(false)
   refreshToken             String?      @unique
   refreshTokenRevoked      Boolean      @default(false)
@@ -29,14 +30,13 @@ model User {
 }
 
 model Profile {
-  id          String    @id @default(uuid())
+  id          String @id @default(uuid())
   user        User?
-  firstName   String    @db.VarChar(100)
-  lastName    String    @db.VarChar(100)
-  phoneNumber String    @db.VarChar(100)
-  company     String    @db.VarChar(100)
-  address     String    @db.VarChar(255)
-  visits      Visitor[]
+  firstName   String @db.VarChar(100)
+  lastName    String @db.VarChar(100)
+  phoneNumber String @db.VarChar(100)
+  company     String @db.VarChar(100)
+  address     String @db.VarChar(255)
 
   @@map("profiles")
 }
@@ -65,9 +65,9 @@ model UserQrCode {
 
 model Visitor {
   id                          String   @id @default(uuid())
-  profileId                   String
   clear                       Boolean  @default(true)
-  user                        Profile  @relation(fields: [profileId], references: [id], onDelete: Cascade)
+  userId                      String
+  user                        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   guest                       Guest?
   eventId                     String?
   event                       Event?   @relation(fields: [eventId], references: [id])
