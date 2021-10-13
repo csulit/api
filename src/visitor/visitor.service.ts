@@ -212,7 +212,7 @@ export class VisitorService {
       });
 
       await this.emailService.sendEmail({
-        to: 'christian.sulit@kmc.solutions',
+        to: email,
         subject: 'May visitor ka teh!',
         body: `Test`,
       });
