@@ -71,7 +71,7 @@ model Visitor {
   guest                       Guest?
   eventId                     String?
   event                       Event?   @relation(fields: [eventId], references: [id])
-  workType                    String   @db.VarChar(100)
+  workType                    String?  @db.VarChar(100)
   leaveType                   String?  @db.VarChar(100)
   travelHistory               String?
   dataPrivacyPolicyIsAccepted Boolean
