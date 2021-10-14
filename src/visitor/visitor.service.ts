@@ -1,5 +1,5 @@
 import { Prisma, User } from '.prisma/client';
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { hash } from 'bcrypt';
 import { EmailService } from 'src/email/email.service';
 import { PrismaClientService } from 'src/prisma-client/prisma-client.service';
@@ -65,6 +65,20 @@ export class VisitorService {
       dataPrivacyPolicyIsAccepted,
     } = data;
 
+    const lastVisitIsNotClear =
+      await this.prismaClientService.visitor.findFirst({
+        where: { AND: [{ user: { email } }, { clear: false }] },
+        orderBy: {
+          createdAt: 'desc',
+        },
+      });
+
+    if (lastVisitIsNotClear) {
+      throw new BadRequestException(
+        'Your last visit is not yet cleared by the admin.',
+      );
+    }
+
     const hasVisitToday = await this.prismaClientService.visitor.findFirst({
       where: {
         AND: [
@@ -105,8 +119,6 @@ export class VisitorService {
     });
 
     if (hasVisitToday) {
-      console.log('hhehe');
-
       return hasVisitToday;
     }
 

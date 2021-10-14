@@ -75,9 +75,11 @@ export class CreateVisitorDTO {
 
   @ApiProperty({
     type: String,
+    required: false,
   })
   @IsString()
   @IsNotEmpty()
+  @IsOptional()
   readonly workType: string;
 
   @ApiProperty({
@@ -117,6 +119,7 @@ export class CreateVisitorDTO {
 
   @ApiProperty({
     type: 'array',
+    required: false,
     items: {
       type: 'object',
       properties: {
@@ -144,6 +147,7 @@ export class CreateVisitorDTO {
 
   @ApiProperty({
     type: 'array',
+    required: false,
     items: {
       type: 'object',
       properties: {},
@@ -156,6 +160,7 @@ export class CreateVisitorDTO {
 
   @ApiProperty({
     type: 'array',
+    required: false,
     items: {
       type: 'string',
     },
