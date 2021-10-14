@@ -184,10 +184,10 @@ export class VisitorService {
         user: { connect: { id: newUser?.id || user?.id } },
         travelHistory,
         workType,
-        leaveType: data?.leaveType || null,
+        leaveType: data?.leaveType,
         locations: locations as unknown as Prisma.JsonArray,
         survey: answers,
-        symptoms,
+        symptoms: symptoms,
         dataPrivacyPolicyIsAccepted,
       },
     });
