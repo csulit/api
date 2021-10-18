@@ -64,6 +64,44 @@ export class VisitorService {
       dataPrivacyPolicyIsAccepted,
     } = data;
 
+    let newUser: User;
+
+    const user = await this.prismaClientService.user.findUnique({
+      where: { email },
+    });
+
+    // Check if user and profile does not exists.
+    if (!user) {
+      const hashedPassword = await hash('Love2eat', 10);
+
+      newUser = await this.prismaClientService.user.create({
+        data: {
+          email,
+          password: hashedPassword,
+          profile: {
+            create: {
+              firstName,
+              lastName,
+              phoneNumber,
+              address,
+              company,
+            },
+          },
+        },
+      });
+
+      await this.prismaClientService.profile.create({
+        data: {
+          user: { connect: { id: user?.id || newUser?.id } },
+          firstName,
+          lastName,
+          phoneNumber,
+          address,
+          company,
+        },
+      });
+    }
+
     const lastVisitIsNotClear =
       await this.prismaClientService.visitor.findFirst({
         where: { AND: [{ user: { email } }, { clear: false }] },
@@ -121,50 +159,6 @@ export class VisitorService {
       return hasVisitToday;
     }
 
-    let newUser: User;
-
-    const user = await this.prismaClientService.user.findUnique({
-      where: { email },
-    });
-    const profile = await this.prismaClientService.profile.findFirst({
-      where: { user: { id: user?.id } },
-    });
-
-    // Check if user and profile does not exists.
-    if (!user && !profile) {
-      const hashedPassword = await hash('Love2eat', 10);
-
-      newUser = await this.prismaClientService.user.create({
-        data: {
-          email,
-          password: hashedPassword,
-          profile: {
-            create: {
-              firstName,
-              lastName,
-              phoneNumber,
-              address,
-              company,
-            },
-          },
-        },
-      });
-    }
-
-    // User exists but no profile.
-    if (user && !profile) {
-      await this.prismaClientService.profile.create({
-        data: {
-          user: { connect: { id: user.id || newUser.id } },
-          firstName,
-          lastName,
-          phoneNumber,
-          address,
-          company,
-        },
-      });
-    }
-
     const hasSymptoms =
       symptoms.length > 1 || symptoms[0] !== 'None of the above';
     const answeredYes =
@@ -212,7 +206,7 @@ export class VisitorService {
       });
 
       return {
-        message: 'You will received an email after he/she approved your visit.',
+        message: 'You will received an email after your visit is approved.',
       };
     }
 
