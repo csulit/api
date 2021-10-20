@@ -7,10 +7,21 @@ import { CreateVisitorDTO } from './dto/create-visitor.dto';
 
 @Injectable()
 export class VisitorService {
+  private titleHead: string;
+
   constructor(
     private prismaClientService: PrismaClientService,
     private emailService: EmailService,
-  ) {}
+  ) {
+    this.titleHead = `
+      <p>
+        In light of the recent news concerning the COVID-19 virus, KMC Solutions will be taking further additional steps to ensure the safety and health of the KMC Community. Kindly fill out our self-declaration form for visitors and members to declare recent travel and health status. For our Privacy Policy Statement, please click the link - https://kmc.solutions/privacy-policy
+      </p>
+      <p>
+        I hereby authorize KMC Solutions to collect and process the data indicated herein for the purpose of effecting control of the COVID-19 infection. I understand that my personal information is protected by RA 10173, Data Privacy Act of 2012, and that I am required by RA 11469, Bayanihan to Heal as One Act, to provide truthful information.
+      </p>
+    `;
+  }
 
   private async visitDetails(data: {
     visitorId: string;
@@ -218,7 +229,7 @@ export class VisitorService {
 
       await this.emailService.sendEmail({
         to: email,
-        subject: 'May visitor ka teh!',
+        subject: 'You have a visitor',
         body: `Test`,
       });
 
@@ -228,7 +239,7 @@ export class VisitorService {
     if (!visitorIsClear) {
       await this.emailService.sendEmail({
         to: 'christian.sulit@kmc.solutions',
-        subject: 'May covid ata to teh!',
+        subject: 'Stay at home',
         body: `Test`,
       });
 
@@ -239,8 +250,34 @@ export class VisitorService {
 
     await this.emailService.sendEmail({
       to: email,
-      subject: 'Visitor details!',
-      body: `Test`,
+      subject: 'Member',
+      body: `
+      ${this.titleHead}
+
+      <p>
+        <b>Date of Visit:</b> 2021-09-07
+      </p>
+
+      <p>
+        <b>Full Name:</b> ${firstName} ${lastName}
+      </p>
+
+      <p>
+        <b>Email:</b> ${email}
+      </p>
+
+      <p>
+       <b>Company:</b> ${company}
+      </p>
+
+      <p>
+        <b>Site:</b> ${1}
+      </p>
+
+      <p>
+        <b>Status:</b> ${visitor.clear ? 'Clear' : 'Not clear'}
+      </p>
+      `,
     });
 
     return await this.visitDetails({ visitorId: visitor.id });
