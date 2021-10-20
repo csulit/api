@@ -176,8 +176,7 @@ export class VisitorService {
       return hasVisitToday;
     }
 
-    const hasNoSymptoms =
-      symptoms.length > 1 || symptoms[0] === 'None of the above';
+    const hasNoSymptoms = symptoms[0] === 'None of the above';
     const answeredYes =
       answers.filter((ans) => ans?.value === 'Yes').length < 1;
 
