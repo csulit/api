@@ -95,18 +95,11 @@ export class VisitorService {
         data: {
           email,
           password: hashedPassword,
-          profile: {
-            create: {
-              firstName,
-              lastName,
-              phoneNumber,
-              address,
-              company,
-            },
-          },
         },
       });
+    }
 
+    if (!user?.profileId) {
       await this.prismaClientService.profile.create({
         data: {
           user: { connect: { id: user?.id || newUser?.id } },
