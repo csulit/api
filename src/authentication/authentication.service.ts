@@ -204,7 +204,7 @@ export class AuthenticationService {
 
     await this.emailService.sendEmail({
       to: otpCode.user.email,
-      copy: 'christian.sulit@kmc.solutions',
+      //copy: 'christian.sulit@kmc.solutions',
       subject: 'HDF OTP CODE',
       body: `OTP code: <b>${otpCode.otp}</b>`,
     });
