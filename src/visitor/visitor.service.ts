@@ -171,7 +171,7 @@ export class VisitorService {
     }
 
     const hasSymptoms =
-      symptoms.length > 1 || symptoms[0] !== 'None of the above';
+      symptoms.length >= 1 || symptoms[0] !== 'None of the above';
     const answeredYes =
       answers.filter((ans) => ans?.value === 'Yes').length < 1;
 
