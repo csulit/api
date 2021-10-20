@@ -81,6 +81,12 @@ export class VisitorService {
       where: { email },
     });
 
+    if (user.isLocked) {
+      throw new BadRequestException(
+        'You are not allowed to enter any kmc premises.',
+      );
+    }
+
     // Check if user and profile does not exists.
     if (!user) {
       const hashedPassword = await hash('Love2eat', 10);
@@ -171,7 +177,7 @@ export class VisitorService {
     }
 
     const hasSymptoms =
-      symptoms.length >= 1 || symptoms[0] !== 'None of the above';
+      symptoms.length > 1 || symptoms[0] === 'None of the above';
     const answeredYes =
       answers.filter((ans) => ans?.value === 'Yes').length < 1;
 
