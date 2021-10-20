@@ -180,7 +180,7 @@ export class VisitorService {
     const answeredYes =
       answers.filter((ans) => ans?.value === 'Yes').length < 1;
 
-    const visitorIsClear = hasNoSymptoms || answeredYes;
+    const visitorIsClear = hasNoSymptoms && answeredYes;
 
     const isGuest =
       data?.personToVisit && data?.personVisitEmail && data?.purposeOfVisit;
