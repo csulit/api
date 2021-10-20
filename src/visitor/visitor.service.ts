@@ -176,12 +176,12 @@ export class VisitorService {
       return hasVisitToday;
     }
 
-    const hasSymptoms =
+    const hasNoSymptoms =
       symptoms.length > 1 || symptoms[0] === 'None of the above';
     const answeredYes =
       answers.filter((ans) => ans?.value === 'Yes').length < 1;
 
-    const visitorIsClear = hasSymptoms || answeredYes;
+    const visitorIsClear = hasNoSymptoms || answeredYes;
 
     const isGuest =
       data?.personToVisit && data?.personVisitEmail && data?.purposeOfVisit;
