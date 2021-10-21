@@ -268,6 +268,7 @@ export class VisitorService {
        <b>Company:</b> ${company}
       </p>
 
+      <b>Site:</b>
       <ul>
       ${visitor?.locations.map(
         (site) => `
