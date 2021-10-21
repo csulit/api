@@ -268,9 +268,13 @@ export class VisitorService {
        <b>Company:</b> ${company}
       </p>
 
-      <p>
-        <b>Site:</b> ${1}
-      </p>
+      <ul>
+      ${visitor?.locations.map(
+        (site) => `
+        <li>${site['branchName']} ${site['floorName']}</li>
+      `,
+      )}
+      </ul>
 
       <p>
         <b>Status:</b> ${visitor.clear ? 'Clear' : 'Not clear'}
