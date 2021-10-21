@@ -227,6 +227,7 @@ export class VisitorService {
 
       await this.emailService.sendEmail({
         to: email,
+        copy: 'christian.sulit@kmc.solutions',
         subject: 'You have a visitor',
         body: `Test`,
       });
@@ -254,6 +255,10 @@ export class VisitorService {
 
       <p>
         <b>Date of Visit:</b> 2021-09-07
+      </p>
+
+      <p>
+        <b>Status:</b> Clear
       </p>
 
       <p>

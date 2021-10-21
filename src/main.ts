@@ -32,7 +32,11 @@ async function bootstrap() {
   );
 
   app.enableCors({
-    origin: ['http://localhost:3000', 'https://app-jayzur.herokuapp.com'],
+    origin: [
+      'http://localhost:3000',
+      'https://app-jayzur.herokuapp.com',
+      'https://hdf-8svj2.ondigitalocean.app',
+    ],
     methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS', 'HEAD'],
     credentials: true,
   });
