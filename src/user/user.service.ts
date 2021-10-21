@@ -41,8 +41,13 @@ export class UserService {
   }
 
   async updateProfile(userId: string, data: UpdateProfileDTO) {
-    return await this.prismaClientService.profile.update({
+    const user = await this.prismaClientService.user.findUnique({
       where: { id: userId },
+      select: { profile: true },
+    });
+
+    return await this.prismaClientService.profile.update({
+      where: { id: user.profile.id },
       data,
     });
   }
