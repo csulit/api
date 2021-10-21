@@ -3,6 +3,7 @@ import {
   Controller,
   Get,
   ParseUUIDPipe,
+  Patch,
   Post,
   Query,
   Req,
@@ -76,5 +77,18 @@ export class UserController {
   @Post('qr-codes')
   createQrCodes(@Req() req: Request, @Body() data: CreateQrCodeDTO) {
     return this.userService.createQrCodes(req.user.id, data);
+  }
+
+  @ApiOperation({
+    summary: 'Update user profile',
+    description: 'Some description here...',
+  })
+  @ApiResponse({
+    status: 200,
+    description: 'Successfully updated user profile.',
+  })
+  @Patch('profile')
+  updateProfile(@Req() req: Request, @Body() data: any) {
+    return this.userService.updateProfile(req.user.id, data);
   }
 }

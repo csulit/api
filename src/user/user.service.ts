@@ -38,4 +38,11 @@ export class UserService {
       data: { user: { connect: { id: userId } }, ...data },
     });
   }
+
+  async updateProfile(userId: string, data: any) {
+    return await this.prismaClientService.profile.update({
+      where: { id: userId },
+      data,
+    });
+  }
 }
