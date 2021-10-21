@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaClientService } from 'src/prisma-client/prisma-client.service';
 import { CreateQrCodeDTO } from './dto/create-qrcode.dto';
+import { UpdateProfileDTO } from './dto/update-profile.dto';
 
 @Injectable()
 export class UserService {
@@ -39,7 +40,7 @@ export class UserService {
     });
   }
 
-  async updateProfile(userId: string, data: any) {
+  async updateProfile(userId: string, data: UpdateProfileDTO) {
     return await this.prismaClientService.profile.update({
       where: { id: userId },
       data,

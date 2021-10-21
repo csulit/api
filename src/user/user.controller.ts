@@ -21,6 +21,7 @@ import { Request } from 'express';
 import { JwtAuthGuard } from 'src/authentication/guard/jwt.guard';
 import { User } from './classes/user.classes';
 import { CreateQrCodeDTO } from './dto/create-qrcode.dto';
+import { UpdateProfileDTO } from './dto/update-profile.dto';
 import { UserService } from './user.service';
 
 @ApiTags('User')
@@ -83,12 +84,13 @@ export class UserController {
     summary: 'Update user profile',
     description: 'Some description here...',
   })
+  @ApiBody({ type: UpdateProfileDTO })
   @ApiResponse({
     status: 200,
     description: 'Successfully updated user profile.',
   })
   @Patch('profile')
-  updateProfile(@Req() req: Request, @Body() data: any) {
+  updateProfile(@Req() req: Request, @Body() data: UpdateProfileDTO) {
     return this.userService.updateProfile(req.user.id, data);
   }
 }
