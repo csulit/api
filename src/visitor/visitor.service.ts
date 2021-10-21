@@ -1,6 +1,7 @@
 import { Prisma, User } from '.prisma/client';
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { hash } from 'bcrypt';
+import { format } from 'date-fns';
 import { EmailService } from 'src/email/email.service';
 import { PrismaClientService } from 'src/prisma-client/prisma-client.service';
 import { CreateVisitorDTO } from './dto/create-visitor.dto';
@@ -224,7 +225,9 @@ export class VisitorService {
             <p>Name: ${firstName} ${lastName}</p>
             <p>Purpose of visit: ${data.purposeOfVisit}</p>
             ${siteLocation()}
-            <p>Approval link: ${123}</p>
+            <p>Approval link: https://hdf-8svj2.ondigitalocean.app/guest?session=approval&visitorId=${
+              visitor.id
+            }</p>
           `,
       });
 
@@ -272,7 +275,10 @@ export class VisitorService {
       ${this.titleHead}
 
       <p>
-        <b>Date of Visit:</b> 2021-09-07
+        <b>Date of Visit:</b> ${format(
+          new Date(visitor.createdAt),
+          'MM-dd-yyyy',
+        )}
       </p>
 
       <p>
