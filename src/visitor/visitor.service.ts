@@ -222,6 +222,12 @@ export class VisitorService {
         to: data.personVisitEmail,
         subject: 'You have a visitor!',
         body: `
+            <p>
+              <b>Date of Visit:</b> ${format(
+                new Date(visitor.createdAt),
+                'MM-dd-yyyy',
+              )}
+            </p>
             <p>Name: ${firstName} ${lastName}</p>
             <p>Purpose of visit: ${data.purposeOfVisit}</p>
             ${siteLocation()}
@@ -242,11 +248,26 @@ export class VisitorService {
         data: { event: { connect: { id: isEvent } } },
       });
 
+      const { eventName } = await this.prismaClientService.event.findUnique({
+        where: { id: isEvent },
+      });
+
       await this.emailService.sendEmail({
         to: email,
         copy: 'christian.sulit@kmc.solutions',
         subject: 'You have a visitor',
         body: `
+          <p>
+            <b>Date of Visit:</b> ${format(
+              new Date(visitor.createdAt),
+              'MM-dd-yyyy',
+            )}
+          </p>
+          <p>
+            <b>Status:</b> Clear
+          </p>
+          <p>Name: ${firstName} ${lastName}</p>
+          <p><b>Event name:</b> ${eventName}</p>
           ${siteLocation()}
         `,
       });
@@ -272,36 +293,29 @@ export class VisitorService {
       to: email,
       subject: 'Member',
       body: `
-      ${this.titleHead}
-
-      <p>
-        <b>Date of Visit:</b> ${format(
-          new Date(visitor.createdAt),
-          'MM-dd-yyyy',
-        )}
-      </p>
-
-      <p>
-        <b>Status:</b> Clear
-      </p>
-
-      <p>
-        <b>Full Name:</b> ${firstName} ${lastName}
-      </p>
-
-      <p>
-        <b>Email:</b> ${email}
-      </p>
-
-      <p>
-       <b>Company:</b> ${company}
-      </p>
-
-      ${siteLocation()}
-
-      <p>
-        <b>Status:</b> ${visitor.clear ? 'Clear' : 'Not clear'}
-      </p>
+        ${this.titleHead}
+        <p>
+          <b>Date of Visit:</b> ${format(
+            new Date(visitor.createdAt),
+            'MM-dd-yyyy',
+          )}
+        </p>
+        <p>
+          <b>Status:</b> Clear
+        </p>
+        <p>
+          <b>Full Name:</b> ${firstName} ${lastName}
+        </p>
+        <p>
+          <b>Email:</b> ${email}
+        </p>
+        <p>
+        <b>Company:</b> ${company}
+        </p>
+        ${siteLocation()}
+        <p>
+          <b>Status:</b> ${visitor.clear ? 'Clear' : 'Not clear'}
+        </p>
       `,
     });
 
