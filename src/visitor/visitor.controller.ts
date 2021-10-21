@@ -18,6 +18,8 @@ import {
 } from '@nestjs/swagger';
 import { JwtAuthGuard } from 'src/authentication/guard/jwt.guard';
 import { CreateVisitorDTO } from './dto/create-visitor.dto';
+import { GuestApprovalBodyDTO } from './dto/guest-approval-body.dto';
+import { GuestApprovalQueryDTO } from './dto/guest-approval-query.dto';
 import { VisitorService } from './visitor.service';
 
 @ApiTags('Visitor')
@@ -58,6 +60,22 @@ export class VisitorController {
   @Post()
   createVisitor(@Body() data: CreateVisitorDTO) {
     return this.visitorService.createVisitor(data);
+  }
+
+  @ApiOperation({
+    summary: 'Guest approval',
+    description: 'Some description here...',
+  })
+  @ApiResponse({
+    status: 200,
+    description: 'Approval action accepted.',
+  })
+  @Patch('guest-approval')
+  guestApproval(
+    @Query() { visitorId }: GuestApprovalQueryDTO,
+    @Body() { isApproved }: GuestApprovalBodyDTO,
+  ) {
+    return this.visitorService.guestApproval(visitorId, isApproved);
   }
 
   @UseGuards(JwtAuthGuard)

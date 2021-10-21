@@ -8,14 +8,14 @@ export class BuildingDTO {
   })
   @IsNumber()
   @Type(() => Number)
-  readonly floorId: string;
+  readonly floorId: number;
 
   @ApiProperty({
     type: Number,
   })
   @IsNumber()
   @Type(() => Number)
-  readonly branchId: string;
+  readonly branchId: number;
 
   @ApiProperty({
     type: String,

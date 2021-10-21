@@ -169,6 +169,19 @@ export class VisitorService {
       return hasVisitToday;
     }
 
+    function siteLocation() {
+      if (!visitor?.locations.length) return null;
+
+      return `
+        <b>Site:</b>
+        <ul>
+          ${visitor?.locations.map((site) => {
+            return `<li>${site['branchName']} ${site['floorName']}</li>`;
+          })}
+        </ul>
+      `;
+    }
+
     const hasNoSymptoms = symptoms[0] === 'None of the above';
     const answeredYes =
       answers.filter((ans) => ans?.value === 'Yes').length < 1;
@@ -210,6 +223,7 @@ export class VisitorService {
         body: `
             <p>Name: ${firstName} ${lastName}</p>
             <p>Purpose of visit: ${data.purposeOfVisit}</p>
+            ${siteLocation()}
             <p>Approval link: ${123}</p>
           `,
       });
@@ -229,7 +243,9 @@ export class VisitorService {
         to: email,
         copy: 'christian.sulit@kmc.solutions',
         subject: 'You have a visitor',
-        body: `Test`,
+        body: `
+          ${siteLocation()}
+        `,
       });
 
       return await this.visitDetails({ visitorId: visitor.id, event: true });
@@ -239,7 +255,9 @@ export class VisitorService {
       await this.emailService.sendEmail({
         to: 'christian.sulit@kmc.solutions',
         subject: 'Stay at home',
-        body: `Test`,
+        body: `
+         ${siteLocation()}
+        `,
       });
 
       return {
@@ -273,12 +291,7 @@ export class VisitorService {
        <b>Company:</b> ${company}
       </p>
 
-      <b>Site:</b>
-      <ul>
-      ${visitor?.locations.map((site) => {
-        return `<li>${site['branchName']} ${site['floorName']}</li>`;
-      })}
-      </ul>
+      ${siteLocation()}
 
       <p>
         <b>Status:</b> ${visitor.clear ? 'Clear' : 'Not clear'}
@@ -320,6 +333,48 @@ export class VisitorService {
         createdAt: 'desc',
       },
     });
+  }
+
+  async guestApproval(visitorId: string, isApproved: boolean) {
+    const { visitor } = await this.prismaClientService.guest.findFirst({
+      where: { visitor: { id: visitorId } },
+      select: {
+        isApproved: true,
+        visitor: {
+          select: {
+            user: {
+              select: {
+                email: true,
+              },
+            },
+          },
+        },
+      },
+    });
+
+    const guest = await this.prismaClientService.visitor.update({
+      where: { id: visitorId },
+      data: {
+        guest: {
+          update: {
+            isApproved,
+          },
+        },
+      },
+    });
+
+    if (isApproved) {
+      await this.emailService.sendEmail({
+        to: visitor.user.email,
+        copy: 'christian.sulit@kmc.solutions',
+        subject: 'Visit approved!',
+        body: `
+          Test
+        `,
+      });
+    }
+
+    return guest;
   }
 
   async clearVisitor(visitId: string) {
