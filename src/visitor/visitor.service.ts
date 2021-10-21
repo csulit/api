@@ -280,7 +280,25 @@ export class VisitorService {
         to: 'christian.sulit@kmc.solutions',
         subject: 'Stay at home',
         body: `
-         ${siteLocation()}
+          <p>
+            <b>Date of Visit:</b> ${format(
+              new Date(visitor.createdAt),
+              'MM-dd-yyyy',
+            )}
+          </p>
+          <p>
+            <b>Status:</b> Unclear
+          </p>
+          <p>
+            <b>Full Name:</b> ${firstName} ${lastName}
+          </p>
+          <p>
+            <b>Email:</b> ${email}
+          </p>
+          <p>
+            <b>Company:</b> ${company}
+          </p>
+          ${siteLocation()}
         `,
       });
 
@@ -313,9 +331,6 @@ export class VisitorService {
         <b>Company:</b> ${company}
         </p>
         ${siteLocation()}
-        <p>
-          <b>Status:</b> ${visitor.clear ? 'Clear' : 'Not clear'}
-        </p>
       `,
     });
 
