@@ -270,11 +270,9 @@ export class VisitorService {
 
       <b>Site:</b>
       <ul>
-      ${visitor?.locations.map(
-        (site) => `
-        <li>${site['branchName']} ${site['floorName']}</li>
-      `,
-      )}
+      ${visitor?.locations.map((site) => {
+        return `<li>${site['branchName']} ${site['floorName']}</li>`;
+      })}
       </ul>
 
       <p>
