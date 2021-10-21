@@ -2,6 +2,7 @@ import {
   Body,
   Controller,
   Get,
+  Param,
   ParseUUIDPipe,
   Patch,
   Post,
@@ -12,6 +13,7 @@ import {
   ApiBody,
   ApiCookieAuth,
   ApiOperation,
+  ApiParam,
   ApiQuery,
   ApiResponse,
   ApiTags,
@@ -20,12 +22,37 @@ import { JwtAuthGuard } from 'src/authentication/guard/jwt.guard';
 import { CreateVisitorDTO } from './dto/create-visitor.dto';
 import { GuestApprovalBodyDTO } from './dto/guest-approval-body.dto';
 import { GuestApprovalQueryDTO } from './dto/guest-approval-query.dto';
+import { VisitType, VisitTypeQueryDTO } from './dto/visit-type.dto';
 import { VisitorService } from './visitor.service';
 
 @ApiTags('Visitor')
 @Controller('visitors')
 export class VisitorController {
   constructor(private readonly visitorService: VisitorService) {}
+
+  @ApiOperation({
+    summary: 'Get one visit',
+    description: 'Some description here...',
+  })
+  @ApiParam({
+    name: 'visitorId',
+    type: 'uuid',
+  })
+  @ApiResponse({
+    status: 200,
+    description: 'Visit details.',
+  })
+  @Get('visit/:visitorId')
+  getOneVisit(
+    @Param('visitorId', new ParseUUIDPipe()) visitorId: string,
+    @Query() { type }: VisitTypeQueryDTO,
+  ) {
+    return this.visitorService.getOneVisit({
+      visitorId,
+      event: type === VisitType.Event,
+      guest: type === VisitType.Guest,
+    });
+  }
 
   @ApiOperation({
     summary: 'Last visit',

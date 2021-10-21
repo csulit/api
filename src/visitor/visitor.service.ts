@@ -24,7 +24,7 @@ export class VisitorService {
     `;
   }
 
-  private async visitDetails(data: {
+  async getOneVisit(data: {
     visitorId: string;
     guest?: boolean;
     event?: boolean;
@@ -272,7 +272,7 @@ export class VisitorService {
         `,
       });
 
-      return await this.visitDetails({ visitorId: visitor.id, event: true });
+      return await this.getOneVisit({ visitorId: visitor.id, event: true });
     }
 
     if (!visitorIsClear) {
@@ -334,7 +334,7 @@ export class VisitorService {
       `,
     });
 
-    return await this.visitDetails({ visitorId: visitor.id });
+    return await this.getOneVisit({ visitorId: visitor.id });
   }
 
   async lastVisit(userId: string) {
