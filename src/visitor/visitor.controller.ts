@@ -30,6 +30,8 @@ import { VisitorService } from './visitor.service';
 export class VisitorController {
   constructor(private readonly visitorService: VisitorService) {}
 
+  @UseGuards(JwtAuthGuard)
+  @ApiCookieAuth()
   @ApiOperation({
     summary: 'Get one visit',
     description: 'Some description here...',
@@ -54,6 +56,8 @@ export class VisitorController {
     });
   }
 
+  @UseGuards(JwtAuthGuard)
+  @ApiCookieAuth()
   @ApiOperation({
     summary: 'Last visit',
     description: 'Some description here...',
@@ -71,6 +75,8 @@ export class VisitorController {
     return this.visitorService.lastVisit(userId);
   }
 
+  @UseGuards(JwtAuthGuard)
+  @ApiCookieAuth()
   @ApiOperation({
     summary: 'Create visit',
     description: 'Some description here...',
