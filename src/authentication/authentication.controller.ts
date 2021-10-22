@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Get,
   HttpCode,
   Post,
   Req,
@@ -22,6 +23,7 @@ import { EmailDTO } from './dto/email.dto';
 import { LoginUserDTO } from './dto/login.dto';
 import { OtpAuthDTO } from './dto/otp-auth.dto';
 import { RegisterUserDTO } from './dto/register.dto';
+import { JwtAuthGuard } from './guard/jwt.guard';
 import { LocalAuthGuard } from './guard/local.auth.guard';
 
 @ApiTags('Authentication')
@@ -55,6 +57,29 @@ export class AuthenticationController {
     return {
       id,
       email,
+    };
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @ApiCookieAuth()
+  @ApiOperation({
+    summary: 'Jwt session check',
+    description: 'Will check if their is a valid user session.',
+  })
+  @ApiResponse({
+    status: 200,
+    description: 'Jwt session successfully validated.',
+  })
+  @ApiResponse({
+    status: 401,
+    description: 'No jwt session detected.',
+  })
+  @Get('jwt-session')
+  checkJwtSession(@Req() req: Request) {
+    return {
+      id: req.user.id,
+      email: req.user.email,
+      session: true,
     };
   }
 

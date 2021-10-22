@@ -377,6 +377,7 @@ export class VisitorService {
         isApproved: true,
         visitor: {
           select: {
+            id: true,
             user: {
               select: {
                 email: true,
@@ -404,7 +405,9 @@ export class VisitorService {
         copy: 'christian.sulit@kmc.solutions',
         subject: 'Visit approved!',
         body: `
-          Test
+          <p>
+            Approval link: https://hdf-8svj2.ondigitalocean.app/guest?type=guest&visitorId=${visitor.id}
+          </p>
         `,
       });
     }
