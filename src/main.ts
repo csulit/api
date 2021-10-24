@@ -21,7 +21,9 @@ async function bootstrap() {
   app.useGlobalFilters(new PrismaExceptionFilter());
   app.useGlobalInterceptors(new TransformInterceptor());
 
-  app.setGlobalPrefix('api');
+  if (process.env.NODE_ENV === 'development') {
+    app.setGlobalPrefix('api');
+  }
 
   app.useGlobalPipes(
     new ValidationPipe({

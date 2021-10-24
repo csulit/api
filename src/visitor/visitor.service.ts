@@ -406,7 +406,7 @@ export class VisitorService {
         subject: 'Visit approved!',
         body: `
           <p>
-            Approval link: https://hdf-8svj2.ondigitalocean.app/guest?type=guest&visitorId=${visitor.id}
+            HDF Link: https://hdf-8svj2.ondigitalocean.app/guest?type=guest&visitorId=${visitor.id}
           </p>
         `,
       });
