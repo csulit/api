@@ -1,6 +1,6 @@
 datasource db {
   provider = "postgresql"
-  url      = env("HEROKU_POSTGRESQL_TEAL_URL")
+  url      = env("DATABASE_URL")
 }
 
 generator client {
