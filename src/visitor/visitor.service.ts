@@ -1,4 +1,4 @@
-import { Prisma, User } from '.prisma/client';
+import { Prisma } from '.prisma/client';
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { format } from 'date-fns';
 import { EmailService } from 'src/email/email.service';
@@ -77,8 +77,6 @@ export class VisitorService {
       dataPrivacyPolicyIsAccepted,
     } = data;
 
-    let newUser: User;
-
     const user = await this.prismaClientService.user.findUnique({
       where: { email },
     });
@@ -92,7 +90,7 @@ export class VisitorService {
     if (!user?.profileId) {
       await this.prismaClientService.profile.create({
         data: {
-          user: { connect: { id: user?.id || newUser?.id } },
+          user: { connect: { id: user?.id } },
           firstName,
           lastName,
           phoneNumber,
@@ -186,7 +184,7 @@ export class VisitorService {
     const visitor = await this.prismaClientService.visitor.create({
       data: {
         clear: visitorIsClear,
-        user: { connect: { id: newUser?.id || user?.id } },
+        user: { connect: { id: user?.id } },
         travelHistory,
         workType: data?.workType,
         leaveType: data?.leaveType,
