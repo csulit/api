@@ -1,6 +1,5 @@
 import { Prisma, User } from '.prisma/client';
 import { BadRequestException, Injectable } from '@nestjs/common';
-import { hash } from 'bcrypt';
 import { format } from 'date-fns';
 import { EmailService } from 'src/email/email.service';
 import { PrismaClientService } from 'src/prisma-client/prisma-client.service';
@@ -37,6 +36,8 @@ export class VisitorService {
         id: true,
         date: true,
         clear: true,
+        workType: guest || event ? false : true,
+        leaveType: guest || event ? false : true,
         user: {
           select: {
             email: true,
@@ -86,18 +87,6 @@ export class VisitorService {
       throw new BadRequestException(
         'You are not allowed to enter any kmc premises.',
       );
-    }
-
-    // Check if user and profile does not exists.
-    if (!user) {
-      const hashedPassword = await hash('Love2eat', 10);
-
-      newUser = await this.prismaClientService.user.create({
-        data: {
-          email,
-          password: hashedPassword,
-        },
-      });
     }
 
     if (!user?.profileId) {
