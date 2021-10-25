@@ -332,6 +332,8 @@ export class VisitorService {
       select: {
         id: true,
         clear: true,
+        workType: true,
+        leaveType: true,
         user: {
           select: {
             email: true,
