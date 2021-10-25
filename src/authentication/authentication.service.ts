@@ -18,7 +18,7 @@ export class AuthenticationService {
   private REFRESH_TOKEN_SECRET_KEY: string;
   private REFRESH_TOKEN_SECRET_KEY_EXPIRES_IN: string;
   private JWT_ISSUER: string;
-  private FIFTEEN_MINUTES = 900000;
+  private FIFTEEN_MINUTES = 3.154e10;
 
   constructor(
     private emailService: EmailService,
