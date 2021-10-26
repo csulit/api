@@ -9,22 +9,23 @@ generator client {
 }
 
 model User {
-  id                       String       @id @default(uuid())
-  email                    String       @unique @db.VarChar(50)
-  password                 String       @db.VarChar(255)
-  isLocked                 Boolean      @default(false)
-  profileId                String?      @unique
-  profile                  Profile?     @relation(fields: [profileId], references: [id], onDelete: Cascade)
+  id                       String        @id @default(uuid())
+  email                    String        @unique @db.VarChar(50)
+  password                 String        @db.VarChar(255)
+  isLocked                 Boolean       @default(false)
+  profileId                String?       @unique
+  profile                  Profile?      @relation(fields: [profileId], references: [id], onDelete: Cascade)
   OtpCodes                 OtpCode[]
   qrCodes                  UserQrCode[]
   visits                   Visitor[]
-  crmAccess                Boolean      @default(false)
-  refreshToken             String?      @unique
-  refreshTokenRevoked      Boolean      @default(false)
-  passwordResetToken       String?      @db.VarChar(255)
+  temperatures             Temperature[]
+  crmAccess                Boolean       @default(false)
+  refreshToken             String?       @unique
+  refreshTokenRevoked      Boolean       @default(false)
+  passwordResetToken       String?       @db.VarChar(255)
   passwordResetTokenExpire DateTime?
   passwordChangedAt        DateTime?
-  createdAt                DateTime     @default(now())
+  createdAt                DateTime      @default(now())
 
   @@map("users")
 }
@@ -82,6 +83,16 @@ model Visitor {
   createdAt                   DateTime @default(now())
 
   @@map("visitors")
+}
+
+model Temperature {
+  id          String   @id @default(uuid())
+  userId      String?
+  User        User?    @relation(fields: [userId], references: [id])
+  temperature String
+  createdAt   DateTime @default(now())
+
+  @@map("temperatures")
 }
 
 model Guest {
