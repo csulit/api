@@ -114,49 +114,6 @@ export class VisitorService {
       );
     }
 
-    const hasVisitToday = await this.prismaClientService.visitor.findFirst({
-      where: {
-        AND: [
-          { user: { email } },
-          {
-            date: {
-              lte: new Date(Date.now()),
-              gte: new Date(Date.now()),
-            },
-          },
-        ],
-      },
-      select: {
-        id: true,
-        date: true,
-        clear: true,
-        user: {
-          select: {
-            email: true,
-            profile: {
-              select: {
-                firstName: true,
-                lastName: true,
-                phoneNumber: true,
-                address: true,
-                company: true,
-              },
-            },
-          },
-        },
-        guest: true,
-        event: true,
-        travelHistory: true,
-        locations: true,
-        survey: true,
-        symptoms: true,
-      },
-    });
-
-    if (hasVisitToday) {
-      return hasVisitToday;
-    }
-
     function siteLocation() {
       if (!visitor?.locations.length) return null;
 
