@@ -23,6 +23,7 @@ import { CreateVisitorDTO } from './dto/create-visitor.dto';
 import { GuestApprovalBodyDTO } from './dto/guest-approval-body.dto';
 import { GuestApprovalQueryDTO } from './dto/guest-approval-query.dto';
 import { VisitType, VisitTypeQueryDTO } from './dto/visit-type.dto';
+import { VisitorTemperatureDTO } from './dto/visitor-temperature.dto';
 import { VisitorService } from './visitor.service';
 
 @ApiTags('Visitor')
@@ -128,5 +129,27 @@ export class VisitorController {
   @Patch('clear')
   clearVisitor(@Query('visitId', new ParseUUIDPipe()) visitId: string) {
     return this.visitorService.clearVisitor(visitId);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @ApiCookieAuth()
+  @ApiOperation({
+    summary: 'Add visitor temperature',
+    description: 'Some description here...',
+  })
+  @ApiQuery({
+    type: 'uuid',
+    name: 'userId',
+  })
+  @ApiResponse({
+    status: 200,
+    description: 'Added visitor temperature.',
+  })
+  @Post('temperature')
+  addTemperature(
+    @Query('userId', new ParseUUIDPipe()) userId: string,
+    @Body() { temperature }: VisitorTemperatureDTO,
+  ) {
+    return this.visitorService.addTemperature(userId, temperature);
   }
 }

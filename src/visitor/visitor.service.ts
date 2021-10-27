@@ -371,4 +371,14 @@ export class VisitorService {
       },
     });
   }
+
+  async addTemperature(userId: string, temperature: string) {
+    return await this.prismaClientService.temperature.create({
+      data: { userId, temperature },
+      select: {
+        id: true,
+        temperature: true,
+      },
+    });
+  }
 }
