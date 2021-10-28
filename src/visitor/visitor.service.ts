@@ -127,7 +127,8 @@ export class VisitorService {
       `;
     }
 
-    const hasNoSymptoms = symptoms[0] === 'None of the above';
+    const hasNoSymptoms =
+      Array.isArray(symptoms) && symptoms[0] === 'None of the above';
     const answeredYes =
       answers.filter((ans) => ans?.value === 'Yes').length < 1;
 
