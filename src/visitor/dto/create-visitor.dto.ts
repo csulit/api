@@ -166,7 +166,6 @@ export class CreateVisitorDTO {
     },
   })
   @IsArray()
-  @ArrayMinSize(1)
   @Type(() => String)
   @IsOptional()
   readonly symptoms?: string[];
