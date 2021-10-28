@@ -145,7 +145,7 @@ export class VisitorService {
 
     const visitor = await this.prismaClientService.visitor.create({
       data: {
-        clear: visitorIsClear,
+        clear: visitorIsClear ? true : false,
         user: { connect: { id: user?.id } },
         travelHistory,
         workType: data?.workType,
