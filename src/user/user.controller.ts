@@ -2,10 +2,8 @@ import {
   Body,
   Controller,
   Get,
-  ParseUUIDPipe,
   Patch,
   Post,
-  Query,
   Req,
   UseGuards,
 } from '@nestjs/common';
@@ -13,7 +11,6 @@ import {
   ApiBody,
   ApiCookieAuth,
   ApiOperation,
-  ApiQuery,
   ApiResponse,
   ApiTags,
 } from '@nestjs/swagger';
@@ -53,17 +50,13 @@ export class UserController {
     summary: 'Qr codes',
     description: 'Some description here...',
   })
-  @ApiQuery({
-    type: 'uuid',
-    name: 'userId',
-  })
   @ApiResponse({
     status: 200,
     description: 'User qr codes.',
   })
   @Get('qr-codes')
-  getQrCodes(@Query('userId', new ParseUUIDPipe()) userId: string) {
-    return this.userService.getQrCodes(userId);
+  getQrCodes(@Req() req: Request) {
+    return this.userService.getQrCodes(req.user.id);
   }
 
   @ApiOperation({
