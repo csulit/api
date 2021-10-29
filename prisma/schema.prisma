@@ -88,7 +88,7 @@ model Visitor {
 model Temperature {
   id          String   @id @default(uuid())
   userId      String?
-  User        User?    @relation(fields: [userId], references: [id])
+  user        User?    @relation(fields: [userId], references: [id])
   temperature String
   createdAt   DateTime @default(now())
 
