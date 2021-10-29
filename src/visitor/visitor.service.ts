@@ -314,6 +314,7 @@ export class VisitorService {
         locations: true,
         survey: true,
         symptoms: true,
+        createdAt: true,
       },
       orderBy: {
         createdAt: 'desc',
