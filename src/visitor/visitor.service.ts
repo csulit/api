@@ -1,6 +1,8 @@
 import { Prisma } from '.prisma/client';
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { format } from 'date-fns';
+import { PaginationDTO } from 'src/common/dto/paging.dto';
+import { paginate } from 'src/common/utils/paginate.utils';
 import { EmailService } from 'src/email/email.service';
 import { PrismaClientService } from 'src/prisma-client/prisma-client.service';
 import { CreateVisitorDTO } from './dto/create-visitor.dto';
@@ -21,6 +23,32 @@ export class VisitorService {
         I hereby authorize KMC Solutions to collect and process the data indicated herein for the purpose of effecting control of the COVID-19 infection. I understand that my personal information is protected by RA 10173, Data Privacy Act of 2012, and that I am required by RA 11469, Bayanihan to Heal as One Act, to provide truthful information.
       </p>
     `;
+  }
+
+  async getVisitors(_search?: string, _paging?: PaginationDTO) {
+    const { page, limit, skip } = paginate(_paging?.page, _paging?.limit);
+
+    const visitors = await this.prismaClientService.$transaction([
+      this.prismaClientService.visitor.findMany({
+        skip,
+        take: limit,
+        where: {
+          travelHistory: {
+            search: 'cat | dog',
+          },
+        },
+      }),
+      this.prismaClientService.visitor.count(),
+    ]);
+
+    return {
+      data: visitors[0],
+      pagination: {
+        page,
+        limit,
+        count: visitors[1],
+      },
+    };
   }
 
   async getOneVisit(data: {

@@ -31,13 +31,14 @@ model User {
 }
 
 model Profile {
-  id          String @id @default(uuid())
+  id          String  @id @default(uuid())
   user        User?
-  firstName   String @db.VarChar(100)
-  lastName    String @db.VarChar(100)
-  phoneNumber String @db.VarChar(100)
-  company     String @db.VarChar(100)
-  address     String @db.VarChar(255)
+  firstName   String  @db.VarChar(100)
+  lastName    String  @db.VarChar(100)
+  fullName    String? @db.VarChar(100)
+  phoneNumber String  @db.VarChar(100)
+  company     String  @db.VarChar(100)
+  address     String  @db.VarChar(255)
 
   @@map("profiles")
 }
