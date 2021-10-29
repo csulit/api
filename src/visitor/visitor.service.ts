@@ -380,7 +380,7 @@ export class VisitorService {
 
   async addTemperature(userId: string, temperature: string) {
     return await this.prismaClientService.temperature.create({
-      data: { userId, temperature },
+      data: { user: { connect: { id: userId } }, temperature },
       select: {
         id: true,
         temperature: true,
