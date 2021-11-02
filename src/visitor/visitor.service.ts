@@ -30,9 +30,12 @@ export class VisitorService {
 
     const searchCondition = {
       body: {
-        search: _search.split(' ').length
-          ? _search.split(' ').join(' | ')
-          : _search,
+        search:
+          _search && _search.split(' ').length
+            ? _search.split(' ').join(' | ')
+            : _search
+            ? _search
+            : undefined,
       },
     };
 
