@@ -44,6 +44,25 @@ export class VisitorService {
         skip,
         take: limit,
         where: searchCondition,
+        select: {
+          clear: true,
+          user: {
+            select: {
+              email: true,
+              profile: {
+                select: {
+                  firstName: true,
+                  lastName: true,
+                  address: true,
+                  company: true,
+                  phoneNumber: true,
+                  fullName: true,
+                },
+              },
+            },
+          },
+          locations: true,
+        },
       }),
       this.prismaClientService.visitor.count({
         where: searchCondition,
