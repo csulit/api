@@ -193,6 +193,17 @@ export class VisitorService {
       },
     });
 
+    console.log(
+      `${firstName} ${lastName} ${data?.workType || ''} ${
+        data?.leaveType || ''
+      } ${locations.length && locations.map((x) => x.branchName).join(' ')} ${
+        data?.symptoms.length && data.symptoms.map((x) => x).join(' ')
+      } ${
+        data?.answers.length &&
+        data.answers.map((x) => JSON.stringify(x)).join(' ')
+      }`,
+    );
+
     if (isGuest && visitorIsClear) {
       await this.prismaClientService.guest.create({
         data: {
