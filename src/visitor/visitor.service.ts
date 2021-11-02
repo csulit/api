@@ -33,9 +33,7 @@ export class VisitorService {
         search:
           _search && _search.split(' ').length
             ? _search.split(' ').join(' | ')
-            : _search
-            ? _search
-            : undefined,
+            : _search,
       },
     };
 
