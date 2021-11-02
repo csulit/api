@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsNotEmpty, IsString, IsUrl } from 'class-validator';
+import { IsNotEmpty, IsString } from 'class-validator';
 
 export class CreateQrCodeDTO {
   @ApiProperty({
@@ -12,6 +12,7 @@ export class CreateQrCodeDTO {
   @ApiProperty({
     type: String,
   })
-  @IsUrl()
+  @IsString()
+  @IsNotEmpty()
   readonly qrUrl: string;
 }
