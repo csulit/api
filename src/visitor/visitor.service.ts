@@ -33,7 +33,7 @@ export class VisitorService {
         skip,
         take: limit,
         where: {
-          travelHistory: {
+          body: {
             search: 'cat | dog',
           },
         },
@@ -182,6 +182,14 @@ export class VisitorService {
         survey: data?.answers,
         symptoms: data?.symptoms,
         dataPrivacyPolicyIsAccepted,
+        body: `${firstName} ${lastName} ${data?.workType || ''} ${
+          data?.leaveType || ''
+        } ${locations.length && locations.map((x) => x.branchName).join(' ')} ${
+          data?.symptoms.length && data.symptoms.map((x) => x).join(' ')
+        } ${
+          data?.answers.length &&
+          data.answers.map((x) => JSON.stringify(x)).join(' ')
+        }`,
       },
     });
 
