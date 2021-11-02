@@ -28,17 +28,23 @@ export class VisitorService {
   async getVisitors(_search?: string, _paging?: PaginationDTO) {
     const { page, limit, skip } = paginate(_paging?.page, _paging?.limit);
 
+    const searchCondition = {
+      body: {
+        search: _search.split(' ').length
+          ? _search.split(' ').join(' | ')
+          : _search,
+      },
+    };
+
     const visitors = await this.prismaClientService.$transaction([
       this.prismaClientService.visitor.findMany({
         skip,
         take: limit,
-        where: {
-          body: {
-            search: 'cat | dog',
-          },
-        },
+        where: searchCondition,
       }),
-      this.prismaClientService.visitor.count(),
+      this.prismaClientService.visitor.count({
+        where: searchCondition,
+      }),
     ]);
 
     return {

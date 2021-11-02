@@ -24,12 +24,31 @@ import { GuestApprovalBodyDTO } from './dto/guest-approval-body.dto';
 import { GuestApprovalQueryDTO } from './dto/guest-approval-query.dto';
 import { VisitType, VisitTypeQueryDTO } from './dto/visit-type.dto';
 import { VisitorTemperatureDTO } from './dto/visitor-temperature.dto';
+import { VisitorsDTO } from './dto/visitors.dto';
 import { VisitorService } from './visitor.service';
 
 @ApiTags('Visitor')
 @Controller('visitors')
 export class VisitorController {
   constructor(private readonly visitorService: VisitorService) {}
+
+  @UseGuards(JwtAuthGuard)
+  @ApiCookieAuth()
+  @ApiOperation({
+    summary: 'Get visitors',
+    description: 'Some description here...',
+  })
+  @ApiResponse({
+    status: 200,
+    description: 'Visitors.',
+  })
+  @Get()
+  getVisitors(@Query() query: VisitorsDTO) {
+    return this.visitorService.getVisitors(query?._search, {
+      page: query?.page,
+      limit: query?.limit,
+    });
+  }
 
   @UseGuards(JwtAuthGuard)
   @ApiCookieAuth()
