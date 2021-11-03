@@ -217,9 +217,13 @@ export class VisitorService {
         dataPrivacyPolicyIsAccepted,
         body: `${firstName} ${lastName} ${data?.workType || ''} ${
           isGuest ? 'Guest' : 'Member'
+        } ${isEvent ? 'Event' : ''} ${data?.leaveType || ''} ${
+          data?.workType || ''
         } ${data?.leaveType || ''} ${
           locations.length && locations.map((x) => x.branchName).join(' ')
         } ${data?.symptoms.length && data.symptoms.map((x) => x).join(' ')} ${
+          travelHistory || ''
+        } ${
           data?.answers.length &&
           data.answers.map((x) => JSON.stringify(x)).join(' ')
         }`,
