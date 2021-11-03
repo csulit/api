@@ -50,6 +50,7 @@ export class VisitorService {
         take: limit,
         where: searchCondition,
         select: {
+          id: true,
           clear: true,
           user: {
             select: {
