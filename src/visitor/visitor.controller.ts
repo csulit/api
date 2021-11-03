@@ -45,10 +45,13 @@ export class VisitorController {
   })
   @Get()
   getVisitors(@Query() query: VisitorsDTO) {
-    return this.visitorService.getVisitors(query?._search, {
-      page: query?.page,
-      limit: query?.limit,
-    });
+    return this.visitorService.getVisitors(
+      { _search: query?._search, dgte: query?.dlte, dlte: query?.dlte },
+      {
+        page: query?.page,
+        limit: query?.limit,
+      },
+    );
   }
 
   @UseGuards(JwtAuthGuard)

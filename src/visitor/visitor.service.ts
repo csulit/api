@@ -7,6 +7,7 @@ import { EmailService } from 'src/email/email.service';
 import { PrismaClientService } from 'src/prisma-client/prisma-client.service';
 import { ClearNotesDTO } from './dto/clear-notes.dto';
 import { CreateVisitorDTO } from './dto/create-visitor.dto';
+import { VisitorsDTO } from './dto/visitors.dto';
 
 @Injectable()
 export class VisitorService {
@@ -26,7 +27,8 @@ export class VisitorService {
     `;
   }
 
-  async getVisitors(_search?: string, _paging?: PaginationDTO) {
+  async getVisitors(filter?: VisitorsDTO, _paging?: PaginationDTO) {
+    const { _search, dgte, dlte } = filter;
     const { page, limit, skip } = paginate(_paging?.page, _paging?.limit);
 
     const searchCondition = {
@@ -35,6 +37,10 @@ export class VisitorService {
           _search && _search.split(' ').length
             ? _search.split(' ').join(' | ')
             : _search,
+      },
+      createdAt: {
+        lte: dgte ? new Date(dgte) : undefined,
+        gte: dlte ? new Date(dlte) : undefined,
       },
     };
 
