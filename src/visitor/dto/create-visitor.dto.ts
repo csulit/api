@@ -139,7 +139,6 @@ export class CreateVisitorDTO {
     },
   })
   @IsArray()
-  @ArrayMinSize(1)
   @Type(() => BuildingDTO)
   @ValidateNested({ each: true })
   @IsOptional()
