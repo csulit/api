@@ -210,10 +210,10 @@ export class VisitorService {
         symptoms: data?.symptoms,
         dataPrivacyPolicyIsAccepted,
         body: `${firstName} ${lastName} ${data?.workType || ''} ${
-          data?.leaveType || ''
-        } ${locations.length && locations.map((x) => x.branchName).join(' ')} ${
-          data?.symptoms.length && data.symptoms.map((x) => x).join(' ')
-        } ${
+          isGuest ? 'Guest' : 'Member'
+        } ${data?.leaveType || ''} ${
+          locations.length && locations.map((x) => x.branchName).join(' ')
+        } ${data?.symptoms.length && data.symptoms.map((x) => x).join(' ')} ${
           data?.answers.length &&
           data.answers.map((x) => JSON.stringify(x)).join(' ')
         }`,
