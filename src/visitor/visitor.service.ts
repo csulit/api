@@ -5,6 +5,7 @@ import { PaginationDTO } from 'src/common/dto/paging.dto';
 import { paginate } from 'src/common/utils/paginate.utils';
 import { EmailService } from 'src/email/email.service';
 import { PrismaClientService } from 'src/prisma-client/prisma-client.service';
+import { ClearNotesDTO } from './dto/clear-notes.dto';
 import { CreateVisitorDTO } from './dto/create-visitor.dto';
 
 @Injectable()
@@ -429,10 +430,36 @@ export class VisitorService {
     return guest;
   }
 
-  async clearVisitor(visitId: string) {
+  async clearVisitor(visitId: string, data: ClearNotesDTO) {
+    const { notes } = data;
+
+    const visitor = await this.prismaClientService.visitor.findUnique({
+      where: { id: visitId },
+      select: {
+        user: {
+          select: {
+            email: true,
+            profile: {
+              select: {
+                firstName: true,
+                lastName: true,
+              },
+            },
+          },
+        },
+      },
+    });
+
+    await this.emailService.sendEmail({
+      to: visitor.user.email,
+      copy: 'christian.sulit@kmc.solutions',
+      subject: 'Clear to visit',
+      body: ``,
+    });
+
     return await this.prismaClientService.visitor.update({
       where: { id: visitId },
-      data: { clear: true },
+      data: { clear: true, notes },
       select: {
         id: true,
         clear: true,

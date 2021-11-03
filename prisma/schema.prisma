@@ -80,6 +80,7 @@ model Visitor {
   locations                   Json[]
   survey                      Json[]
   symptoms                    String[]
+  notes                       String?
   body                        String?
   date                        DateTime @default(now()) @db.Date
   createdAt                   DateTime @default(now())

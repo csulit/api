@@ -19,6 +19,7 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 import { JwtAuthGuard } from 'src/authentication/guard/jwt.guard';
+import { ClearNotesDTO } from './dto/clear-notes.dto';
 import { CreateVisitorDTO } from './dto/create-visitor.dto';
 import { GuestApprovalBodyDTO } from './dto/guest-approval-body.dto';
 import { GuestApprovalQueryDTO } from './dto/guest-approval-query.dto';
@@ -146,8 +147,11 @@ export class VisitorController {
     description: 'Cleared visitor last visit.',
   })
   @Patch('clear')
-  clearVisitor(@Query('visitId', new ParseUUIDPipe()) visitId: string) {
-    return this.visitorService.clearVisitor(visitId);
+  clearVisitor(
+    @Query('visitId', new ParseUUIDPipe()) visitId: string,
+    @Body() data: ClearNotesDTO,
+  ) {
+    return this.visitorService.clearVisitor(visitId, data);
   }
 
   @UseGuards(JwtAuthGuard)
