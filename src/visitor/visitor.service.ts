@@ -454,7 +454,7 @@ export class VisitorService {
       to: visitor.user.email,
       copy: 'christian.sulit@kmc.solutions',
       subject: 'Clear to visit',
-      body: ``,
+      body: `Hi, ${visitor.user.profile.lastName} you are now clear to visit.`,
     });
 
     return await this.prismaClientService.visitor.update({
