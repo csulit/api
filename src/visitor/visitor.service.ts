@@ -28,7 +28,7 @@ export class VisitorService {
   }
 
   async getVisitors(filter?: VisitorsDTO, _paging?: PaginationDTO) {
-    const { _search, dgte, dlte } = filter;
+    const { _search, _dateStart, _dateEnd } = filter;
     const { page, limit, skip } = paginate(_paging?.page, _paging?.limit);
 
     const searchCondition = {
@@ -39,10 +39,13 @@ export class VisitorService {
             : _search,
       },
       date: {
-        gte: dgte ? new Date(dgte) : undefined,
-        lte: dlte ? new Date(dlte) : undefined,
+        gte: _dateStart ? new Date(_dateStart) : undefined,
+        lte: _dateEnd ? new Date(_dateEnd) : undefined,
       },
     };
+
+    console.log(_dateStart);
+    console.log(_dateEnd);
 
     const visitors = await this.prismaClientService.$transaction([
       this.prismaClientService.visitor.findMany({

@@ -24,7 +24,7 @@ export class VisitorsDTO extends PartialType(PaginationDTO) {
   })
   @IsDateString()
   @IsOptional()
-  readonly dgte?: string;
+  readonly _dateStart?: Date;
 
   @ApiProperty({
     type: String,
@@ -32,5 +32,5 @@ export class VisitorsDTO extends PartialType(PaginationDTO) {
   })
   @IsDateString()
   @IsOptional()
-  readonly dlte?: string;
+  readonly _dateEnd?: Date;
 }

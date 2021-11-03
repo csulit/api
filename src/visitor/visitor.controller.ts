@@ -46,7 +46,11 @@ export class VisitorController {
   @Get()
   getVisitors(@Query() query: VisitorsDTO) {
     return this.visitorService.getVisitors(
-      { _search: query?._search, dgte: query?.dlte, dlte: query?.dlte },
+      {
+        _search: query?._search,
+        _dateStart: query?._dateStart,
+        _dateEnd: query?._dateEnd,
+      },
       {
         page: query?.page,
         limit: query?.limit,
