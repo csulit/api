@@ -38,9 +38,9 @@ export class VisitorService {
             ? _search.split(' ').join(' | ')
             : _search,
       },
-      createdAt: {
-        lte: dgte ? new Date(dgte) : undefined,
-        gte: dlte ? new Date(dlte) : undefined,
+      date: {
+        gte: dgte ? new Date(dgte) : undefined,
+        lte: dlte ? new Date(dlte) : undefined,
       },
     };
 
