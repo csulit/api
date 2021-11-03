@@ -36,6 +36,7 @@ async function bootstrap() {
   app.enableCors({
     origin: [
       'http://localhost:3000',
+      'https://health.kmc.solutions',
       'https://app-jayzur.herokuapp.com',
       'https://hdf-8svj2.ondigitalocean.app',
     ],
