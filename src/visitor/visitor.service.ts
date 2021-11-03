@@ -68,6 +68,7 @@ export class VisitorService {
             },
           },
           locations: true,
+          createdAt: true,
         },
       }),
       this.prismaClientService.visitor.count({
