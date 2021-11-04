@@ -54,6 +54,8 @@ export class VisitorService {
         select: {
           id: true,
           clear: true,
+          guest: true,
+          event: true,
           user: {
             select: {
               email: true,
