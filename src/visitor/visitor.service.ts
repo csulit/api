@@ -31,21 +31,20 @@ export class VisitorService {
     const { _search, _dateStart, _dateEnd } = filter;
     const { page, limit, skip } = paginate(_paging?.page, _paging?.limit);
 
+    const searchFilter =
+      _search && _search.split(' ').length
+        ? _search.split(' ').join(' | ')
+        : _search;
+
     const searchCondition = {
-      body: {
-        search:
-          _search && _search.split(' ').length
-            ? _search.split(' ').join(' | ')
-            : _search,
-      },
       date: {
         gte: _dateStart ? new Date(_dateStart) : undefined,
         lte: _dateEnd ? new Date(_dateEnd) : undefined,
       },
+      body: {
+        search: searchFilter,
+      },
     };
-
-    console.log(_dateStart);
-    console.log(_dateEnd);
 
     const visitors = await this.prismaClientService.$transaction([
       this.prismaClientService.visitor.findMany({
@@ -181,7 +180,7 @@ export class VisitorService {
     }
 
     function siteLocation() {
-      if (!visitor?.locations.length) return null;
+      if (visitor?.locations && !visitor.locations.length) return null;
 
       return `
         <b>Site:</b>
