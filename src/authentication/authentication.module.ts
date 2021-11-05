@@ -17,7 +17,7 @@ import { LocalStrategyService } from './strategy/local-auth.strategy.service';
     PrismaClientModule,
     RateLimiterModule.register({
       keyPrefix: 'global-auth',
-      points: 100,
+      points: 200,
       duration: 300,
       customResponseSchema: () => rateLimitExceededResponse(),
     }),
