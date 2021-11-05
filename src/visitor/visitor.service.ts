@@ -29,6 +29,7 @@ export class VisitorService {
 
   async getVisitors(filter?: VisitorsDTO, _paging?: PaginationDTO) {
     const { _search, _dateStart, _dateEnd } = filter;
+
     const { page, limit, skip } = paginate(_paging?.page, _paging?.limit);
 
     const searchFilter =
@@ -142,6 +143,7 @@ export class VisitorService {
       answers,
       symptoms,
       dataPrivacyPolicyIsAccepted,
+      createdAt,
     } = data;
 
     const user = await this.prismaClientService.user.findUnique({
@@ -221,6 +223,7 @@ export class VisitorService {
         survey: data?.answers,
         symptoms: data?.symptoms,
         dataPrivacyPolicyIsAccepted,
+        createdAt: new Date(createdAt),
         body: `${firstName} ${lastName} ${data?.workType || ''} ${
           isGuest ? 'Guest' : 'Member'
         } ${isEvent ? 'Event' : ''} ${data?.leaveType || ''} ${
@@ -481,6 +484,12 @@ export class VisitorService {
         clear: true,
       },
     });
+  }
+
+  async getTemperatures(_paging?: PaginationDTO) {
+    const { page, limit, skip } = paginate(_paging?.page, _paging?.limit);
+
+    return true;
   }
 
   async addTemperature(userId: string, temperature: string) {

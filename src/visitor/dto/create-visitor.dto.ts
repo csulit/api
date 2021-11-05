@@ -4,6 +4,7 @@ import {
   ArrayMinSize,
   IsArray,
   IsBoolean,
+  IsDateString,
   IsEmail,
   IsNotEmpty,
   IsOptional,
@@ -175,4 +176,12 @@ export class CreateVisitorDTO {
   @IsBoolean()
   @Type(() => Boolean)
   readonly dataPrivacyPolicyIsAccepted: boolean;
+
+  @ApiProperty({
+    type: String,
+    required: false,
+  })
+  @IsDateString()
+  @IsOptional()
+  readonly createdAt?: Date;
 }
