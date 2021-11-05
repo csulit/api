@@ -31,10 +31,10 @@ import { VisitorService } from './visitor.service';
 
 @ApiTags('Visitor')
 @Controller('visitors')
-@UseGuards(JwtAuthGuard)
 export class VisitorController {
   constructor(private readonly visitorService: VisitorService) {}
 
+  @UseGuards(JwtAuthGuard)
   @ApiCookieAuth()
   @ApiOperation({
     summary: 'Get visitors',
@@ -61,6 +61,7 @@ export class VisitorController {
     );
   }
 
+  @UseGuards(JwtAuthGuard)
   @ApiCookieAuth()
   @ApiOperation({
     summary: 'Get one visit',
@@ -86,6 +87,7 @@ export class VisitorController {
     });
   }
 
+  @UseGuards(JwtAuthGuard)
   @ApiCookieAuth()
   @ApiOperation({
     summary: 'Last visit',
@@ -104,6 +106,7 @@ export class VisitorController {
     return this.visitorService.lastVisit(userId);
   }
 
+  @UseGuards(JwtAuthGuard)
   @ApiCookieAuth()
   @ApiOperation({
     summary: 'Create visit',
@@ -139,6 +142,7 @@ export class VisitorController {
     return this.visitorService.guestApproval(visitorId, isApproved);
   }
 
+  @UseGuards(JwtAuthGuard)
   @ApiCookieAuth()
   @ApiOperation({
     summary: 'Clear last visit',
@@ -160,6 +164,7 @@ export class VisitorController {
     return this.visitorService.clearVisitor(visitId, data);
   }
 
+  @UseGuards(JwtAuthGuard)
   @ApiCookieAuth()
   @ApiOperation({
     summary: 'Get temperatures',
@@ -179,6 +184,7 @@ export class VisitorController {
     });
   }
 
+  @UseGuards(JwtAuthGuard)
   @ApiCookieAuth()
   @ApiOperation({
     summary: 'Add visitor temperature',
