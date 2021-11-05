@@ -499,6 +499,9 @@ export class VisitorService {
         where: {
           userId,
         },
+        orderBy: {
+          createdAt: 'desc',
+        },
       }),
       this.prismaClientService.temperature.count(),
     ]);
