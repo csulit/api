@@ -16,6 +16,15 @@ export class EventService {
     });
   }
 
+  async closeEvent(eventId: string) {
+    return await this.prismaClientService.event.update({
+      where: { id: eventId },
+      data: {
+        eventActive: false,
+      },
+    });
+  }
+
   async deleteEvent(eventId: string) {
     return await this.prismaClientService.event.delete({
       where: {

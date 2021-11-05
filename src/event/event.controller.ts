@@ -4,6 +4,7 @@ import {
   Delete,
   Get,
   ParseUUIDPipe,
+  Patch,
   Post,
   Query,
   UseGuards,
@@ -55,6 +56,23 @@ export class EventController {
   @Post()
   createEvent(@Body() data: CreateEventDTO) {
     return this.eventService.createEvent(data);
+  }
+
+  @ApiOperation({
+    summary: 'Close event',
+    description: 'Some description here...',
+  })
+  @ApiQuery({
+    type: 'uuid',
+    name: 'eventId',
+  })
+  @ApiResponse({
+    status: 200,
+    description: 'Successfully closed event.',
+  })
+  @Patch()
+  closeEvent(@Query('eventId', new ParseUUIDPipe()) eventId: string) {
+    return this.eventService.closeEvent(eventId);
   }
 
   @ApiOperation({
