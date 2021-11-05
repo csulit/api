@@ -54,10 +54,6 @@ export class UserController {
     summary: 'Get user qr codes',
     description: 'Some description here...',
   })
-  @ApiQuery({
-    type: 'uuid',
-    name: 'userId',
-  })
   @ApiResponse({
     status: 200,
     description: 'User qr codes.',
