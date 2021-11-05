@@ -14,6 +14,7 @@ import {
   ApiBody,
   ApiCookieAuth,
   ApiOperation,
+  ApiQuery,
   ApiResponse,
   ApiTags,
 } from '@nestjs/swagger';
@@ -80,13 +81,16 @@ export class UserController {
     summary: 'Delete qr code',
     description: 'Some description here...',
   })
-  @ApiBody({ type: CreateQrCodeDTO })
+  @ApiQuery({
+    type: 'uuid',
+    name: 'qrCodeId',
+  })
   @ApiResponse({
     status: 200,
     description: 'Successfully deleted qr codes.',
   })
   @Delete('qr-codes')
-  deleteQrCodes(@Query('userId', new ParseUUIDPipe()) qrCodeId: string) {
+  deleteQrCodes(@Query('qrCodeId', new ParseUUIDPipe()) qrCodeId: string) {
     return this.userService.deleteQrCode(qrCodeId);
   }
 
