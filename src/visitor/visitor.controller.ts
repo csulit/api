@@ -19,11 +19,11 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 import { JwtAuthGuard } from 'src/authentication/guard/jwt.guard';
-import { PaginationDTO } from 'src/common/dto/paging.dto';
 import { ClearNotesDTO } from './dto/clear-notes.dto';
 import { CreateVisitorDTO } from './dto/create-visitor.dto';
 import { GuestApprovalBodyDTO } from './dto/guest-approval-body.dto';
 import { GuestApprovalQueryDTO } from './dto/guest-approval-query.dto';
+import { UserTemperatureDTO } from './dto/user-temperature.dto';
 import { VisitType, VisitTypeQueryDTO } from './dto/visit-type.dto';
 import { VisitorTemperatureDTO } from './dto/visitor-temperature.dto';
 import { VisitorsDTO } from './dto/visitors.dto';
@@ -170,10 +170,10 @@ export class VisitorController {
     description: 'Temperatures.',
   })
   @Get('temperatures')
-  getTemperatures(@Query() query: PaginationDTO) {
-    const { page, limit } = query;
+  getTemperatures(@Query() query: UserTemperatureDTO) {
+    const { userId, page, limit } = query;
 
-    return this.visitorService.getTemperatures({
+    return this.visitorService.getTemperatures(userId, {
       page,
       limit,
     });
