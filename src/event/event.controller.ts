@@ -1,8 +1,18 @@
-import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  ParseUUIDPipe,
+  Post,
+  Query,
+  UseGuards,
+} from '@nestjs/common';
 import {
   ApiBody,
   ApiCookieAuth,
   ApiOperation,
+  ApiQuery,
   ApiResponse,
   ApiTags,
 } from '@nestjs/swagger';
@@ -45,5 +55,22 @@ export class EventController {
   @Post()
   createEvent(@Body() data: CreateEventDTO) {
     return this.eventService.createEvent(data);
+  }
+
+  @ApiOperation({
+    summary: 'Delete event',
+    description: 'Some description here...',
+  })
+  @ApiQuery({
+    type: 'uuid',
+    name: 'eventId',
+  })
+  @ApiResponse({
+    status: 200,
+    description: 'Successfully deleted event.',
+  })
+  @Delete()
+  deleteEvent(@Query('eventId', new ParseUUIDPipe()) eventId: string) {
+    return this.eventService.deleteEvent(eventId);
   }
 }

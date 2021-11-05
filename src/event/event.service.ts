@@ -15,4 +15,12 @@ export class EventService {
       data: { ...data, eventDate: new Date(data.eventDate) },
     });
   }
+
+  async deleteEvent(eventId: string) {
+    return await this.prismaClientService.event.delete({
+      where: {
+        id: eventId,
+      },
+    });
+  }
 }
