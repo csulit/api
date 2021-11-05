@@ -150,7 +150,7 @@ export class VisitorService {
       where: { email },
     });
 
-    if (user.isLocked) {
+    if (user?.isLocked) {
       throw new BadRequestException(
         'You are not allowed to enter any kmc premises.',
       );
