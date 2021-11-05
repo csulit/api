@@ -30,6 +30,7 @@ export default [
         'First dose',
         'Is opt not to get vaccinated',
         'Awaiting schedule',
+        'Prefer not to disclosed',
       ],
       vaccine: [
         'Sinovac',
