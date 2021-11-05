@@ -223,6 +223,7 @@ export class VisitorService {
         survey: data?.answers,
         symptoms: data?.symptoms,
         dataPrivacyPolicyIsAccepted,
+        date: new Date(createdAt),
         createdAt: new Date(createdAt),
         body: `${firstName} ${lastName} ${data?.workType || ''} ${
           isGuest ? 'Guest' : 'Member'
