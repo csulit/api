@@ -63,8 +63,8 @@ export class UserController {
     description: 'User qr codes.',
   })
   @Get('qr-codes')
-  getQrCodes(@Query('userId', new ParseUUIDPipe()) userId: string) {
-    return this.userService.getQrCodes(userId);
+  getQrCodes(@Req() req: Request) {
+    return this.userService.getQrCodes(req.user.id);
   }
 
   @ApiOperation({
