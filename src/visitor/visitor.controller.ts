@@ -19,6 +19,7 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 import { JwtAuthGuard } from 'src/authentication/guard/jwt.guard';
+import { PaginationDTO } from 'src/common/dto/paging.dto';
 import { ClearNotesDTO } from './dto/clear-notes.dto';
 import { CreateVisitorDTO } from './dto/create-visitor.dto';
 import { GuestApprovalBodyDTO } from './dto/guest-approval-body.dto';
@@ -166,6 +167,26 @@ export class VisitorController {
   @UseGuards(JwtAuthGuard)
   @ApiCookieAuth()
   @ApiOperation({
+    summary: 'Get temperatures',
+    description: 'Some description here...',
+  })
+  @ApiResponse({
+    status: 200,
+    description: 'Temperatures.',
+  })
+  @Get('temperatures')
+  getTemperatures(@Query() query: PaginationDTO) {
+    const { page, limit } = query;
+
+    return this.visitorService.getTemperatures({
+      page,
+      limit,
+    });
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @ApiCookieAuth()
+  @ApiOperation({
     summary: 'Add visitor temperature',
     description: 'Some description here...',
   })
@@ -177,7 +198,7 @@ export class VisitorController {
     status: 200,
     description: 'Added visitor temperature.',
   })
-  @Post('temperature')
+  @Post('temperatures')
   addTemperature(
     @Query('userId', new ParseUUIDPipe()) userId: string,
     @Body() { temperature }: VisitorTemperatureDTO,

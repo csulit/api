@@ -490,7 +490,22 @@ export class VisitorService {
   async getTemperatures(_paging?: PaginationDTO) {
     const { page, limit, skip } = paginate(_paging?.page, _paging?.limit);
 
-    return true;
+    const temperatures = await this.prismaClientService.$transaction([
+      this.prismaClientService.temperature.findMany({
+        skip,
+        take: limit,
+      }),
+      this.prismaClientService.temperature.count(),
+    ]);
+
+    return {
+      data: temperatures[0],
+      pagination: {
+        page,
+        limit,
+        count: temperatures[1],
+      },
+    };
   }
 
   async addTemperature(userId: string, temperature: string) {
