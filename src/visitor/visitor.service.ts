@@ -59,6 +59,7 @@ export class VisitorService {
           event: true,
           user: {
             select: {
+              id: true,
               email: true,
               profile: {
                 select: {
@@ -108,6 +109,7 @@ export class VisitorService {
         leaveType: guest || event ? false : true,
         user: {
           select: {
+            id: true,
             email: true,
             profile: {
               select: {
