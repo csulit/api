@@ -40,6 +40,12 @@ export class UserService {
     });
   }
 
+  async deleteQrCode(qrCodeId: string) {
+    return await this.prismaClientService.userQrCode.delete({
+      where: { id: qrCodeId },
+    });
+  }
+
   async updateProfile(userId: string, data: UpdateProfileDTO) {
     const user = await this.prismaClientService.user.findUnique({
       where: { id: userId },

@@ -1,9 +1,12 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
+  ParseUUIDPipe,
   Patch,
   Post,
+  Query,
   Req,
   UseGuards,
 } from '@nestjs/common';
@@ -71,6 +74,20 @@ export class UserController {
   @Post('qr-codes')
   createQrCodes(@Req() req: Request, @Body() data: CreateQrCodeDTO) {
     return this.userService.createQrCodes(req.user.id, data);
+  }
+
+  @ApiOperation({
+    summary: 'Delete qr code',
+    description: 'Some description here...',
+  })
+  @ApiBody({ type: CreateQrCodeDTO })
+  @ApiResponse({
+    status: 200,
+    description: 'Successfully deleted qr codes.',
+  })
+  @Delete('qr-codes')
+  deleteQrCodes(@Query('userId', new ParseUUIDPipe()) qrCodeId: string) {
+    return this.userService.deleteQrCode(qrCodeId);
   }
 
   @ApiOperation({
