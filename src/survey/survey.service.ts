@@ -6,6 +6,10 @@ export class SurveyService {
   constructor(private prismaClientService: PrismaClientService) {}
 
   async getAllSurveys() {
-    return await this.prismaClientService.survey.findMany();
+    return await this.prismaClientService.survey.findMany({
+      orderBy: {
+        surveyOrder: 'asc',
+      },
+    });
   }
 }
