@@ -265,7 +265,7 @@ export class VisitorService {
             <p>Name: ${firstName} ${lastName}</p>
             <p>Purpose of visit: ${data.purposeOfVisit}</p>
             ${siteLocation()}
-            <p>Approval link: https://hdf-8svj2.ondigitalocean.app/guest?session=approval&visitorId=${
+            <p>Approval link: https://health.kmc.solutions/guest?session=approval&visitorId=${
               visitor.id
             }</p>
           `,
@@ -443,7 +443,7 @@ export class VisitorService {
         subject: 'Visit approved!',
         body: `
           <p>
-            HDF Link: https://hdf-8svj2.ondigitalocean.app/guest?type=guest&visitorId=${visitor.id}
+            HDF Link: https://health.kmc.solutions/guest?type=guest&visitorId=${visitor.id}
           </p>
         `,
       });
