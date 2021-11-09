@@ -228,10 +228,10 @@ export class VisitorService {
         date: new Date(createdAt || Date.now()),
         createdAt: new Date(createdAt || Date.now()),
         body: `${firstName} ${lastName} ${data?.workType || ''} ${
-          isGuest ? 'Guest' : 'Member'
-        } ${isEvent ? 'Event' : ''} ${data?.leaveType || ''} ${
-          data?.workType || ''
-        } ${data?.leaveType || ''} ${
+          company || ''
+        } ${isGuest ? 'Guest' : 'Member'} ${isEvent ? 'Event' : ''} ${
+          data?.leaveType || ''
+        } ${data?.workType || ''} ${data?.leaveType || ''} ${
           locations.length && locations.map((x) => x.branchName).join(' ')
         } ${data?.symptoms.length && data.symptoms.map((x) => x).join(' ')} ${
           travelHistory || ''
