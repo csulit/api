@@ -288,7 +288,6 @@ export class VisitorService {
 
       await this.emailService.sendEmail({
         to: email,
-        copy: 'osh@kmc.solutions',
         subject: 'You have a visitor',
         body: `
           <p>
@@ -439,7 +438,6 @@ export class VisitorService {
     if (isApproved) {
       await this.emailService.sendEmail({
         to: visitor.user.email,
-        copy: 'osh@kmc.solutions',
         subject: 'Visit approved!',
         body: `
           <a>
@@ -474,7 +472,6 @@ export class VisitorService {
 
     await this.emailService.sendEmail({
       to: visitor.user.email,
-      copy: 'osh@kmc.solutions',
       subject: 'Clear to visit',
       body: `Hi, ${visitor.user.profile.lastName} you are now clear to visit.`,
     });
