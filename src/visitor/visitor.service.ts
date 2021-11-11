@@ -447,7 +447,10 @@ export class VisitorService {
       });
     }
 
-    return guest;
+    return {
+      guest,
+      isApproved,
+    };
   }
 
   async clearVisitor(visitId: string, data: ClearNotesDTO) {
