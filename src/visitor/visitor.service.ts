@@ -265,9 +265,9 @@ export class VisitorService {
             <p>Name: ${firstName} ${lastName}</p>
             <p>Purpose of visit: ${data.purposeOfVisit}</p>
             ${siteLocation()}
-            <a>Approval link: https://health.kmc.solutions/guest?session=approval&visitorId=${
+            <a href='https://health.kmc.solutions/guest?session=approval&visitorId=${
               visitor.id
-            }</a>
+            }' target='_blank'>Approval link.</a>
           `,
       });
 
@@ -440,8 +440,8 @@ export class VisitorService {
         to: visitor.user.email,
         subject: 'Visit approved!',
         body: `
-          <a>
-            HDF Link: https://health.kmc.solutions/guest?type=guest&visitorId=${visitor.id}
+          <a href='https://health.kmc.solutions/guest?type=guest&visitorId=${visitor.id}' target='_blank'>
+            HDF Link
           </a>
         `,
       });
