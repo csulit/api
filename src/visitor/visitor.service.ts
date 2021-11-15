@@ -57,6 +57,12 @@ export class VisitorService {
           clear: true,
           guest: true,
           event: true,
+          survey: true,
+          symptoms: true,
+          workType: true,
+          leaveType: true,
+          notes: true,
+          travelHistory: true,
           user: {
             select: {
               id: true,
