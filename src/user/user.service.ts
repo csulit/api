@@ -28,6 +28,34 @@ export class UserService {
     });
   }
 
+  async lockUser(userId: string) {
+    return await this.prismaClientService.user.update({
+      where: { id: userId },
+      data: {
+        isLocked: true,
+      },
+      select: {
+        id: true,
+        email: true,
+        isLocked: true,
+      },
+    });
+  }
+
+  async unlockUser(userId: string) {
+    return await this.prismaClientService.user.update({
+      where: { id: userId },
+      data: {
+        isLocked: false,
+      },
+      select: {
+        id: true,
+        email: true,
+        isLocked: true,
+      },
+    });
+  }
+
   async getQrCodes(userId: string) {
     return await this.prismaClientService.userQrCode.findMany({
       where: { userId },

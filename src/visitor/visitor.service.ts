@@ -76,6 +76,9 @@ export class VisitorService {
           locations: true,
           createdAt: true,
         },
+        orderBy: {
+          createdAt: 'desc',
+        },
       }),
       this.prismaClientService.visitor.count({
         where: searchCondition,
