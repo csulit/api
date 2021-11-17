@@ -182,6 +182,5 @@ export class CreateVisitorDTO {
     required: false,
   })
   @IsDateString()
-  @IsOptional()
-  readonly createdAt?: Date;
+  readonly createdAt: Date;
 }

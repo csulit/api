@@ -243,8 +243,8 @@ export class VisitorService {
         survey: data?.answers,
         symptoms: data?.symptoms,
         dataPrivacyPolicyIsAccepted,
-        date: new Date(createdAt || Date.now()),
-        createdAt: new Date(createdAt || Date.now()),
+        date: new Date(createdAt),
+        createdAt: new Date(createdAt),
         body: `${firstName} ${lastName} ${data?.workType || ''} ${company} ${
           isGuest ? 'Guest' : 'Member'
         } ${isEvent ? 'Event' : ''} ${data?.leaveType || ''} ${
