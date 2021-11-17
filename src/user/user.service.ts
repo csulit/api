@@ -14,6 +14,7 @@ export class UserService {
         id: true,
         email: true,
         crmAccess: true,
+        isClientAccess: true,
         profile: {
           select: {
             firstName: true,
