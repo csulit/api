@@ -1,6 +1,7 @@
 import { Prisma } from '.prisma/client';
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { format } from 'date-fns';
+import { User } from 'src/authentication/entity/user.entity';
 import { PaginationDTO } from 'src/common/dto/paging.dto';
 import { paginate } from 'src/common/utils/paginate.utils';
 import { EmailService } from 'src/email/email.service';
@@ -27,7 +28,7 @@ export class VisitorService {
     `;
   }
 
-  async getVisitors(filter?: VisitorsDTO, _paging?: PaginationDTO) {
+  async getVisitors(user: User, filter?: VisitorsDTO, _paging?: PaginationDTO) {
     const { _search, _dateStart, _dateEnd } = filter;
 
     const { page, limit, skip } = paginate(_paging?.page, _paging?.limit);
@@ -38,6 +39,14 @@ export class VisitorService {
         : _search;
 
     const searchCondition = {
+      user: {
+        email: {
+          endsWith:
+            user.crmAccess && user.isClientAccess
+              ? user.email.split('@').pop()
+              : undefined,
+        },
+      },
       date: {
         gte: _dateStart ? new Date(_dateStart) : undefined,
         lte: _dateEnd ? new Date(_dateEnd) : undefined,

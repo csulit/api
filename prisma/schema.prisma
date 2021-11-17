@@ -20,6 +20,7 @@ model User {
   visits                   Visitor[]
   temperatures             Temperature[]
   crmAccess                Boolean       @default(false)
+  isClientAccess           Boolean       @default(false)
   refreshToken             String?       @unique
   refreshTokenRevoked      Boolean       @default(false)
   passwordResetToken       String?       @db.VarChar(255)

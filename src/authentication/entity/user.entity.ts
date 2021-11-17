@@ -3,4 +3,6 @@ export class User {
   readonly email: string;
   readonly isLocked: number;
   readonly passwordChangedAt: Date;
+  readonly crmAccess: string;
+  readonly isClientAccess: string;
 }

@@ -37,6 +37,8 @@ export class JwtStrategyService extends PassportStrategy(Strategy) {
         email: true,
         isLocked: true,
         passwordChangedAt: true,
+        crmAccess: true,
+        isClientAccess: true,
       },
     });
   }

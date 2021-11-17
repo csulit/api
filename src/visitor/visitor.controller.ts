@@ -7,6 +7,7 @@ import {
   Patch,
   Post,
   Query,
+  Req,
   UseGuards,
 } from '@nestjs/common';
 import {
@@ -18,6 +19,7 @@ import {
   ApiResponse,
   ApiTags,
 } from '@nestjs/swagger';
+import { Request } from 'express';
 import { JwtAuthGuard } from 'src/authentication/guard/jwt.guard';
 import { ClearNotesDTO } from './dto/clear-notes.dto';
 import { CreateVisitorDTO } from './dto/create-visitor.dto';
@@ -45,10 +47,11 @@ export class VisitorController {
     description: 'Visitors.',
   })
   @Get()
-  getVisitors(@Query() query: VisitorsDTO) {
+  getVisitors(@Req() req: Request, @Query() query: VisitorsDTO) {
     const { _search, _dateStart, _dateEnd, page, limit } = query;
 
     return this.visitorService.getVisitors(
+      req.user,
       {
         _search,
         _dateStart,

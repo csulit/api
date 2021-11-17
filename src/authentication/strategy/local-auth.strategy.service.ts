@@ -18,6 +18,8 @@ export class LocalStrategyService extends PassportStrategy(Strategy) {
         email: true,
         password: true,
         isLocked: true,
+        crmAccess: true,
+        isClientAccess: true,
       },
     });
 
