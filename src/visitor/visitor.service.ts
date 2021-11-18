@@ -121,6 +121,7 @@ export class VisitorService {
       where: { id: visitorId },
       select: {
         id: true,
+        date: true,
         createdAt: true,
         clear: true,
         workType: guest || event ? false : true,
