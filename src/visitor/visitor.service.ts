@@ -57,11 +57,9 @@ export class VisitorService {
     };
 
     if (_branchId) {
-      const sites = JSON.parse(_branchId);
-
       Object.assign(searchCondition, {
         locations: {
-          hasSome: Array.isArray(sites) ? sites : [sites],
+          hasSome: JSON.parse(_branchId),
         },
       });
     }
