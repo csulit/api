@@ -27,7 +27,7 @@ export class VisitorsDTO extends PartialType(PaginationDTO) {
   @IsNumber()
   @Type(() => Number)
   @IsOptional()
-  readonly branchId?: number;
+  readonly _branchId?: number;
 
   @ApiProperty({
     type: String,
