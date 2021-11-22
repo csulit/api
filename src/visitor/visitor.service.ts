@@ -52,8 +52,7 @@ export class VisitorService {
         lte: _dateEnd ? new Date(_dateEnd) : undefined,
       },
       locations: {
-        path: 'branchId',
-        equals: _branchId ? _branchId : undefined,
+        has: _branchId ? [{ branchId: _branchId }] : undefined,
       },
       body: {
         search: searchFilter,
