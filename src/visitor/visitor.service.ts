@@ -52,7 +52,7 @@ export class VisitorService {
         lte: _dateEnd ? new Date(_dateEnd) : undefined,
       },
       locations: {
-        has: _branchId ? [{ branchId: _branchId }] : undefined,
+        has: _branchId ? ([{ branchId: _branchId }] as Prisma.JsonArray) : null,
       },
       body: {
         search: searchFilter,
