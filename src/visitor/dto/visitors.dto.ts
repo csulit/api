@@ -1,10 +1,8 @@
 import { PartialType } from '@nestjs/mapped-types';
 import { ApiProperty } from '@nestjs/swagger';
-import { Type } from 'class-transformer';
 import {
   IsDateString,
   IsNotEmpty,
-  IsNumber,
   IsOptional,
   IsString,
 } from 'class-validator';
@@ -21,13 +19,13 @@ export class VisitorsDTO extends PartialType(PaginationDTO) {
   readonly _search?: string;
 
   @ApiProperty({
-    type: Number,
+    type: String,
     required: false,
   })
-  @IsNumber()
-  @Type(() => Number)
+  @IsString()
+  @IsNotEmpty()
   @IsOptional()
-  readonly _branchId?: number;
+  readonly _branchId?: string;
 
   @ApiProperty({
     type: String,

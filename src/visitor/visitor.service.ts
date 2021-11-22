@@ -56,6 +56,18 @@ export class VisitorService {
       },
     };
 
+    console.log(_branchId);
+
+    if (_branchId) {
+      const x = Object.assign(searchCondition, {
+        locations: {
+          hasSome: [JSON.parse(_branchId)],
+        },
+      });
+
+      console.log(x);
+    }
+
     const visitors = await this.prismaClientService.$transaction([
       this.prismaClientService.visitor.findMany({
         skip,
