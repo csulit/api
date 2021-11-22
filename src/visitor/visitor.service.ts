@@ -29,7 +29,7 @@ export class VisitorService {
   }
 
   async getVisitors(user: User, filter?: VisitorsDTO, _paging?: PaginationDTO) {
-    const { _search, _dateStart, _dateEnd } = filter;
+    const { _search, branchId, _dateStart, _dateEnd } = filter;
 
     const { page, limit, skip } = paginate(_paging?.page, _paging?.limit);
 
@@ -50,6 +50,9 @@ export class VisitorService {
       date: {
         gte: _dateStart ? new Date(_dateStart) : undefined,
         lte: _dateEnd ? new Date(_dateEnd) : undefined,
+      },
+      location: {
+        array_contains: branchId ? [{ branchId }] : undefined,
       },
       body: {
         search: searchFilter,
