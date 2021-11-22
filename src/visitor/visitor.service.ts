@@ -51,8 +51,9 @@ export class VisitorService {
         gte: _dateStart ? new Date(_dateStart) : undefined,
         lte: _dateEnd ? new Date(_dateEnd) : undefined,
       },
-      location: {
-        array_contains: _branchId ? [{ _branchId }] : undefined,
+      locations: {
+        path: 'branchId',
+        equals: _branchId ? _branchId : undefined,
       },
       body: {
         search: searchFilter,
