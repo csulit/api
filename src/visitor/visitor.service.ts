@@ -47,7 +47,7 @@ export class VisitorService {
               : undefined,
         },
       },
-      date: {
+      createdAt: {
         gte: _dateStart ? new Date(_dateStart) : undefined,
         lte: _dateEnd ? new Date(_dateEnd) : undefined,
       },
