@@ -254,15 +254,15 @@ export class VisitorService {
         dataPrivacyPolicyIsAccepted,
         date: createdAt,
         createdAt: createdAt,
-        body: `${firstName} ${lastName} ${data?.workType || ''} ${company} ${
-          isGuest ? 'Guest' : 'Member'
-        } ${isEvent ? 'Event' : ''} ${data?.leaveType || ''} ${
+        body: `${firstName} ${lastName} ${email} ${
           data?.workType || ''
-        } ${data?.leaveType || ''} ${
-          locations.length && locations.map((x) => x.branchName).join(' ')
-        } ${data?.symptoms.length && data.symptoms.map((x) => x).join(' ')} ${
-          travelHistory || ''
-        } ${
+        } ${company} ${isGuest ? 'Guest' : 'Member'} ${
+          isEvent ? 'Event' : ''
+        } ${data?.leaveType || ''} ${data?.workType || ''} ${
+          data?.leaveType || ''
+        } ${locations.length && locations.map((x) => x.branchName).join(' ')} ${
+          data?.symptoms.length && data.symptoms.map((x) => x).join(' ')
+        } ${travelHistory || ''} ${
           data?.answers.length &&
           data.answers.map((x) => JSON.stringify(x)).join(' ')
         }`,
