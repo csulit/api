@@ -328,7 +328,7 @@ export class VisitorService {
           </p>
           <p>Name: ${firstName} ${lastName}</p>
           <p><b>Event name:</b> ${eventName}</p>
-          ${siteLocation()}
+          ${siteLocation() ? siteLocation() : ''}
         `,
       });
 
