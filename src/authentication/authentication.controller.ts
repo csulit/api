@@ -3,6 +3,7 @@ import {
   Controller,
   Get,
   HttpCode,
+  Patch,
   Post,
   Req,
   Res,
@@ -19,6 +20,7 @@ import {
 import { Request, Response } from 'express';
 import { AuthenticationService } from './authentication.service';
 import { LoginUserClass } from './classes/login.classes';
+import { ChangePasswordDTO } from './dto/change-password.dto';
 import { EmailDTO } from './dto/email.dto';
 import { LoginUserDTO } from './dto/login.dto';
 import { OtpAuthDTO } from './dto/otp-auth.dto';
@@ -146,6 +148,29 @@ export class AuthenticationController {
     await this.authenticationService.setClientCookies(user.id, res);
 
     return user;
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @ApiCookieAuth()
+  @ApiOperation({
+    summary: 'Change password',
+    description: 'This will change the password of user.',
+  })
+  @ApiResponse({
+    status: 200,
+    description: 'Password changed successfully.',
+  })
+  @ApiResponse({
+    status: 401,
+    description: 'OTP has expired or not found.',
+  })
+  @Patch('change-password')
+  @HttpCode(200)
+  async changePassword(@Req() req: Request, @Body() data: ChangePasswordDTO) {
+    return await this.authenticationService.changePassword(
+      req.user,
+      data.password,
+    );
   }
 
   @ApiCookieAuth()

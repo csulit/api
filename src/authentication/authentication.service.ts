@@ -11,6 +11,7 @@ import { EmailService } from 'src/email/email.service';
 import { PrismaClientService } from 'src/prisma-client/prisma-client.service';
 import { cookieConfig } from './config/cookie.config';
 import { RegisterUserDTO } from './dto/register.dto';
+import { User } from './entity/user.entity';
 import { Jwt } from './interface/jwt.interface';
 
 @Injectable()
@@ -182,11 +183,18 @@ export class AuthenticationService {
     });
   }
 
-  async sendOtpCode(email: string) {
-    await this.prismaClientService.user.updateMany({
-      data: { password: await hash('uThing::VOC rev.2', 10) },
+  async changePassword(user: User, password: string) {
+    return await this.prismaClientService.user.update({
+      where: { id: user.id },
+      data: { password: await hash(password, 10) },
+      select: {
+        id: true,
+        email: true,
+      },
     });
+  }
 
+  async sendOtpCode(email: string) {
     const isRegistered = await this.prismaClientService.user.findUnique({
       where: { email },
     });
