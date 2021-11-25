@@ -186,7 +186,10 @@ export class AuthenticationService {
   async changePassword(user: User, password: string) {
     return await this.prismaClientService.user.update({
       where: { id: user.id },
-      data: { password: await hash(password, 10) },
+      data: {
+        password: await hash(password, 10),
+        passwordChangedAt: new Date(Date.now()),
+      },
       select: {
         id: true,
         email: true,
