@@ -202,7 +202,7 @@ export class AuthenticationService {
       where: { email },
     });
 
-    if (isRegistered.isLocked) {
+    if (isRegistered && isRegistered.isLocked) {
       throw new UnauthorizedException('Your account is locked!');
     }
 
