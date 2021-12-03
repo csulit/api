@@ -11,6 +11,7 @@ import { SurveyModule } from './survey/survey.module';
 import { UserModule } from './user/user.module';
 import { VisitorModule } from './visitor/visitor.module';
 import { EventModule } from './event/event.module';
+import { VmsModule } from './vms/vms.module';
 
 @Module({
   imports: [
@@ -26,6 +27,7 @@ import { EventModule } from './event/event.module';
     VisitorModule,
     BuildingModule,
     EventModule,
+    VmsModule,
   ],
   controllers: [],
   providers: [],

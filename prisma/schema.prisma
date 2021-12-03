@@ -133,3 +133,29 @@ model Survey {
 
   @@map("surveys")
 }
+
+model VmsVisitor {
+  id             String @id @default(uuid())
+  firstName      String @db.VarChar(50)
+  lastName       String @db.VarChar(50)
+  companyToVisit String @db.VarChar(100)
+  personToVisit  String @db.VarChar(100)
+  reasonOfVisit  String @db.VarChar(50)
+  imageUrl       String
+  site           String @db.VarChar(50)
+  floor          String @db.VarChar(50)
+  body           String
+
+  @@map("vms_visitors")
+}
+
+model VmsConfig {
+  id              String  @id @default(uuid())
+  siteConfigName  String  @db.VarChar(50)
+  siteId          Int
+  floor           String  @db.VarChar(50)
+  canCaptureImage Boolean @default(true)
+  isActive        Boolean @default(true)
+
+  @@map("vms_configs")
+}
