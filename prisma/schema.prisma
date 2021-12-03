@@ -135,15 +135,15 @@ model Survey {
 }
 
 model VmsVisitor {
-  id             String @id @default(uuid())
-  firstName      String @db.VarChar(50)
-  lastName       String @db.VarChar(50)
-  companyToVisit String @db.VarChar(100)
-  personToVisit  String @db.VarChar(100)
-  reasonOfVisit  String @db.VarChar(50)
-  imageUrl       String
-  site           String @db.VarChar(50)
-  floor          String @db.VarChar(50)
+  id             String  @id @default(uuid())
+  firstName      String  @db.VarChar(50)
+  lastName       String  @db.VarChar(50)
+  companyToVisit String  @db.VarChar(100)
+  personToVisit  String  @db.VarChar(100)
+  reasonOfVisit  String  @db.VarChar(50)
+  imageUrl       String?
+  site           String  @db.VarChar(50)
+  floor          String  @db.VarChar(50)
   body           String
 
   @@map("vms_visitors")
