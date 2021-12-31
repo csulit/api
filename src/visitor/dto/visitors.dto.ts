@@ -1,7 +1,6 @@
 import { PartialType } from '@nestjs/mapped-types';
 import { ApiProperty } from '@nestjs/swagger';
 import {
-  IsBoolean,
   IsDateString,
   IsNotEmpty,
   IsOptional,
@@ -28,9 +27,13 @@ export class VisitorsDTO extends PartialType(PaginationDTO) {
   @IsOptional()
   readonly _branchId?: string;
 
-  @IsBoolean()
+  @ApiProperty({
+    type: String,
+    required: false,
+  })
+  @IsDateString()
   @IsOptional()
-  readonly clear?: boolean;
+  readonly clear?: string;
 
   @ApiProperty({
     type: String,

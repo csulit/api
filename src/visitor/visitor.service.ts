@@ -47,7 +47,7 @@ export class VisitorService {
               : undefined,
         },
       },
-      clear: clear === true || clear === false ? clear : undefined,
+      clear: clear === 'true' ? true : clear === 'false' ? false : undefined,
       createdAt: {
         gte: _dateStart ? new Date(_dateStart) : undefined,
         lte: _dateEnd ? new Date(_dateEnd) : undefined,
