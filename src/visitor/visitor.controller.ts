@@ -48,13 +48,15 @@ export class VisitorController {
   })
   @Get()
   getVisitors(@Req() req: Request, @Query() query: VisitorsDTO) {
-    const { _search, _branchId, _dateStart, _dateEnd, page, limit } = query;
+    const { _search, _branchId, clear, _dateStart, _dateEnd, page, limit } =
+      query;
 
     return this.visitorService.getVisitors(
       req.user,
       {
         _search,
         _branchId,
+        clear,
         _dateStart,
         _dateEnd,
       },
