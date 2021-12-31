@@ -31,7 +31,8 @@ export class VisitorsDTO extends PartialType(PaginationDTO) {
     type: String,
     required: false,
   })
-  @IsDateString()
+  @IsString()
+  @IsNotEmpty()
   @IsOptional()
   readonly clear?: string;
 
