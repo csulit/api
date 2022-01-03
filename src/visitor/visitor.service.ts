@@ -139,6 +139,7 @@ export class VisitorService {
           select: {
             id: true,
             email: true,
+            isLocked: true,
             profile: {
               select: {
                 firstName: true,
