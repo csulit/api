@@ -111,4 +111,38 @@ export class UserController {
   updateProfile(@Req() req: Request, @Body() data: UpdateProfileDTO) {
     return this.userService.updateProfile(req.user.id, data);
   }
+
+  @ApiOperation({
+    summary: 'Lock user',
+    description: 'Some description here...',
+  })
+  @ApiQuery({
+    type: 'uuid',
+    name: 'userId',
+  })
+  @ApiResponse({
+    status: 200,
+    description: 'Successfully lock user.',
+  })
+  @Patch('lock')
+  lockUser(@Query('userId', new ParseUUIDPipe()) userId: string) {
+    return this.userService.lockUser(userId);
+  }
+
+  @ApiOperation({
+    summary: 'Unlock user',
+    description: 'Some description here...',
+  })
+  @ApiQuery({
+    type: 'uuid',
+    name: 'userId',
+  })
+  @ApiResponse({
+    status: 200,
+    description: 'Successfully unlock user.',
+  })
+  @Patch('unlock')
+  unLockUser(@Query('userId', new ParseUUIDPipe()) userId: string) {
+    return this.userService.unlockUser(userId);
+  }
 }
