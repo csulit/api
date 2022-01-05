@@ -49,7 +49,7 @@ export class VisitorService {
                   : undefined,
             },
           },
-          { email: { equals: email } },
+          { email: { equals: email ? email : undefined } },
         ],
       },
       clear: clear === 'true' ? true : clear === 'false' ? false : undefined,
