@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaClientService } from 'src/prisma-client/prisma-client.service';
 import { CreateQrCodeDTO } from './dto/create-qrcode.dto';
 import { UpdateProfileDTO } from './dto/update-profile.dto';
@@ -30,7 +30,7 @@ export class UserService {
   }
 
   async lockUser(email: string) {
-    return await this.prismaClientService.user.update({
+    const lockUser = await this.prismaClientService.user.update({
       where: { email },
       data: {
         isLocked: true,
@@ -41,10 +41,16 @@ export class UserService {
         isLocked: true,
       },
     });
+
+    if (!lockUser) {
+      throw new NotFoundException('No visitor found.');
+    }
+
+    return lockUser;
   }
 
   async unlockUser(email: string) {
-    return await this.prismaClientService.user.update({
+    const unlockUser = await this.prismaClientService.user.update({
       where: { email },
       data: {
         isLocked: false,
@@ -55,6 +61,12 @@ export class UserService {
         isLocked: true,
       },
     });
+
+    if (!unlockUser) {
+      throw new NotFoundException('No visitor found.');
+    }
+
+    return unlockUser;
   }
 
   async getQrCodes(userId: string) {
