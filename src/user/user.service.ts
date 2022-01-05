@@ -29,9 +29,9 @@ export class UserService {
     });
   }
 
-  async lockUser(userId: string) {
+  async lockUser(email: string) {
     return await this.prismaClientService.user.update({
-      where: { id: userId },
+      where: { email },
       data: {
         isLocked: true,
       },
@@ -43,9 +43,9 @@ export class UserService {
     });
   }
 
-  async unlockUser(userId: string) {
+  async unlockUser(email: string) {
     return await this.prismaClientService.user.update({
-      where: { id: userId },
+      where: { email },
       data: {
         isLocked: false,
       },

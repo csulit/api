@@ -19,6 +19,7 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 import { Request } from 'express';
+import { EmailDTO } from 'src/authentication/dto/email.dto';
 import { JwtAuthGuard } from 'src/authentication/guard/jwt.guard';
 import { User } from './classes/user.classes';
 import { CreateQrCodeDTO } from './dto/create-qrcode.dto';
@@ -117,16 +118,16 @@ export class UserController {
     description: 'Some description here...',
   })
   @ApiQuery({
-    type: 'uuid',
-    name: 'userId',
+    type: 'string',
+    name: 'email',
   })
   @ApiResponse({
     status: 200,
     description: 'Successfully lock user.',
   })
   @Patch('lock')
-  lockUser(@Query('userId', new ParseUUIDPipe()) userId: string) {
-    return this.userService.lockUser(userId);
+  lockUser(@Query() { email }: EmailDTO) {
+    return this.userService.lockUser(email);
   }
 
   @ApiOperation({
@@ -134,15 +135,15 @@ export class UserController {
     description: 'Some description here...',
   })
   @ApiQuery({
-    type: 'uuid',
-    name: 'userId',
+    type: 'string',
+    name: 'email',
   })
   @ApiResponse({
     status: 200,
     description: 'Successfully unlock user.',
   })
   @Patch('unlock')
-  unLockUser(@Query('userId', new ParseUUIDPipe()) userId: string) {
-    return this.userService.unlockUser(userId);
+  unLockUser(@Query() { email }: EmailDTO) {
+    return this.userService.unlockUser(email);
   }
 }
