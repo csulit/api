@@ -30,7 +30,15 @@ export class UserService {
   }
 
   async lockUser(email: string) {
-    const lockUser = await this.prismaClientService.user.update({
+    const user = await this.prismaClientService.user.findUnique({
+      where: { email },
+    });
+
+    if (!user) {
+      throw new NotFoundException('No visitor found.');
+    }
+
+    return await this.prismaClientService.user.update({
       where: { email },
       data: {
         isLocked: true,
@@ -41,16 +49,18 @@ export class UserService {
         isLocked: true,
       },
     });
-
-    if (!lockUser) {
-      throw new NotFoundException('No visitor found.');
-    }
-
-    return lockUser;
   }
 
   async unlockUser(email: string) {
-    const unlockUser = await this.prismaClientService.user.update({
+    const user = await this.prismaClientService.user.findUnique({
+      where: { email },
+    });
+
+    if (!user) {
+      throw new NotFoundException('No visitor found.');
+    }
+
+    return await this.prismaClientService.user.update({
       where: { email },
       data: {
         isLocked: false,
@@ -61,12 +71,6 @@ export class UserService {
         isLocked: true,
       },
     });
-
-    if (!unlockUser) {
-      throw new NotFoundException('No visitor found.');
-    }
-
-    return unlockUser;
   }
 
   async getQrCodes(userId: string) {
