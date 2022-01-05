@@ -29,7 +29,7 @@ export class VisitorService {
   }
 
   async getVisitors(user: User, filter?: VisitorsDTO, _paging?: PaginationDTO) {
-    const { _search, _branchId, clear, _dateStart, _dateEnd } = filter;
+    const { email, _search, _branchId, clear, _dateStart, _dateEnd } = filter;
 
     const { page, limit, skip } = paginate(_paging?.page, _paging?.limit);
 
@@ -40,12 +40,17 @@ export class VisitorService {
 
     const searchCondition = {
       user: {
-        email: {
-          endsWith:
-            user.crmAccess && user.isClientAccess
-              ? user.email.split('@').pop()
-              : undefined,
-        },
+        OR: [
+          {
+            email: {
+              endsWith:
+                user.crmAccess && user.isClientAccess
+                  ? user.email.split('@').pop()
+                  : undefined,
+            },
+          },
+          { email: { equals: email } },
+        ],
       },
       clear: clear === 'true' ? true : clear === 'false' ? false : undefined,
       createdAt: {
