@@ -33,7 +33,7 @@ export class VisitorService {
 
     x.forEach(
       async (y) =>
-        await this.prismaClientService.userQrCode.updateMany({
+        await this.prismaClientService.userQrCode.update({
           where: { id: y.id },
           data: {
             qrUrl: y.qrUrl.replace(
