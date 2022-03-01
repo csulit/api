@@ -29,21 +29,6 @@ export class VisitorService {
   }
 
   async getVisitors(user: User, filter?: VisitorsDTO, _paging?: PaginationDTO) {
-    const x = await this.prismaClientService.userQrCode.findMany();
-
-    x.forEach(
-      async (y) =>
-        await this.prismaClientService.userQrCode.update({
-          where: { id: y.id },
-          data: {
-            qrUrl: y.qrUrl.replace(
-              'cdn.kmc.solutions',
-              'kmcstorage1.blob.core.windows.net',
-            ),
-          },
-        }),
-    );
-
     const { _search, _branchId, clear, _dateStart, _dateEnd } = filter;
 
     const { page, limit, skip } = paginate(_paging?.page, _paging?.limit);
