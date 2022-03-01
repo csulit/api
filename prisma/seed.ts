@@ -8,21 +8,6 @@ export async function seed() {
 
     //await prisma.survey.createMany({ data: survey });
 
-    const x = await prisma.userQrCode.findMany();
-
-    x.forEach(
-      async (y) =>
-        await prisma.userQrCode.update({
-          where: { id: y.id },
-          data: {
-            qrUrl: y.qrUrl.replace(
-              'cdn.kmc.solutions',
-              'kmcstorage1.blob.core.windows.net',
-            ),
-          },
-        }),
-    );
-
     console.log('Surveys inserted!');
   });
 
